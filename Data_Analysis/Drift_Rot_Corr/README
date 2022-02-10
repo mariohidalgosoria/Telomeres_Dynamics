@@ -1,0 +1,145 @@
+mario@ph89969:~/Documents/Yuval/NCode/Drift_Rotation_Corr/WTC$ (working directory)
+***Drift and rotation correction for trajectories in WT cells***
+The trajectories obtained from the experiments with (t,x,y,z)   are labeled
+For T=50\Delta
+LAMT50T2.dat, ....., LAMT50T271.dat  (#270 tracks)
+For T=100\Delta 
+LAMT100T2.dat, ....., LAMT100T94.dat  (#93 tracks)
+***
+
+1)Compile & run 8 times as shown inside DRT50SB.c  
+gcc -o DRT50SB  DRT50SB.c -lm
+  ./DRT50SB 
+It gives as an output trajectories with drift and rotation correction labeled 
+
+CLAT50T2.dat, ....., CLAT50T271.dat
+
+
+2)Compile & run 5 times as shown inside DRT100SB.c
+gcc -o DRT100SB  DRT100SB.c -lm
+  ./DRT100SB 
+It gives as an output trajectories with drift and rotation correction labeled 
+
+CLAT100T2.dat, ....., CLAT100T94.dat  
+
+
+3)Give the same label to data 
+open OCTAVE and run
+
+############################
+for i=2:271
+ name=sprintf('CLAT50T%d.dat',i);
+ data=load(name);
+ RR=rows(data);
+ nam=sprintf('CCLAT%d.dat',i);
+ fil=fopen(nam,'w');
+ for i=1:RR
+  t=data(i,1);
+  x=data(i,2);
+  y=data(i,3);
+  z=data(i,4);
+  fprintf(fil,"%f %f %f %f\n",t,x,y,z);
+ end 
+fclose(fil);
+end
+
+clear 
+for i=272:364
+ name=sprintf('CLAT100T%d.dat',i-270);
+ data=load(name);
+ RR=rows(data);
+ nam=sprintf('CCLAT%d.dat',i);
+ fil=fopen(nam,'w');
+ for i=1:RR
+  t=data(i,1);
+  x=data(i,2);
+  y=data(i,3);
+  z=data(i,4);
+  fprintf(fil,"%f %f %f %f\n",t,x,y,z);
+ end 
+fclose(fil);
+end
+
+############################
+
+It gives as an output trajectories labeled
+
+CCLAT2.dat, ....., CCLAT364.dat (#363 tracks)
+
+with (t,x,y,z) coordinates
+
+
+
+mario@ph89969:~/Documents/Yuval/NCode/Drift_Rotation_Corr/LADC$ 
+***Drift and rotation correction for trajectories in Lamin-A depleted cells***
+The trajectories obtained from the experiments with (t,x,y,z)   are labeled
+For T=50\Delta
+ WLAT50T2.dat , ....., WLAT50T60.dat  (#59 tracks)
+For T=100\Delta 
+WLAT100T2.dat, ....., WLAT100T70.dat  (#69 tracks)
+***
+
+1)Compile & run 3 times as shown inside DRT50SBL.c  
+gcc -o DRT50SBL  DRT50SBL.c -lm
+  ./DRT50SBL 
+It gives as an output trajectories with drift and rotation correction labeled 
+
+CWLAT50T2.dat, ....., CWLAT50T60.dat
+
+
+2)Compile & run 5 times as shown inside DRT100SBL.c
+gcc -o DRT100SBL  DRT100SBL.c -lm
+  ./DRT100SBL 
+It gives as an output trajectories with drift and rotation correction labeled 
+
+CWLAT100T2.dat, ....., CWLAT100T70.dat  
+
+
+3)Give the same label to data 
+open OCTAVE and run
+
+###############################
+
+for i=2:60
+ name=sprintf('CWLAT50T%d.dat',i);
+ data=load(name);
+ RR=rows(data);
+ nam=sprintf('CCWLT%d.dat',i);
+ fil=fopen(nam,'w');
+ for i=1:RR
+  t=data(i,1);
+  x=data(i,2);
+  y=data(i,3);
+  z=data(i,4);
+  fprintf(fil,"%f %f %f %f\n",t,x,y,z);
+ end 
+fclose(fil);
+end
+
+clear
+for i=61:129
+ name=sprintf('CWLAT100T%d.dat',i-59);
+ data=load(name);
+ RR=rows(data);
+ nam=sprintf('CCWLT%d.dat',i);
+ fil=fopen(nam,'w');
+ for i=1:RR
+  t=data(i,1);
+  x=data(i,2);
+  y=data(i,3);
+  z=data(i,4);
+  fprintf(fil,"%f %f %f %f\n",t,x,y,z);
+ end 
+fclose(fil);
+end
+
+
+##############################
+
+
+It gives as an output trajectories labeled
+
+CCWLT2.dat, ....., CCWLT129.dat (#128 tracks)
+
+with (t,x,y,z) coordinates
+
