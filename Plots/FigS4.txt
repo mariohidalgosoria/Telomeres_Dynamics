@@ -1,0 +1,36 @@
+mario@ph89969:~/Documents/Yuval/NCode/Drift_Rotation_Corr/LADC$ (working directory)
+****Example of a local convex hull polygons in a trajectoria of telomeres in Lamin-a depleted cells***
+***Script for FigS4*************
+
+#open octave
+load CCWLT11.dat
+y11=CCWLT11(:,3);
+x11=CCWLT11(:,2);
+k11=convhull(x11,y11);
+
+#plot trajectory
+plot(x11,y11)
+xl=zeros(5,1);
+yl=zeros(5,1);
+for i=1:5
+  xl(i)=x11(39+i);
+  yl(i)=y11(39+i);
+end
+
+k11l=convhull(xl,yl);
+hold on
+#plot LCH 1
+plot(xl(k11l),yl(k11l),"r-",xl,yl,"k+")
+
+
+xd=zeros(5,1);
+yd=zeros(5,1);
+for i=1:5
+  xd(i)=x11(11+i);
+  yd(i)=y11(11+i);
+end
+
+k11d=convhull(xd,yd);
+#plot LCH 2
+plot(xd(k11d),yd(k11d),"r-",xd,yd,"k+")
+

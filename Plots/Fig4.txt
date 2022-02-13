@@ -1,0 +1,1150 @@
+****For Fig.4***
+***ensemble average relative angle and ensemble time average relative angle***
+
+***Go to the working directory***
+cd ../F3/WTCT/
+
+mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working directory)
+
+**Compile and Run**
+ANGDT1.c  ANGDT2.c   ANGDT3.c
+....ANGDT19.c  ANGDT20.c  
+
+
+***extract the ensemble mean values of theta/pi
+#open OCTAVE
+
+load ANGDT1.dat
+t=ANGDT1(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.58387
+
+clear
+load ANGDT2.dat
+t=ANGDT2(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.55635
+
+clear
+load ANGDT3.dat
+t=ANGDT3(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.53804
+
+clear
+load ANGDT4.dat
+t=ANGDT4(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.52689
+
+clear
+load ANGDT5.dat
+t=ANGDT5(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.52093
+
+clear
+load ANGDT6.dat
+t=ANGDT6(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.51029
+
+clear
+load ANGDT7.dat
+t=ANGDT7(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.50601
+
+clear
+load ANGDT8.dat
+t=ANGDT8(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.50158
+
+clear
+load ANGDT9.dat
+t=ANGDT9(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.49422
+
+clear
+load ANGDT10.dat
+t=ANGDT10(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.49176
+
+clear
+load ANGDT11.dat
+t=ANGDT11(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.48783
+
+clear
+load ANGDT12.dat
+t=ANGDT12(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.48541
+
+clear
+load ANGDT13.dat
+t=ANGDT13(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.48439
+
+clear
+load ANGDT14.dat
+t=ANGDT14(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.48060
+
+clear
+load ANGDT15.dat
+t=ANGDT15(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.47798
+
+clear
+load ANGDT16.dat
+t=ANGDT16(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.47205
+
+clear
+load ANGDT17.dat
+t=ANGDT17(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.46757
+
+clear
+load ANGDT18.dat
+t=ANGDT18(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.46429
+
+clear
+load ANGDT19.dat
+t=ANGDT19(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.46068
+
+clear
+load ANGDT20.dat
+t=ANGDT20(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.45595
+
+
+***extract the ensemble of the time average relative angle. 
+**Run
+MANGDT1.c  MANGDT2.c    MANGDT3.c
+.... MANGDT19.c  MANGDT20.c  
+
+
+#open OCTAVE
+#For DT=\Delta
+
+thetac=0;
+for i=2:364
+ name=sprintf('MANGDT%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.57833
+save mthetacDT1.dat thetac -ascii
+save MNthetacDT1.dat z -ascii
+
+clear
+#DT=2\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD2T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.54878
+
+clear
+#DT=3\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD3T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.52948
+
+clear
+#DT=4\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD4T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.52051
+
+clear
+#For DT=5\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD5T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.51398
+save mthetacDT5.dat thetac -ascii
+save MNthetacDT5.dat z -ascii
+
+clear
+#DT=6\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD6T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.50389
+
+clear
+#DT=7\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD7T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.49854
+
+clear
+#DT=8\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD8T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.49354
+
+clear
+#DT=9\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD9T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.48705
+
+clear
+#For DT=10\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD10T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.48507
+save mthetacDT10.dat thetac -ascii
+save MNthetacDT10.dat z -ascii
+
+clear
+#DT=11\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD11T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.48173
+
+clear
+#DT=12\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD12T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.48383
+
+clear
+#DT=13\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD13T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+#ans =  0.48470
+
+clear
+#DT=14\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD14T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.48327
+
+clear
+#For DT=15\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD15T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.48205
+save mthetacDT15.dat thetac -ascii
+save MNthetacDT15.dat z -ascii
+
+clear
+#DT=16\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD16T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.47744
+
+clear
+#DT=17\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD17T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.47316
+
+clear
+#DT=18\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD18T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.47000
+
+clear
+#DT=19\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD19T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.46856
+
+clear
+#For DT=20\Delta
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD20T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.46317
+save mthetacDT20.dat thetac -ascii
+save MNthetacDT20.dat z -ascii
+
+
+***The values are saved in ****
+ 
+AVZWTC.dat for ensemble average
+
+TAVZWTC.dat for ensemble time average
+
+
+
+***Go to the working directory***
+cd ../F3/LADCT/
+
+mario@ph89969:~/Documents/Yuval/NCode/F3/LADCT$  (working directory)
+
+**Compile and Run**
+ANGDT1.c  ANGDT2.c   ANGDT3.c
+....ANGDT19.c  ANGDT20.c  
+
+
+***extract the ensemble mean values of theta/pi
+#open OCTAVE
+
+clear
+load ANGDT1.dat
+t=ANGDT1(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.47112
+
+clear
+load ANGDT2.dat
+t=ANGDT2(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.46430
+
+clear
+load ANGDT3.dat
+t=ANGDT3(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.46471
+
+clear
+load ANGDT4.dat
+t=ANGDT4(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.46326
+
+clear
+load ANGDT5.dat
+t=ANGDT5(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.46036
+
+clear
+load ANGDT6.dat
+t=ANGDT6(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.45649
+
+clear
+load ANGDT7.dat
+t=ANGDT7(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.45108
+
+clear
+load ANGDT8.dat
+t=ANGDT8(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.44774
+
+clear
+load ANGDT9.dat
+t=ANGDT9(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.44532
+
+clear
+load ANGDT10.dat
+t=ANGDT10(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.44023
+
+clear
+load ANGDT11.dat
+t=ANGDT11(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.43556
+
+clear
+load ANGDT12.dat
+t=ANGDT12(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.43227
+
+clear
+load ANGDT13.dat
+t=ANGDT13(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.42807
+
+clear
+load ANGDT14.dat
+t=ANGDT14(:,1);
+z=t/pi;
+mean(z)
+ans =  0.42447
+
+clear
+load ANGDT15.dat
+t=ANGDT15(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.42615
+
+clear
+load ANGDT16.dat
+t=ANGDT16(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.42719
+
+clear
+load ANGDT17.dat
+t=ANGDT17(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.42987
+
+clear
+load ANGDT18.dat
+t=ANGDT18(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.43394 
+
+clear
+load ANGDT19.dat
+t=ANGDT19(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.43916
+
+clear
+load ANGDT20.dat
+t=ANGDT20(:,1);
+z=t/pi;
+mean(z)
+%ans =  0.44285
+
+
+
+***extract the ensemble of the time average relative angle. 
+**Compile and Run***
+MANGDT1.c  MANGDT3.c  MANGDT3.c
+.... MANGDT19.c  MANGDT20.c  
+
+#open OCTAVE
+#For DT=\Delta
+
+thetac=0;
+for i=2:129
+ name=sprintf('MANGDT%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.46233
+save mthetacDT1.dat thetac -ascii
+save MNthetacDT1.dat z -ascii
+
+clear
+#DT=2\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD2T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.45893
+
+clear
+#DT=3\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD3T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.45908
+
+clear
+#DT=4\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD4T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.45622
+
+clear
+#For DT=5\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD5T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.45255
+save mthetacDT5.dat thetac -ascii
+save MNthetacDT5.dat z -ascii
+
+clear
+#DT=6\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD6T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.45214
+
+clear
+#DT=7\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD7T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.44931
+
+clear
+#DT=8\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD8T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.44918
+
+clear
+#DT=9\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD9T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.44749
+
+clear
+#For DT=10\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD10T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.44322
+save mthetacDT10.dat thetac -ascii
+save MNthetacDT10.dat z -ascii
+
+clear
+#DT=11\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD11T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.43779
+
+clear
+#DT=12\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD12T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.43211
+
+clear
+#DT=13\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD13T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.42490
+
+clear
+#DT=14\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD14T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.41693
+
+clear
+#For DT=15\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD15T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.41417
+save mthetacDT15.dat thetac -ascii
+save MNthetacDT15.dat z -ascii
+
+clear
+#DT=16\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD16T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.41227
+
+clear
+#DT=17\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD17T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.41157
+
+clear
+#DT=18\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD18T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.41197
+
+clear
+#DT=19\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD19T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.41245
+
+clear
+#For DT=20\Delta
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD20T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+mean(z)
+%ans =  0.40858
+save mthetacDT20.dat thetac -ascii
+save MNthetacDT20.dat z -ascii
+
+
+***The values are saved in ****
+ 
+AVZLADC.dat for ensemble average
+
+TAVZLADC.dat for ensemble time average
+
+
+***Script for plotting Fig.4 ensemble average and ensemble time average relative angle***
+#open gnuplot
+cd ../WTCT/
+
+***bring files****
+cp ../LADCT/AVZLADC.dat .
+cp ../LADCT/TAVZLADC.dat .
+
+
+mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working dirctory)
+
+#open gnuplot
+
+set style line 1 linecolor rgb 'blue' linetype 1 linewidth 2 pointtype 7 pointsize 2.5
+set style line 2 linecolor rgb 'red' linetype 1 linewidth 2 pointtype 7 pointsize 2.5
+set style line 3 linecolor rgb 'cyan' linetype 1 linewidth 2 pointtype 7 pointsize 2.5
+set style line 4 linecolor rgb 'magenta' linetype 1 linewidth 2 pointtype 7 pointsize 2.5
+
+set xrange[0:22]
+set yrange[0.35:0.65]
+set xlabel '{/Symbol D}t ' font "Times-Roman,20" offset 3,0,0
+set ylabel '<~{/Symbol q}{1.-}_{ }>/{/Symbol p},<{/Symbol q}>/{/Symbol p}' font "Times-Roman,20" offset -4,6,0
+set key font ",15"
+set xtics 5 font ", 20"
+set ytics 0.1  font ", 25"
+f(x)=0.5
+plot 'TAVZWTC.dat'  u 1:2  with lp ls 1 t 'WTC; Ensemble time average', f(x) dt '..' lc rgb 'grey'  lw 3 notitle,'AVZWTC.dat'  u 1:2  with lp ls 2 t 'WTC; Ensemble average','TAVZLADC.dat'  u 1:2  with lp ls 4 t 'LADC; Ensemble time average','AVZLADC.dat'  u 1:2  with lp ls 3 t 'LADC; Ensemble average'
+
+

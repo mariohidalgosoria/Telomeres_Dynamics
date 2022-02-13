@@ -1,0 +1,195 @@
+mario@ph89969:~/Documents/Yuval/NCode/F6/LADCS$   (working directory)
+***Computing the relative angle of simulations of Lamin-A depleted cells****
+
+***Compile and run  ANGDT1.c ANGDT5.c ANGDT10.c ANGDT20.c****
+
+#For \Delta t=Delta
+#open octave
+
+load ANGDT1.dat
+t=ANGDT1(:,1);
+z=t/(pi);
+save ANGDZ1.dat z -ascii
+
+
+#histogram ang theta/(2*pi) DT=1
+#open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ1.dat" u ($1):(s($1))
+set table 'hist_ANGDZ1.dat'
+plot "ANGDZ1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+#For \Delta t=5Delta
+#open octave
+
+load ANGDT5.dat
+t=ANGDT5(:,1);
+z=t/(pi);
+save ANGDZ5.dat z -ascii
+
+#histogram ang theta/(2*pi) DT=1
+#open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ5.dat" u ($1):(s($1))
+set table 'hist_ANGDZ5.dat'
+plot "ANGDZ5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#For \Delta t=10Delta
+#open octave
+
+load ANGDT10.dat
+t=ANGDT10(:,1);
+z=t/(pi);
+save ANGDZ10.dat z -ascii
+
+#histogram ang theta/(2*pi) DT=10
+#open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ10.dat" u ($1):(s($1))
+set table 'hist_ANGDZ10.dat'
+plot "ANGDZ10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#For \Delta t=20Delta
+#open octave
+
+load ANGDT20.dat
+t=ANGDT20(:,1);
+z=t/(pi);
+save ANGDZ20.dat z -ascii
+
+#histogram ang theta/(2*pi) DT=20
+#open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ20.dat" u ($1):(s($1))
+set table 'hist_ANGDZ20.dat'
+plot "ANGDZ20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+***Script for FigS10a*****************
+#open gnuplot
+set style line 5 lc rgb 'grey' pt 5 ps 1.4  # square
+set yrange[0:2.1]
+set xrange[0:1.001]
+set xlabel '{/Symbol q}/{/Symbol p} ' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P({/Symbol q}/{/Symbol p})' font "Times-Roman,20" offset 0,5,0
+set key  font ",15"
+set xtics (0,0.25,0.75,1) font ", 20"
+set ytics 1 font ", 25"
+plot 'hist_ANGDZ1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D}','hist_ANGDZ5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D}','hist_ANGDZ10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D}','hist_ANGDZ20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D}' 
+
+
+
+******Computing TAMSD, Ensemble TAMSD and ensemble MSD for simulations of Lamin-A depleted cells**********
+****Compile and run TAMSDT100.c, ETAMSDT100.c, EMSDT100.c
+
+
+***Script for FigS10c*****************
+#open gnuplot
+set logscale xy
+set format y "10^{%L}" 
+set format x "10^{%L}" 
+set xrange[5:1000]
+set yrange[0.1*10e-7:0.1*10e2]
+set xlabel 't[s]' font "Times-Roman,20" offset -3,0,0
+set ylabel 'ETAMSD/t' font "Times-Roman,20" offset 0,8,0 
+set key font ",15"
+set xtics font ", 20"
+set ytics (0.1*10e-6,0.1*10e-4,0.1*10e-2,0.1*10e2)  font ", 20"
+plot 'CETAMSDT100.dat' u ($1*18.5):($2/($1*18.5)) w l lw 9 lc rgb 'grey' notitle,'XYMSDT100.dat' u ($1*18.5):($2/($1*18.5)) w p lw 5 lc rgb 'red' notitle
+
+
+
+****Compute acutocorrelation function of the displacements (DX) for simulations of Lamin-A depleted cells*****
+***complie & run ACF2DXDT1.c, AUCF2DXDT1.c, EACF2DXDT1.c
+***compile & run ACF2DXDT5.c, AUCF2DXDT5.c, EACF2DXDT5.c
+***compile & run ACF2DXDT10.c, AUCF2DXDT10.c, EACF2DXDT10.c
+***Plotting ACFDX***************
+***Script for FigS10d*****************
+***open gnuplot
+set yrange[-0.5:1]
+set xrange[0:4]
+set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,-1,0
+set ylabel 'ACF{/Symbol D}X' font "Times-Roman,17" offset 0,-2,0 
+set key font ",15"
+set xtics 1 font ", 20"
+set ytics 0.5 font ", 20"
+f(x)=0
+plot 'ETAVDXDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDXDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDXDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+
+****Compute acutocorrelation function of the displacements (DY) for simulations of Lamin-A depleted cells*****
+***complie & run ACF2DYDT1.c, AUCF2DYDT1.c, EACF2DYDT1.c
+***compile & run ACF2DYDT5.c, AUCF2DYDT5.c, EACF2DYDT5.c
+***compile & run ACF2DYDT10.c, AUCF2DYDT10.c, EACF2DYDT10.c
+***Plotting ACFDY
+***Script for FigS10e*****************
+***open gnuplot
+set yrange[-0.5:1]
+set xrange[0:4]
+set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,-1,0
+set ylabel 'ACF{/Symbol D}Y' font "Times-Roman,17" offset 0,-2,0 
+set key font ",15"
+set xtics 1 font ", 20"
+set ytics 0.5 font ", 20"
+f(x)=0
+plot 'ETAVDYDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDYDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDYDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+
+
+*******************************************************************************************************************
+***Data analysis and script for figS10b**********************
+
+mario@ph89969:~/Documents/Yuval/NCode/SM/FigS6/LDC$  (working directory)
+
+****fitting the distributio of the time average relative angle per trajectory, with a beta distribution 
+**open R
+library('fitdistrplus')
+dat <-read.table("MNthetacDT10.dat")
+Q<-dat$V1
+plotdist(Q,histo=TRUE,demp=TRUE)
+fbb<-fitdist(Q,"beta")
+summary(fbb) 
+
+#Fitting of the distribution ' beta ' by maximum likelihood 
+#Parameters : 
+ #      estimate Std. Error
+#shape1 4.227274  0.5126321
+#shape2 5.393934  0.6625412
+#Loglikelihood:  60.6153   AIC:  -117.2306   BIC:  -111.5265 
+#Correlation matrix:
+ #         shape1    shape2
+#shape1 1.0000000 0.9004892
+#shape2 0.9004892 1.0000000
+
+
+#Script for FigS10b
+pdf("PPZCDT10.pdf")
+denscomp(list(fbb),legendtext=NULL,xlab="z",ylab="P(z)", cex.lab=1.5, cex.axis=1.5,xlim=c(0,1))
+dev.off()
+ 
+
+
+
+

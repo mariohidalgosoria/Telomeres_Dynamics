@@ -1,0 +1,1978 @@
+****Compute the autocorrelation function of the prob of directed intervals per trajectory 
+and average length per trajectory*****
+***go to working directory****
+
+cd ../F3/WTCT/
+***For WT cells***
+mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working directory)
+
+#open OCTAVE
+
+#Delta t=20
+
+Deltat=20;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD20T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT20.dat SS -ascii
+corr(PR,TR)
+
+
+
+
+
+#Delta t=19
+
+clear
+Deltat=19;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD19T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT19.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=18
+
+clear
+Deltat=18;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD18T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT18.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=17
+
+clear
+Deltat=17;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD17T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT17.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=16
+
+clear
+Deltat=16;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD16T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT16.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=15
+
+clear
+Deltat=15;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD15T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT15.dat SS -ascii
+corr(PR,TR)
+
+
+
+
+#Delta t=14
+
+clear
+Deltat=14;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD14T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT14.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=13
+
+clear
+Deltat=13;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD13T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT13.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=12
+
+clear
+Deltat=12;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD12T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT12.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=11
+
+clear
+Deltat=11;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD11T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT11.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=10
+
+clear
+Deltat=10;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD10T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT10.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=9
+
+clear
+Deltat=9;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD9T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT9.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=8
+
+clear
+Deltat=8;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD8T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT8.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=7
+
+clear
+Deltat=7;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD7T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT7.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=6
+
+clear
+Deltat=6;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD6T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT6.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=5
+
+clear
+Deltat=5;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD5T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT5.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=4
+
+clear
+Deltat=4;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD4T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT4.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=3
+
+clear
+Deltat=3;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD3T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT3.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=2
+
+clear
+Deltat=2;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGD2T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT2.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=1
+
+clear
+Deltat=1;
+TR=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:364
+ name=sprintf('MANGDT%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT1.dat SS -ascii
+corr(PR,TR)
+
+****The values of the correlation are saved in the file****
+CPRWTC.dat
+
+
+
+
+*FigureV1
+mario@ph89969:~/Documents/Yuval/NCode/F3/LADCT$ 
+
+#open OCTAVE
+
+#Delta t=20
+
+clear
+Deltat=20;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD20T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT20.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=19
+
+clear
+Deltat=19;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD19T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT19.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=18
+
+clear
+Deltat=18;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD18T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT18.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=17
+
+clear
+Deltat=17;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD17T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT17.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=16
+
+clear
+Deltat=16;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD16T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT16.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=15
+
+clear
+Deltat=15;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD15T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT15.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=14
+
+clear
+Deltat=14;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD14T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT14.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=13
+
+clear
+Deltat=13;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD13T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT13.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=12
+
+clear
+Deltat=12;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD12T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT12.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=11
+
+clear
+Deltat=11;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD11T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT11.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=10
+
+clear
+Deltat=10;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD10T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT10.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=9
+
+clear
+Deltat=9;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD9T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT9.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=8
+
+clear
+Deltat=8;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD8T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT8.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=7
+
+clear
+Deltat=7;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD7T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT7.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=6
+
+clear
+Deltat=6;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD6T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT6.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=5
+
+clear
+Deltat=5;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD5T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT5.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=4
+
+clear
+Deltat=4;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD4T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT4.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=3
+
+clear
+Deltat=3;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD3T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT3.dat SS -ascii
+corr(PR,TR)
+
+
+#Delta t=2
+
+clear
+Deltat=2;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGD2T%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT2.dat SS -ascii
+corr(PR,TR)
+
+
+
+#Delta t=1
+
+clear
+Deltat=1;
+TR=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ TM=0;
+ for i=1:(rows(data)-Deltat)
+    DX=data(i+Deltat,2)-data(i,2);
+    DY=data(i+Deltat,3)-data(i,3);
+    R=sqrt(DX^2 + DY^2);
+    TM=[TM;R];
+ end 
+TM(1,:)=[];
+R=mean(TM)/max(TM);
+TR=[TR;R];
+end
+TR(1,:)=[];
+
+
+PR=0;
+for i=2:129
+ name=sprintf('MANGDT%d.dat',i);
+ data=load(name);
+ P=data(:,2);
+ P=P/pi;
+ count=0;
+ PB=0; 
+ for i=1:(rows(data))
+   if(P(i)<= 0.1)
+     count++;
+   end
+ end
+PB=count/rows(data);
+PR=[PR;PB]; 
+end
+
+PR(1,:)=[];
+plot(PR,TR,'.')
+
+SS=[PR,TR];
+save PRWTCDT1.dat SS -ascii
+corr(PR,TR)
+
+****The values of the correlation are saved in the file****
+CPRLADC.dat
+
+
+
+***go to the working directory**** 
+cd ../F3/WTCT/
+mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working directory)
+
+***Script for plotting Fig.5a) for telomeres in WT cells and Dt=1***
+***Scatter plot of P(theta/pi<0.1) per tracks and \bar{r}/r_{max} per tracks**** 
+
+set style fill  solid  
+set style circle radius 0.01 
+set yrange[-0.02:1.1]
+set xrange[-0.02:1.1]
+set xlabel 'V_{{/Symbol D}t}' font "Times-Roman,30" offset 15,1,0
+set ylabel 'R_{{/Symbol D}t}' font "Times-Roman,30" offset 2,6,0 
+set ytics (0,0.5,1) font ", 30"
+set xtics 0.5 font ", 30"
+set key font ", 30"
+plot 'PRWTCDT1.dat' u 1:2  w circles lc rgb 'sienna1' t "WTC; {/Symbol D}t={/Symbol D}"
+
+***Script for plotting Fig.5b) for telomeres in WT cells and Dt=20***
+***Scatter plot of P(theta/pi<0.1) per tracks and \bar{r}/r_{max} per tracks**** 
+
+set style fill  solid  
+set style circle radius 0.01 
+set yrange[-0.02:1.1]
+set xrange[-0.02:1.1]
+set xlabel 'V_{{/Symbol D}t}' font "Times-Roman,30" offset 15,1,0
+set ylabel 'R_{{/Symbol D}t}' font "Times-Roman,30" offset 2,6,0 
+set ytics (0,0.5,1) font ", 30"
+set xtics 0.5 font ", 30"
+set key font ", 30"
+plot 'PRWTCDT20.dat' u 1:2  w circles lc rgb 'sienna1' t "WTC; {/Symbol D}t=20{/Symbol D}"
+
+
+***bring Lamin-A depleted cells file***
+cp ../LADCT/CPRLADC.dat .
+
+***Script for plotting Fig.5c) correlation coefficient versus Delta t***
+
+set style line 1 linecolor rgb 'turquoise' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 2 linecolor rgb 'sienna1' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set xrange[0:22]
+set yrange[-1:1]
+set xlabel '{/Symbol D}t ' font "Times-Roman,20" offset 3,0,0
+set ylabel '{/Symbol r}(V_{{/Symbol D}t},R_{{/Symbol D}t})' font "Times-Roman,20" offset -4,3,0
+set key bottom font ",15"
+set xtics 5 font ", 25"
+set ytics  font ", 25"
+f(x)=0
+plot 'CPRLADC.dat'  u 1:2  with lp ls 1 t 'LADC', f(x) dt '..' lc rgb 'grey'  lw 3 notitle,'CPRWTC.dat'  u 1:2  with lp ls 2 t 'WTC'
+

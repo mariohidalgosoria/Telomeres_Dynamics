@@ -1,0 +1,41 @@
+mario@ph89969:~/Documents/Yuval/NCode/F6/LADCS$ (working directory)
+***Create a trajectory with a Pearson random walk and varying persistence for simulating Lamin-a depleted cells tracks***
+
+***Compile & run traj.c***
+***use bash file traj.sh***
+./traj.sh
+*** it gives as an output the files***
+1) XYT.dat
+a trajectory with (t,x,y,S), with S state varible. S=1 varying persistence phase.
+S=0 caging phase. t is given in multiples of Delta=20
+
+2) XYN.dat  
+a trajectory with (n,x,y,S), with S state varible. S=1 varying persistence phase.
+S=0 caging phase. n are the sub-steps within each phase.
+
+
+
+***Script for Fig.S9****
+**open gnuplot
+
+set xrange[-4.5:1]
+set yrange[-5:0.6]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 8,1.5,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,7,0 
+set xtics (-4,-3,-2,0,1) font ", 20"
+set ytics (-5,-4,-3,-2,0) font ", 20"
+plot 'XYT.dat' u 2:3:1 w lp lw 3 palette notitle
+
+
+***Script for inset in Fig.S7****
+**open gnuplot
+
+set palette rgb 33,13,10
+set xrange[-4.3:-3.7]
+set yrange[-4.7:-3.2]
+plot 'XYN.dat' u 2:3 w p lw 3 lc rgb 'black'  notitle
+replot 'XYT.dat' u 2:3:1 w lp lw 3 palette notitle
+
+
+

@@ -1,0 +1,475 @@
+***Compute the displacements DX/sigma DY/sigma for trajectories in WT cells***
+mario@ph89969:~/Documents/Yuval/NCode/F2/WTC$ (working directory)
+***Bring trajectories to the current  directory***
+cp ../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
+
+
+***Compute displacements***
+#open OCTAVE
+
+
+#Delta_t=1
+
+DeltaX=0;
+DeltaY=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)-1,1);
+ DY=zeros(rows(data)-1,1);
+ for i=1:(rows(data)-1)
+  DX(i)=data(i+1,2)-data(i,2);
+  DY(i)=data(i+1,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT1.dat DeltaY -ascii
+save DXDT1.dat DeltaX -ascii 
+
+
+#Delta t=10
+
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=10;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT10.dat DeltaY -ascii
+save DXDT10.dat DeltaX -ascii 
+
+
+#Delta t=20
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=20;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT20.dat DeltaY -ascii
+save DXDT20.dat DeltaX -ascii 
+
+
+***Compute normalized displacements***
+#open OCTAVE
+
+load DXDT1.dat
+load DYDT1.dat
+load DXDT10.dat
+load DYDT10.dat
+load DXDT20.dat
+load DYDT20.dat
+dx1=DXDT1(:,1);
+dy1=DYDT1(:,1);
+dx10=DXDT10(:,1);
+dy10=DYDT10(:,1);
+dx20=DXDT20(:,1);
+dy20=DYDT20(:,1);
+std(dx1)
+#ans =  0.051405
+std(dy1)
+#ans =  0.054044
+std(dx10)
+#ans =  0.13715
+std(dy10)
+#ans =  0.13749
+std(dx20)
+#ans =  0.19540
+std(dy20)
+#ans =  0.20665
+
+
+ndx1=dx1/std(dx1);
+ndy1=dy1/std(dy1);
+ndx10=dx10/std(dx10);
+ndy10=dy10/std(dy10);
+ndx20=dx20/std(dx20);
+ndy20=dy20/std(dy20);
+
+
+save NDYDT1.dat ndy1 -ascii
+save NDXDT1.dat ndx1 -ascii 
+
+save NDYDT10.dat ndy10 -ascii
+save NDXDT10.dat ndx10 -ascii 
+
+save NDYDT20.dat ndy20 -ascii
+save NDXDT20.dat ndx20 -ascii 
+
+***Producing histograms***
+#open gnuplot
+
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDXDT1.dat" u ($1):(s($1))
+set table 'hist_NDXDT1.dat'
+plot "NDXDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDXDT10.dat" u ($1):(s($1))
+set table 'hist_NDXDT10.dat'
+plot "NDXDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDXDT20.dat" u ($1):(s($1))
+set table 'hist_NDXDT20.dat'
+plot "NDXDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDYDT1.dat" u ($1):(s($1))
+set table 'hist_NDYDT1.dat'
+plot "NDYDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDYDT10.dat" u ($1):(s($1))
+set table 'hist_NDYDT10.dat'
+plot "NDYDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDYDT20.dat" u ($1):(s($1))
+set table 'hist_NDYDT20.dat'
+plot "NDYDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+
+***Script for plotting Fig.2a) P(DX/sigma) and P(DY/sigma) of telomeres in WT cells***
+#open gnuplot
+
+set style line 3 lc rgb 'red' pt 9 ps 2   # triangle
+set style line 1 lc rgb 'blue' pt 5 ps 1.6  # square
+set style line 4 lc rgb 'orange' pt 9 ps 2   # triangle
+set style line 2 lc rgb 'green' pt 5 ps 1.6  # square
+set style line 6 lc rgb 'magenta' pt 9 ps 2   # triangle
+set style line 5 lc rgb 'cyan' pt 5 ps 1.6  # square
+
+set logscale y
+set format y "10^{%L}"
+set xrange[-12:12]
+set yrange[0.00005:10]
+set xlabel '{/Symbol D}{/Symbol x}/{/Symbol s}_{{/Symbol D}{/Symbol x}}' font "Times-Roman,17" offset 0,0,0
+set ylabel 'log[P({/Symbol D}{/Symbol x}/{/Symbol s}_{{/Symbol D}{/Symbol x}})]' font "Times-Roman,20" offset 1,1,0 
+#set key at 2,-1.
+set key font ",14"
+set xtics 5  font ", 20"
+set ytics (0.0001,0.001,1,10) font ", 15"
+f(x)= exp(-abs(x)/b  ) / (2*b)  
+fit f(x) 'hist_NDXDT1.dat' via b
+g(x)= exp(-x**2/(4*s)) / (sqrt(4*pi*s))  
+fit g(x) 'hist_NDXDT1.dat' via s
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+h(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs(x)/d  ) / (2*d) ) 
+fit h(x) 'hist_NDXDT1.dat' u 1:2 via w,a,d
+plot g(x) dt '..' lc rgb 'grey'  lw 3 notitle, h(x) w l lw 3 lc rgb 'black' notitle 
+replot 'hist_NDXDT1.dat'  u 1:2  w p ls 3 notitle, 'hist_NDYDT1.dat'  u 1:2  w p ls 1 notitle,'hist_NDXDT10.dat'  u 1:2  w p ls 6  notitle, 'hist_NDYDT10.dat'  u 1:2  w p ls 5  notitle,'hist_NDXDT20.dat'  u 1:2  w p ls 4  notitle, 'hist_NDYDT20.dat'  u 1:2  w p ls 2  notitle
+
+#the exponential weight in the fitting is: 
+print(W(w))
+#0.344523897849066
+
+
+***Compute the displacements DX/sigma DY/sigma for trajectories in Lamin-A depleted cells***
+mario@ph89969:~/Documents/Yuval/NCode/F2/LADC$  (working directory)
+***Bring trajectories to the current  directory***
+cp ../../Drift_Rotation_Corr/LADC/CCWLT*[0-9]*.dat .
+
+
+
+***Compute displacements***
+#open OCTAVE
+
+#Delta_t=1
+DeltaX=0;
+DeltaY=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)-1,1);
+ DY=zeros(rows(data)-1,1);
+ for i=1:(rows(data)-1)
+  DX(i)=data(i+1,2)-data(i,2);
+  DY(i)=data(i+1,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT1.dat DeltaY -ascii
+save DXDT1.dat DeltaX -ascii 
+
+#Delta t=10
+
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=10;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT10.dat DeltaY -ascii
+save DXDT10.dat DeltaX -ascii 
+
+#Delta t=20
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=20;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT20.dat DeltaY -ascii
+save DXDT20.dat DeltaX -ascii 
+
+
+***Compute normalized displacements***
+#open OCTAVE
+
+
+load DXDT1.dat
+load DYDT1.dat
+load DXDT10.dat
+load DYDT10.dat
+load DXDT20.dat
+load DYDT20.dat
+
+dx1=DXDT1(:,1);
+dy1=DYDT1(:,1);
+dx10=DXDT10(:,1);
+dy10=DYDT10(:,1);
+dx20=DXDT20(:,1);
+dy20=DYDT20(:,1);
+
+
+std(dx1)
+#ans =  0.076817
+std(dy1)
+#ans =  0.088057
+std(dx10)
+#ans =  0.32737
+std(dy10)
+#ans =  0.40113
+std(dx20)
+#ans =  0.52968
+std(dy20)
+#ans =  0.64723
+
+
+ndx1=dx1/std(dx1);
+ndy1=dy1/std(dy1);
+ndx10=dx10/std(dx10);
+ndy10=dy10/std(dy10);
+ndx20=dx20/std(dx20);
+ndy20=dy20/std(dy20);
+
+
+save NDYDT1.dat ndy1 -ascii
+save NDXDT1.dat ndx1 -ascii 
+
+save NDYDT10.dat ndy10 -ascii
+save NDXDT10.dat ndx10 -ascii 
+
+save NDYDT20.dat ndy20 -ascii
+save NDXDT20.dat ndx20 -ascii 
+
+
+***Producing histograms***
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDXDT1.dat" u ($1):(s($1))
+set table 'hist_NDXDT1.dat'
+plot "NDXDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDXDT10.dat" u ($1):(s($1))
+set table 'hist_NDXDT10.dat'
+plot "NDXDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDXDT20.dat" u ($1):(s($1))
+set table 'hist_NDXDT20.dat'
+plot "NDXDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDYDT1.dat" u ($1):(s($1))
+set table 'hist_NDYDT1.dat'
+plot "NDYDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDYDT10.dat" u ($1):(s($1))
+set table 'hist_NDYDT10.dat'
+plot "NDYDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.5
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "NDYDT20.dat" u ($1):(s($1))
+set table 'hist_NDYDT20.dat'
+plot "NDYDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+
+***Script for plotting Fig.1b) traj. of telomeres in Lamin-A depleteds cells***
+#open gnuplot
+
+set style line 3 lc rgb 'red' pt 9 ps 2   # triangle
+set style line 1 lc rgb 'blue' pt 5 ps 1.6  # square
+set style line 4 lc rgb 'orange' pt 9 ps 2   # triangle
+set style line 2 lc rgb 'green' pt 5 ps 1.6  # square
+set style line 6 lc rgb 'magenta' pt 9 ps 2   # triangle
+set style line 5 lc rgb 'cyan' pt 5 ps 1.6  # square
+
+
+set logscale y
+set format y "10^{%L}"
+set xrange[-12:12]
+set yrange[0.00005:10]
+set xlabel '{/Symbol D}{/Symbol x}/{/Symbol s}_{{/Symbol D}{/Symbol x}}' font "Times-Roman,17" offset 0,0,0
+set ylabel 'log[P({/Symbol D}{/Symbol x}/{/Symbol s}_{{/Symbol D}{/Symbol x}})]' font "Times-Roman,20" offset 1,1,0 
+#set key at 2,-1.
+set key font ",14"
+set xtics 5  font ", 20"
+set ytics (0.0001,0.001,1,10) font ", 15"
+f(x)= exp(-abs(x)/b  ) / (2*b)  
+fit f(x) 'hist_NDXDT1.dat' via b
+g(x)= exp(-x**2/(4*s)) / (sqrt(4*pi*s))  
+fit g(x) 'hist_NDXDT1.dat' via s
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+h(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs(x)/d  ) / (2*d) ) 
+fit h(x) 'hist_NDXDT1.dat' u 1:2 via w,a,d
+plot g(x) dt '..' lc rgb 'grey'  lw 3 notitle, h(x) w l lw 3 lc rgb 'black' notitle 
+replot 'hist_NDXDT1.dat'  u 1:2  w p ls 3 notitle, 'hist_NDYDT1.dat'  u 1:2  w p ls 1 notitle,'hist_NDXDT10.dat'  u 1:2  w p ls 6  notitle, 'hist_NDYDT10.dat'  u 1:2  w p ls 5  notitle,'hist_NDXDT20.dat'  u 1:2  w p ls 4  notitle, 'hist_NDYDT20.dat'  u 1:2  w p ls 2  notitle
+
+#the exponential weight in the fitting is: 
+print(W(w))
+#0.456898270577572
+
+
+

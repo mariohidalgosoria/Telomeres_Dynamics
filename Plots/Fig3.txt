@@ -1,0 +1,236 @@
+***Compute the relative angle for different Delta t and for WTC***
+mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working directory)
+
+***Bring trajectories to the current  directory***
+cp ../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
+
+
+***Extract the relative angles for different Delta t***
+
+**Compile and Run**
+ANGDT10.c  ANGDT1.c   ANGDT5.c
+ANGDT15.c  ANGDT20.c  
+
+
+#theta/(2*pi) DT=1
+***For normalizing data***
+#open OCTAVE
+
+load ANGDT1.dat
+t=ANGDT1(:,1);
+z=t/(pi);
+save ANGDZ1.dat z -ascii
+
+***For computing the norm. histogram***
+#open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ1.dat" u ($1):(s($1))
+set table 'hist_ANGDZ1.dat'
+plot "ANGDZ1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#theta/(2*pi) DT=5
+***For normalizing data***
+#open OCTAVE
+
+load ANGDT5.dat
+t=ANGDT5(:,1);
+z=t/(pi);
+save ANGDZ5.dat z -ascii
+
+***For computing the norm. histogram***
+#open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ5.dat" u ($1):(s($1))
+set table 'hist_ANGDZ5.dat'
+plot "ANGDZ5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+#theta/(2*pi) DT=10
+***For normalizing data***
+#open OCTAVE
+
+load ANGDT10.dat
+t=ANGDT10(:,1);
+z=t/(pi);
+save ANGDZ10.dat z -ascii
+
+***For computing the norm. histogram***
+#open gnuplot
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ10.dat" u ($1):(s($1))
+set table 'hist_ANGDZ10.dat'
+plot "ANGDZ10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+#theta/(2*pi) DT=20
+***For normalizing data***
+#open OCTAVE
+load ANGDT20.dat
+t=ANGDT20(:,1);
+z=t/(pi);
+save ANGDZ20.dat z -ascii
+
+***For computing the norm. histogram***
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ20.dat" u ($1):(s($1))
+set table 'hist_ANGDZ20.dat'
+plot "ANGDZ20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+***Script for plotting Fig.3a) P(theta/pi) for telomeres in WT cells***
+#open gnuplot
+
+
+set style line 5 lc rgb 'grey' pt 5 ps 1.4  # square
+set yrange[-0.2:2.1]
+set xrange[0:1.001]
+set xlabel '{/Symbol q}/{/Symbol p} ' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P({/Symbol q}/{/Symbol p})' font "Times-Roman,20" offset 0,5,0
+set key  bottom font ",15"
+set xtics (0,0.25,0.75,1) font ", 20"
+set ytics 1 font ", 25"
+plot 'hist_ANGDZ1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D}','hist_ANGDZ5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D}','hist_ANGDZ10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D}','hist_ANGDZ20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D}'
+
+
+
+***Compute the relative angle for different Delta t and for Lamin-A depleted cells***
+mario@ph89969:~/Documents/Yuval/NCode/F3/LADCT$ (working directory)
+
+***Bring trajectories to the current  directory***
+cp ../../Drift_Rotation_Corr/LADC/CCWLT*[0-9]*.dat .
+
+
+***Extract the relative angles for different Delta t***
+
+***Extract the relative angles for different Delta t***
+
+**Compile and Run**
+ANGDT10.c  ANGDT1.c   ANGDT5.c
+ANGDT15.c  ANGDT20.c  
+
+
+#theta/(2*pi) DT=1
+***For normalizing data***
+#open OCTAVE
+
+load ANGDT1.dat
+t=ANGDT1(:,1);
+z=t/(pi);
+save ANGDZ1.dat z -ascii
+
+***For computing the norm. histogram***
+#open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ1.dat" u ($1):(s($1))
+set table 'hist_ANGDZ1.dat'
+plot "ANGDZ1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#theta/(2*pi) DT=5
+***For normalizing data***
+#open OCTAVE
+
+load ANGDT5.dat
+t=ANGDT5(:,1);
+z=t/(pi);
+save ANGDZ5.dat z -ascii
+
+***For computing the norm. histogram***
+#open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ5.dat" u ($1):(s($1))
+set table 'hist_ANGDZ5.dat'
+plot "ANGDZ5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+#theta/(2*pi) DT=10
+***For normalizing data***
+#open OCTAVE
+
+load ANGDT10.dat
+t=ANGDT10(:,1);
+z=t/(pi);
+save ANGDZ10.dat z -ascii
+
+***For computing the norm. histogram***
+#open gnuplot
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ10.dat" u ($1):(s($1))
+set table 'hist_ANGDZ10.dat'
+plot "ANGDZ10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+#theta/(2*pi) DT=20
+***For normalizing data***
+#open OCTAVE
+load ANGDT20.dat
+t=ANGDT20(:,1);
+z=t/(pi);
+save ANGDZ20.dat z -ascii
+
+***For computing the norm. histogram***
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "ANGDZ20.dat" u ($1):(s($1))
+set table 'hist_ANGDZ20.dat'
+plot "ANGDZ20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+***Script for plotting Fig.3b) P(theta/pi) for telomeres in Lamin-A depleted  cells***
+#open gnuplot
+
+set style line 5 lc rgb 'grey' pt 5 ps 1.4  # square
+set yrange[0:2.2]
+set xrange[0:1.001]
+set xlabel '{/Symbol q}/{/Symbol p} ' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P({/Symbol q}/{/Symbol p})' font "Times-Roman,20" offset 0,5,0
+set key top center font ",15"
+set xtics (0,0.25,0.75,1) font ", 20"
+set ytics 1 font ", 25"
+plot 'hist_ANGDZ1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D}','hist_ANGDZ5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D}','hist_ANGDZ10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D}','hist_ANGDZ20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D}'
+
+
+
+

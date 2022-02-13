@@ -1,0 +1,37 @@
+mario@ph89969:~/Documents/Yuval/NCode/F6/WTCS$ (working trajectory)
+***Create a trajectory with caging and varying persistence for simulating WT cells tracks***
+
+***Compile & run traj.c***
+***use bash file traj.sh***
+./traj.sh
+*** it gives as an output the files***
+1) XYT.dat
+a trajectory with (t,x,y,S), with S state varible. S=1 varying persistence phase.
+S=0 caging phase. t is given in multiples of Delta=20
+
+2) XYN.dat  
+a trajectory with (n,x,y,S), with S state varible. S=1 varying persistence phase.
+S=0 caging phase. n are the sub-steps within each phase.
+
+
+***Script for Fig.S7****
+**open gnuplot
+set xrange[-0.5:0.05]
+set yrange[-0.65:0.3]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 10,1.5,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,6,0 
+set xtics (-0.5,-0.3,0) font ", 20"
+set ytics  (-0.6,-0.4,-0.2,0.2) font ", 20"
+plot 'XYT.dat' u 2:3:1 w lp lw 3 palette notitle
+
+
+***Script for inset in Fig.S7****
+**open gnuplot
+set palette rgb 33,13,10
+set xrange[-0.45:-0.24]
+set yrange[-0.62:-0.26]
+plot 'XYN.dat' u 2:3 w p lw 3 lc rgb 'black'  notitle
+replot 'XYT.dat' u 2:3:1 w lp lw 3 palette notitle
+
+

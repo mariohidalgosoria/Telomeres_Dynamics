@@ -1,0 +1,779 @@
+
+mario@ph89969:~/Documents/Yuval/NCode/F7Methods/WTCN$   (working directory)
+ 
+***Bring trajectories***
+cp ../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
+
+
+***2 state analysis of telomeres in WT cells***
+***For Local convex hull****
+****For \Delta t= 5\Delta
+****For obtaining the mean value of the diameter of the LCH
+#open OCATVE
+
+
+pkg load statistics
+DP=0;
+DT=5;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ RR=rows(data);
+ xo=data(:,2);
+ yo=data(:,3);
+ for i=1:(RR-DT)
+   k=i;
+   XPP=[0,0];
+   for j=k:(k+DT)
+     XPP=[XPP;xo(j),yo(j)];
+   end
+     XPP(1,:)=[];
+     x=XPP(:,1);
+     y=XPP(:,2);  
+     K = convhull(x,y);
+     xk = x(K);
+     yk = y(K);
+     i2 = 1;
+     nk = length(K);
+     d2max = -Inf;
+     for i1=1:nk
+       xk_i1 = xk(i1);
+       yk_i1 = yk(i1);
+       d2 = (xk(i2)-xk_i1).^2+(yk(i2)-yk_i1).^2;
+       while true
+            i2temp = mod(i2,nk) + 1;
+            d2temp = (xk(i2temp)-xk_i1).^2+(yk(i2temp)-yk_i1).^2;
+            if d2temp <= d2
+                 break
+       end
+       d2 = d2temp;
+       i2 = i2temp;
+     end
+        if d2 >= d2max
+          i1max = i1;
+          i2max = i2;
+          d2max = d2;
+        end
+    end
+      % Here are the pair of white pixels with largest size
+      x1 = xk(i1max);
+      y1 = yk(i1max);
+      x2 = xk(i2max);
+      y2 = yk(i2max);
+      XLL=[x2,y2];
+      XL=[x1,y1];
+      DPP=pdist2(XLL,XL);
+      DP=[DP;DPP];
+  end
+end
+mean(DP)
+%ans =  0.14649
+
+***Generate two state (0,1) time seres using average diameter of LCH*****
+
+#open OCTAVE
+
+pkg load statistics
+DP=0;
+DT=5;
+C=0.14649;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ nam=sprintf('LLCH5DT%d.dat',i);
+ fil=fopen(nam,'w');
+ RR=rows(data);
+ xo=data(:,2);
+ yo=data(:,3);
+ for i=1:(RR-DT)
+   k=i;
+   XPP=[0,0];
+   for j=k:(k+DT)
+     XPP=[XPP;xo(j),yo(j)];
+   end
+     XPP(1,:)=[];
+     x=XPP(:,1);
+     y=XPP(:,2);  
+     K = convhull(x,y);
+     xk = x(K);
+     yk = y(K);
+     i2 = 1;
+     nk = length(K);
+     d2max = -Inf;
+     for i1=1:nk
+       xk_i1 = xk(i1);
+       yk_i1 = yk(i1);
+       d2 = (xk(i2)-xk_i1).^2+(yk(i2)-yk_i1).^2;
+       while true
+            i2temp = mod(i2,nk) + 1;
+            d2temp = (xk(i2temp)-xk_i1).^2+(yk(i2temp)-yk_i1).^2;
+            if d2temp <= d2
+                 break
+       end
+       d2 = d2temp;
+       i2 = i2temp;
+     end
+        if d2 >= d2max
+          i1max = i1;
+          i2max = i2;
+          d2max = d2;
+        end
+    end
+      % Here are the pair of white pixels with largest size
+      x1 = xk(i1max);
+      y1 = yk(i1max);
+      x2 = xk(i2max);
+      y2 = yk(i2max);
+      XLL=[x2,y2];
+      XL=[x1,y1];
+      DPP=pdist2(XLL,XL);
+      if DPP>=C
+        P=1; 
+        fprintf(fil,"%d %f %f\n",i,P,DPP);
+      elseif DPP<C
+        P=0; 
+        fprintf(fil,"%d %f %f\n",i,P,DPP);
+      endif
+  end
+  fclose(fil);
+end
+
+
+*****cut data of 2 state LCH LLCH5DT%.dat with LCHcutdat5DT.c*****
+**For having the same length of the two sate series of the persistence***
+**Compile and Run 
+gcc -o LCHcutdat5DT LCHcutdat5DT.c -lm
+
+***Obtain two state (0,1) series of the persistence with the relative angle****
+***For \Delta t= 5\Delta
+***Compile and run***
+THRT5.c ***
+
+***gives as an output THR5T%.dat
+
+
+
+****For \Delta t= 10\Delta
+****For obtaining the mean value of the diameter of the LCH
+#open OCATVE
+
+pkg load statistics
+DP=0;
+DT=10;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ RR=rows(data);
+ xo=data(:,2);
+ yo=data(:,3);
+ for i=1:(RR-DT)
+   k=i;
+   XPP=[0,0];
+   for j=k:(k+DT)
+     XPP=[XPP;xo(j),yo(j)];
+   end
+     XPP(1,:)=[];
+     x=XPP(:,1);
+     y=XPP(:,2);  
+     K = convhull(x,y);
+     xk = x(K);
+     yk = y(K);
+     i2 = 1;
+     nk = length(K);
+     d2max = -Inf;
+     for i1=1:nk
+       xk_i1 = xk(i1);
+       yk_i1 = yk(i1);
+       d2 = (xk(i2)-xk_i1).^2+(yk(i2)-yk_i1).^2;
+       while true
+            i2temp = mod(i2,nk) + 1;
+            d2temp = (xk(i2temp)-xk_i1).^2+(yk(i2temp)-yk_i1).^2;
+            if d2temp <= d2
+                 break
+       end
+       d2 = d2temp;
+       i2 = i2temp;
+     end
+        if d2 >= d2max
+          i1max = i1;
+          i2max = i2;
+          d2max = d2;
+        end
+    end
+      % Here are the pair of white pixels with largest size
+      x1 = xk(i1max);
+      y1 = yk(i1max);
+      x2 = xk(i2max);
+      y2 = yk(i2max);
+      XLL=[x2,y2];
+      XL=[x1,y1];
+      DPP=pdist2(XLL,XL);
+      DP=[DP;DPP];
+  end
+end
+mean(DP)
+%ans =  0.21121
+
+***Generate two state (0,1) time seres using average diameter of LCH*****
+
+#open OCTAVE
+
+pkg load statistics
+DP=0;
+DT=10;
+C=0.21121;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ nam=sprintf('LLCH10DT%d.dat',i);
+ fil=fopen(nam,'w');
+ RR=rows(data);
+ xo=data(:,2);
+ yo=data(:,3);
+ for i=1:(RR-DT)
+   k=i;
+   XPP=[0,0];
+   for j=k:(k+DT)
+     XPP=[XPP;xo(j),yo(j)];
+   end
+     XPP(1,:)=[];
+     x=XPP(:,1);
+     y=XPP(:,2);  
+     K = convhull(x,y);
+     xk = x(K);
+     yk = y(K);
+     i2 = 1;
+     nk = length(K);
+     d2max = -Inf;
+     for i1=1:nk
+       xk_i1 = xk(i1);
+       yk_i1 = yk(i1);
+       d2 = (xk(i2)-xk_i1).^2+(yk(i2)-yk_i1).^2;
+       while true
+            i2temp = mod(i2,nk) + 1;
+            d2temp = (xk(i2temp)-xk_i1).^2+(yk(i2temp)-yk_i1).^2;
+            if d2temp <= d2
+                 break
+       end
+       d2 = d2temp;
+       i2 = i2temp;
+     end
+        if d2 >= d2max
+          i1max = i1;
+          i2max = i2;
+          d2max = d2;
+        end
+    end
+      % Here are the pair of white pixels with largest size
+      x1 = xk(i1max);
+      y1 = yk(i1max);
+      x2 = xk(i2max);
+      y2 = yk(i2max);
+      XLL=[x2,y2];
+      XL=[x1,y1];
+      DPP=pdist2(XLL,XL);
+      if DPP>=C
+        P=1; 
+        fprintf(fil,"%d %f %f\n",i,P,DPP);
+      elseif DPP<C
+        P=0; 
+        fprintf(fil,"%d %f %f\n",i,P,DPP);
+      endif
+  end
+  fclose(fil);
+end
+
+
+
+
+*****cut data of 2 state LCH LLCH10DT%.dat with LCHcutdat10DT.c*****
+**For having the same length of the two sate series of the persistence***
+**Compile and Run 
+gcc -o LCHcutdat10DT LCHcutdat10DT.c -lm
+
+***Obtain two state (0,1) series of the persistence with the relative angle****
+***For \Delta t= 10\Delta
+***Compile and run***
+THRT10.c ***
+
+***gives as an output THR10T%.dat
+
+
+
+***Script for plotting Fig.7***
+
+*****Figure F7c)
+**** track III
+set yrange[1.5:3.5]
+set xrange[-8.5:-6.5]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 1,1.5,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
+set xtics 1 font ", 20"
+set ytics 1 font ", 20"
+plot 'CCLAT128.dat' u 2:3:1 w l lw 3 palette notitle
+
+*****Figure F7f)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,20,30) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'THR10T128.dat' w steps lw 3 lc rgb 'magenta' notitle
+
+*****Figure F7i)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,20,30) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'CALLCH10DT128.dat' w steps lw 3 lc rgb 'cyan' notitle
+
+*****Figure F7b)
+****track II
+set yrange[1.5:3.5]
+set xrange[-3.8:-1.8]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 7,1.5,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,1,0 
+set xtics 1 font ", 20"
+set ytics 1 font ", 20"
+plot 'CCLAT7.dat' u 2:3:1 w l lw 3 palette notitle
+
+*****Figure F7e)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,20,30) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'THR10T7.dat' w steps lw 3 lc rgb 'magenta' notitle
+
+*****Figure F7h)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,20,30) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'CALLCH10DT7.dat' w steps lw 3 lc rgb 'cyan' notitle
+
+*****Figure F7a)
+****track I
+set yrange[0:-2]
+set xrange[0:2]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 10,1.5,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,6,0 
+set xtics 1 font ", 20"
+set ytics 1 font ", 20"
+plot 'CCLAT10.dat' u 2:3:1 w l lw 3 palette notitle
+
+*****Figure F7d)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,20,30) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'THR10T10.dat' w steps lw 3 lc rgb 'magenta' notitle
+
+*****Figure F7g)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,20,30) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'CALLCH10DT10.dat' w steps lw 3 lc rgb 'cyan' notitle
+
+
+****************************************************************************************************************
+mario@ph89969:~/Documents/Yuval/NCode/F7Methods/LADCN$  (working directory)
+***Bring trajectories***
+cp ../../Drift_Rotation_Corr/LADC/CCWLT*[0-9]*.dat .
+
+
+***2 state analysis of telomeres in LAD cells***
+***For Local convex hull****
+****For \Delta t= 5\Delta
+****For obtaining the mean value of the diameter of the LCH
+#open OCTAVE
+
+pkg load statistics
+DP=0;
+DT=5;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ RR=rows(data);
+ xo=data(:,2);
+ yo=data(:,3);
+ for i=1:(RR-DT)
+   k=i;
+   XPP=[0,0];
+   for j=k:(k+DT)
+     XPP=[XPP;xo(j),yo(j)];
+   end
+     XPP(1,:)=[];
+     x=XPP(:,1);
+     y=XPP(:,2);  
+     K = convhull(x,y);
+     xk = x(K);
+     yk = y(K);
+     i2 = 1;
+     nk = length(K);
+     d2max = -Inf;
+     for i1=1:nk
+       xk_i1 = xk(i1);
+       yk_i1 = yk(i1);
+       d2 = (xk(i2)-xk_i1).^2+(yk(i2)-yk_i1).^2;
+       while true
+            i2temp = mod(i2,nk) + 1;
+            d2temp = (xk(i2temp)-xk_i1).^2+(yk(i2temp)-yk_i1).^2;
+            if d2temp <= d2
+                 break
+       end
+       d2 = d2temp;
+       i2 = i2temp;
+     end
+        if d2 >= d2max
+          i1max = i1;
+          i2max = i2;
+          d2max = d2;
+        end
+    end
+      % Here are the pair of white pixels with largest size
+      x1 = xk(i1max);
+      y1 = yk(i1max);
+      x2 = xk(i2max);
+      y2 = yk(i2max);
+      XLL=[x2,y2];
+      XL=[x1,y1];
+      DPP=pdist2(XLL,XL);
+      DP=[DP;DPP];
+  end
+end
+mean(DP)
+%ans =  0.28815
+
+
+***Generate two state (0,1) time seres using average diameter of LCH*****
+
+#open OCTAVE
+
+pkg load statistics
+DP=0;
+DT=5;
+C=0.28815;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ nam=sprintf('LLCH5DT%d.dat',i);
+ fil=fopen(nam,'w');
+ RR=rows(data);
+ xo=data(:,2);
+ yo=data(:,3);
+ for i=1:(RR-DT)
+   k=i;
+   XPP=[0,0];
+   for j=k:(k+DT)
+     XPP=[XPP;xo(j),yo(j)];
+   end
+     XPP(1,:)=[];
+     x=XPP(:,1);
+     y=XPP(:,2);  
+     K = convhull(x,y);
+     xk = x(K);
+     yk = y(K);
+     i2 = 1;
+     nk = length(K);
+     d2max = -Inf;
+     for i1=1:nk
+       xk_i1 = xk(i1);
+       yk_i1 = yk(i1);
+       d2 = (xk(i2)-xk_i1).^2+(yk(i2)-yk_i1).^2;
+       while true
+            i2temp = mod(i2,nk) + 1;
+            d2temp = (xk(i2temp)-xk_i1).^2+(yk(i2temp)-yk_i1).^2;
+            if d2temp <= d2
+                 break
+       end
+       d2 = d2temp;
+       i2 = i2temp;
+     end
+        if d2 >= d2max
+          i1max = i1;
+          i2max = i2;
+          d2max = d2;
+        end
+    end
+      % Here are the pair of white pixels with largest size
+      x1 = xk(i1max);
+      y1 = yk(i1max);
+      x2 = xk(i2max);
+      y2 = yk(i2max);
+      XLL=[x2,y2];
+      XL=[x1,y1];
+      DPP=pdist2(XLL,XL);
+      if DPP>=C
+        P=1; 
+        fprintf(fil,"%d %f %f\n",i,P,DPP);
+      elseif DPP<C
+        P=0; 
+        fprintf(fil,"%d %f %f\n",i,P,DPP);
+      endif
+  end
+  fclose(fil);
+end
+
+
+
+*****cut data of 2 state LCH LLCH5DT%.dat with LCHcutdat5DT.c*****
+**For having the same length of the two sate series of the persistence***
+**Compile and Run 
+gcc -o LCHcutdat5DT LCHcutdat5DT.c -lm
+
+***Obtain two state (0,1) series of the persistence with the relative angle****
+***For \Delta t= 5\Delta
+***Compile and run***
+THRT5.c ***
+
+***gives as an output THR5T%.dat
+
+******************************************************************************************************************
+
+***Script for plotting Fig.7***
+**** track III
+***Fig 7l)
+set yrange[-7:0]
+set xrange[1:8]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 1,1.5,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,1,0 
+set xtics 2 font ", 20"
+set ytics 2 font ", 20"
+plot 'CCWLT24.dat' u 2:3:1 w l lw 3 palette notitle
+
+***Fig 7o)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,30,40) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'THR5T24.dat' w steps lw 3 lc rgb 'magenta' notitle
+
+***Fig 7r)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,30,40) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'CALLCH5DT24.dat' w steps lw 3 lc rgb 'cyan' notitle
+
+****track II
+***Fig 7k)
+set yrange[-7:0]
+set xrange[-7:0]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 1,1.5,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,1,0 
+set xtics 2 font ", 20"
+set ytics 2 font ", 20"
+plot 'CCWLT6.dat' u 2:3:1 w l lw 3 palette notitle
+
+***Fig 7n)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,30,40) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'THR5T6.dat' w steps lw 3 lc rgb 'magenta' notitle
+
+***Fig 7q)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,30,40) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'CALLCH5DT6.dat' w steps lw 3 lc rgb 'cyan' notitle
+
+****track I, This track was cut until 50 \Delta 
+***Fig 7j)
+set yrange[3:10]
+set xrange[-2:5]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 1,1.5,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,6,0 
+set xtics 2 font ", 20"
+set ytics 2 font ", 20"
+plot '2CCWLT127.dat' u 2:3:1 w l lw 3 palette notitle
+
+***Fig 7m)
+set xrange[0:40]
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,30,40) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'THR5T127.dat' w steps lw 3 lc rgb 'magenta' notitle
+
+***Fig 7p)
+set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
+set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
+set xtics (0,10,30,40) font ", 20"
+set ytics 0.5 font ", 20"
+set yrange[-0.3:1.3]
+plot 'CALLCH5DT127.dat' w steps lw 3 lc rgb 'cyan' notitle
+
+*****************************************************************************************************
+
+****For \Delta t= 10\Delta
+****For obtaining the mean value of the diameter of the LCH
+#open OCATVE
+
+
+pkg load statistics
+DP=0;
+DT=10;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ RR=rows(data);
+ xo=data(:,2);
+ yo=data(:,3);
+ for i=1:(RR-DT)
+   k=i;
+   XPP=[0,0];
+   for j=k:(k+DT)
+     XPP=[XPP;xo(j),yo(j)];
+   end
+     XPP(1,:)=[];
+     x=XPP(:,1);
+     y=XPP(:,2);  
+     K = convhull(x,y);
+     xk = x(K);
+     yk = y(K);
+     i2 = 1;
+     nk = length(K);
+     d2max = -Inf;
+     for i1=1:nk
+       xk_i1 = xk(i1);
+       yk_i1 = yk(i1);
+       d2 = (xk(i2)-xk_i1).^2+(yk(i2)-yk_i1).^2;
+       while true
+            i2temp = mod(i2,nk) + 1;
+            d2temp = (xk(i2temp)-xk_i1).^2+(yk(i2temp)-yk_i1).^2;
+            if d2temp <= d2
+                 break
+       end
+       d2 = d2temp;
+       i2 = i2temp;
+     end
+        if d2 >= d2max
+          i1max = i1;
+          i2max = i2;
+          d2max = d2;
+        end
+    end
+      % Here are the pair of white pixels with largest size
+      x1 = xk(i1max);
+      y1 = yk(i1max);
+      x2 = xk(i2max);
+      y2 = yk(i2max);
+      XLL=[x2,y2];
+      XL=[x1,y1];
+      DPP=pdist2(XLL,XL);
+      DP=[DP;DPP];
+  end
+end
+mean(DP)
+%ans =  0.46131
+
+***Generate two state (0,1) time seres using average diameter of LCH*****
+
+#open OCTAVE
+
+
+
+#open OCTAVE
+
+pkg load statistics
+DP=0;
+DT=10;
+C=0.46131;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ nam=sprintf('LLCH10DT%d.dat',i);
+ fil=fopen(nam,'w');
+ RR=rows(data);
+ xo=data(:,2);
+ yo=data(:,3);
+ for i=1:(RR-DT)
+   k=i;
+   XPP=[0,0];
+   for j=k:(k+DT)
+     XPP=[XPP;xo(j),yo(j)];
+   end
+     XPP(1,:)=[];
+     x=XPP(:,1);
+     y=XPP(:,2);  
+     K = convhull(x,y);
+     xk = x(K);
+     yk = y(K);
+     i2 = 1;
+     nk = length(K);
+     d2max = -Inf;
+     for i1=1:nk
+       xk_i1 = xk(i1);
+       yk_i1 = yk(i1);
+       d2 = (xk(i2)-xk_i1).^2+(yk(i2)-yk_i1).^2;
+       while true
+            i2temp = mod(i2,nk) + 1;
+            d2temp = (xk(i2temp)-xk_i1).^2+(yk(i2temp)-yk_i1).^2;
+            if d2temp <= d2
+                 break
+       end
+       d2 = d2temp;
+       i2 = i2temp;
+     end
+        if d2 >= d2max
+          i1max = i1;
+          i2max = i2;
+          d2max = d2;
+        end
+    end
+      % Here are the pair of white pixels with largest size
+      x1 = xk(i1max);
+      y1 = yk(i1max);
+      x2 = xk(i2max);
+      y2 = yk(i2max);
+      XLL=[x2,y2];
+      XL=[x1,y1];
+      DPP=pdist2(XLL,XL);
+      if DPP>=C
+        P=1; 
+        fprintf(fil,"%d %f %f\n",i,P,DPP);
+      elseif DPP<C
+        P=0; 
+        fprintf(fil,"%d %f %f\n",i,P,DPP);
+      endif
+  end
+  fclose(fil);
+end
+
+
+
+***********************
+
+
+*****cut data of 2 state LCH LLCH10DT%.dat with LCHcutdat10DT.c*****
+**For having the same length of the two sate series of the persistence***
+**Compile and Run 
+gcc -o LCHcutdat10DT LCHcutdat10DT.c -lm
+
+***Obtain two state (0,1) series of the persistence with the relative angle****
+***For \Delta t= 10\Delta
+***Compile and run***
+THRT10.c ***
+
+***gives as an output THR10T%.dat
+
+

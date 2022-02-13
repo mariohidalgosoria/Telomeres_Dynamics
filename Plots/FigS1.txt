@@ -1,0 +1,51 @@
+mario@ph89969:~/Documents/Yuval/NCode/SM/FigS1/WTC$  (working directory)
+
+****bring trajectories****
+cp ../../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
+
+******Computing TAMSD, Ensemble TAMSD and ensemble MSD for tracks of WT cells**********
+****Compile and run TAMSDT100.c, ETAMSDT100.c, EMSDT100.c
+
+
+***Script for FigS1left*****************
+#open gnuplot
+set logscale xy
+set format y "10^{%L}" 
+set format x "10^{%L}" 
+set xrange[5:1000]
+set yrange[0.1*10e-7:0.1*10e2]
+set xlabel 't[s]' font "Times-Roman,20" offset -3,0,0
+set ylabel 'ETAMSD/t' font "Times-Roman,20" offset 0,8,0 
+#set key at 15,12
+set key font ",15"
+set xtics font ", 20"
+set ytics (0.1*10e-6,0.1*10e-4,0.1*10e-2,0.1*10e2)  font ", 20"
+plot 'CETAMSDT100.dat' u ($1*18.5):($2/($1*18.5)) w l lw 9 lc rgb 'grey' notitle,'XYMSDT100.dat' u ($1*18.5):($2/($1*18.5)) w p lw 5 lc rgb 'red' notitle
+
+mario@ph89969:~/Documents/Yuval/NCode/SM/FigS1/LADC$ (working directory) 
+
+
+****bring trajectories****
+cp ../../../Drift_Rotation_Corr/LADC/CCWLT*[0-9]*.dat .
+
+
+******Computing TAMSD, Ensemble TAMSD and ensemble MSD for tracks of Lamin -a depleted cells**********
+****Compile and run TAMSDT100.c, ETAMSDT100.c, EMSDT100.c
+
+
+***Script for FigS1right*****************
+#open gnuplot
+set logscale xy
+set format y "10^{%L}" 
+set format x "10^{%L}" 
+set xrange[5:1000]
+set yrange[0.1*10e-7:0.1*10e2]
+set xlabel 't[s]' font "Times-Roman,20" offset -3,0,0
+set ylabel 'ETAMSD/t' font "Times-Roman,20" offset 0,8,0 
+#set key at 15,12
+set key font ",15"
+set xtics font ", 20"
+set ytics (0.1*10e-6,0.1*10e-4,0.1*10e-2,0.1*10e2)  font ", 20"
+plot 'CETAMSDT100.dat' u ($1*18.5):($2/($1*18.5)) w l lw 9 lc rgb 'grey' notitle,'XYMSDT100.dat' u ($1*18.5):($2/($1*18.5)) w p lw 5 lc rgb 'red' notitle
+
+
