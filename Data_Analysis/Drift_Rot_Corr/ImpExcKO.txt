@@ -1,0 +1,286 @@
+/*Import raw time series (previous drift and rotation correction) 
+from excel files, and converting to .dat format*/
+
+%file of interest "woLMNA10-3D_TEL.ods"
+mario@ph89969:~/Documents/Yuval/woLMNA/50$ octave 
+#C1 time C2 X C3 Y C4 Z
+
+pkg load io
+#a1 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K8:N42');# avoid this line
+a2 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K44:N93');
+a3 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K95:N144');
+a4 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K146:N195');
+a5 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K197:N246');
+a6 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K248:N297');
+a7 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K299:N348');
+a8 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K350:N399');
+a9 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K401:N450');
+a10 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K452:N501');
+a11 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K503:N552');
+a12 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K554:N603');
+a13 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K605:N654');
+a14 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K656:N705');
+a15 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K707:N756');
+a16 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K758:N807');
+a17 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K809:N858');
+a18 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K860:N909');
+a19 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K911:N960');
+a20 = xlsread('woLMNA10-3D_TEL.ods','Spot Position','K911:N960');
+
+#check TS by plotting
+plot3(a2(:,2),a2(:,3),a2(:,4),'b')
+
+#Create time series files
+#I start from a2
+
+save WLAT50T2.dat a2 -ascii
+
+save WLAT50T20.dat a20 -ascii
+
+**19 tracks
+
+
+
+
+%file of interest "woLMNA11-3D_TEL.ods"
+mario@ph89969:~/Documents/Yuval/woLMNA/50$ octave
+
+pkg load io
+#b1 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K8:N46');# avoid this line
+b2 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K48:N97');
+b3 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K99:N148');
+b4 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K150:N199');
+b5 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K201:N250');
+b6 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K252:N301');
+b7 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K303:N352');
+b8 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K354:N403');
+b9 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K405:N454');
+b10 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K456:N505');
+b11 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K507:N556');
+b12 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K558:N607');
+b13 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K609:N658');
+b14 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K660:N709');
+b15 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K711:N760');
+b16 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K762:N811');
+b17 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K813:N862');
+b18 = xlsread('woLMNA11-3D_TEL.ods','Spot Position','K864:N913');
+
+
+#check TS by plotting
+plot3(b18(:,2),b18(:,3),b18(:,4),'b')
+
+
+#Create time series files
+#In order to analyze all the time seres for T=50 I satrt from 21
+#contination from a1...a20
+save WLAT50T21.dat b2 -ascii
+
+save WLAT50T37.dat b18 -ascii
+
+**17 tracks
+
+
+
+
+%file of interest "woLMNA13-3D_TEL.ods"
+mario@ph89969:~/Documents/Yuval/woLMNA/50$ octave
+
+pkg load io
+#c1 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K8:N42');# avoid this line
+c2 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K44:N93');
+c3 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K95:N144');
+c4 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K146:N195');
+c5 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K197:N246');
+c6 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K248:N297');
+c7 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K299:N348');
+c8 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K350:N399');
+c9 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K401:N450');
+c10 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K452:N501');
+c11 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K503:N552');
+c12 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K554:N603');
+c13 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K605:N654');
+c14 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K656:N705');
+c15 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K707:N756');
+c16 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K758:N807');
+c17 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K809:N858');
+c18 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K860:N909');
+c19 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K911:N960');
+c20 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K962:N1011');
+c21 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K1013:N1062');
+c22 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K1064:N1113');
+c23 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K1115:N1164');
+c24 = xlsread('woLMNA13-3D_TEL.ods','Spot Position','K1166:N1215');
+
+
+#check TS by plotting
+plot3(c2(:,2),c2(:,3),c2(:,4),'b')
+
+#Create time series files
+#In order to analyze all the time seres for T=50 I satrt from 38
+#contination from b2 (21)...b18 (37)
+save WLAT50T38.dat c2 -ascii
+
+save WLAT50T60.dat c24 -ascii
+
+**23 tracks
+
+***Total for T=50: 59 tracks
+
+
+
+%file of interest "1-3DwoLMNA100.ods"
+mario@ph89969:~/Documents/Yuval/woLMNA/100$ octave
+pkg load io
+#d1 = xlsread('1-3DwoLMNA100.ods','Spot Position','K8:N55');# avoid this line
+d2 = xlsread('1-3DwoLMNA100.ods','Spot Position','K57:N156');
+d3 = xlsread('1-3DwoLMNA100.ods','Spot Position','K158:N257');
+d4 = xlsread('1-3DwoLMNA100.ods','Spot Position','K259:N358');
+d5 = xlsread('1-3DwoLMNA100.ods','Spot Position','K360:N459');
+d6 = xlsread('1-3DwoLMNA100.ods','Spot Position','K461:N560');
+d7 = xlsread('1-3DwoLMNA100.ods','Spot Position','K562:N661');
+d8 = xlsread('1-3DwoLMNA100.ods','Spot Position','K663:N762');
+d9 = xlsread('1-3DwoLMNA100.ods','Spot Position','K764:N863');
+d10 = xlsread('1-3DwoLMNA100.ods','Spot Position','K865:N964');
+d11 = xlsread('1-3DwoLMNA100.ods','Spot Position','K966:N1065');
+d12 = xlsread('1-3DwoLMNA100.ods','Spot Position','K1067:N1166');
+d13 = xlsread('1-3DwoLMNA100.ods','Spot Position','K1168:N1267');
+d14 = xlsread('1-3DwoLMNA100.ods','Spot Position','K1269:N1368');
+d15 = xlsread('1-3DwoLMNA100.ods','Spot Position','K1370:N1469');
+d16 = xlsread('1-3DwoLMNA100.ods','Spot Position','K1471:N1570');
+d17 = xlsread('1-3DwoLMNA100.ods','Spot Position','K1572:N1671');
+d18 = xlsread('1-3DwoLMNA100.ods','Spot Position','K1673:N1772');
+d19 = xlsread('1-3DwoLMNA100.ods','Spot Position','K1774:N1873');
+
+
+#check TS by plotting
+plot3(d2(:,2),d2(:,3),d2(:,4),'b')
+
+#Create time series files
+#In order to analyze all the time seres for T=100 I satrt from d2
+save WLAT100T2.dat d2 -ascii
+
+save WLAT100T19.dat d19 -ascii
+
+**18 tracks 
+
+
+
+%file of interest "2-3DwoLMNA100.ods"
+mario@ph89969:~/Documents/Yuval/woLMNA/100$ octave 
+
+pkg load io
+#e1 = xlsread('2-3DwoLMNA100.ods','Spot Position','K8:N72');# avoid this line
+e2 = xlsread('2-3DwoLMNA100.ods','Spot Position','K74:N173');
+e3 = xlsread('2-3DwoLMNA100.ods','Spot Position','K175:N274');
+e4 = xlsread('2-3DwoLMNA100.ods','Spot Position','K276:N375');
+e5 = xlsread('2-3DwoLMNA100.ods','Spot Position','K377:N476');
+e6 = xlsread('2-3DwoLMNA100.ods','Spot Position','K478:N577');
+e7 = xlsread('2-3DwoLMNA100.ods','Spot Position','K579:N678');
+e8 = xlsread('2-3DwoLMNA100.ods','Spot Position','K680:N779');
+e9 = xlsread('2-3DwoLMNA100.ods','Spot Position','K781:N880');
+e10 = xlsread('2-3DwoLMNA100.ods','Spot Position','K882:N981');
+e11 = xlsread('2-3DwoLMNA100.ods','Spot Position','K983:N1082');
+e12 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1084:N1183');
+e13 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1185:N1284');
+e14 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1286:N1385');
+e15 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1387:N1486');
+e16 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1488:N1587');
+e17 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1589:N1688');
+e18 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1690:N1789');
+e19 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1791:N1890');
+e20 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1892:N1991');
+e21 = xlsread('2-3DwoLMNA100.ods','Spot Position','K1993:N2092');
+e22 = xlsread('2-3DwoLMNA100.ods','Spot Position','K2094:N2193');
+e23 = xlsread('2-3DwoLMNA100.ods','Spot Position','K2195:N2294');
+e24 = xlsread('2-3DwoLMNA100.ods','Spot Position','K2296:N2395');
+e25 = xlsread('2-3DwoLMNA100.ods','Spot Position','K2397:N2496');
+e26 = xlsread('2-3DwoLMNA100.ods','Spot Position','K2498:N2597');
+e27 = xlsread('2-3DwoLMNA100.ods','Spot Position','K2599:N2698');
+
+
+#check TS by plotting
+plot3(e1(:,2),e1(:,3),e1(:,4),'b')
+
+#Create time series files
+#In order to analyze all the time seres for T=100 I satrt from 20
+#continuation of d2 (2) to d19(19)
+
+save WLAT100T20.dat e2 -ascii
+
+save WLAT100T45.dat e27 -ascii
+
+**26 tracks 
+
+
+
+
+%file of interest "3-3DwoLMNA100.ods"
+mario@ph89969:~/Documents/Yuval/woLMNA/100$ octave
+pkg load io
+#f1 = xlsread('3-3DwoLMNA100.ods','Spot Position','K8:N41');# avoid this line
+f2 = xlsread('3-3DwoLMNA100.ods','Spot Position','K43:N142');
+f3 = xlsread('3-3DwoLMNA100.ods','Spot Position','K144:N243');
+f4 = xlsread('3-3DwoLMNA100.ods','Spot Position','K245:N344');
+f5 = xlsread('3-3DwoLMNA100.ods','Spot Position','K346:N445');
+f6 = xlsread('3-3DwoLMNA100.ods','Spot Position','K447:N546');
+f7 = xlsread('3-3DwoLMNA100.ods','Spot Position','K548:N647');
+f8 = xlsread('3-3DwoLMNA100.ods','Spot Position','K649:N748');
+f9 = xlsread('3-3DwoLMNA100.ods','Spot Position','K750:N849');
+f10 = xlsread('3-3DwoLMNA100.ods','Spot Position','K851:N950');
+f11 = xlsread('3-3DwoLMNA100.ods','Spot Position','K952:N1051');
+
+
+#check TS by plotting
+plot3(f2(:,2),f2(:,3),f2(:,4),'b')
+
+#Create time series files
+#In order to analyze all the time seres for T=100 I satrt from 20
+#continuation of e2 (20) to e27 (45)
+
+save WLAT100T46.dat f2 -ascii
+
+save WLAT100T55.dat f11 -ascii
+
+**10 tracks 
+
+
+
+
+%file of interest "5-3DwoLMNA100.ods"
+mario@ph89969:~/Documents/Yuval/woLMNA/100$ octave
+pkg load io
+#g1 = xlsread('5-3DwoLMNA100.ods','Spot Position','K8:N52');# avoid this line
+g2 = xlsread('5-3DwoLMNA100.ods','Spot Position','K54:N153');
+g3 = xlsread('5-3DwoLMNA100.ods','Spot Position','K155:N254');
+g4 = xlsread('5-3DwoLMNA100.ods','Spot Position','K256:N355');
+g5 = xlsread('5-3DwoLMNA100.ods','Spot Position','K357:N456');
+g6 = xlsread('5-3DwoLMNA100.ods','Spot Position','K458:N557');
+g7 = xlsread('5-3DwoLMNA100.ods','Spot Position','K559:N658');
+g8 = xlsread('5-3DwoLMNA100.ods','Spot Position','K660:N759');
+g9 = xlsread('5-3DwoLMNA100.ods','Spot Position','K761:N860');
+g10 = xlsread('5-3DwoLMNA100.ods','Spot Position','K862:N961');
+g11 = xlsread('5-3DwoLMNA100.ods','Spot Position','K963:N1062');
+g12 = xlsread('5-3DwoLMNA100.ods','Spot Position','K1064:N1163');
+g13 = xlsread('5-3DwoLMNA100.ods','Spot Position','K1165:N1264');
+g14 = xlsread('5-3DwoLMNA100.ods','Spot Position','K1266:N1365');
+g15 = xlsread('5-3DwoLMNA100.ods','Spot Position','K1367:N1466');
+g16 = xlsread('5-3DwoLMNA100.ods','Spot Position','K1468:N1567');
+
+
+#check TS by plotting
+plot3(g2(:,2),g2(:,3),g2(:,4),'b')
+
+#Create time series files
+#In order to analyze all the time seres for T=100 I satrt from 20
+#continuation of f2 (46) to f11 (55)
+
+save WLAT100T56.dat g2 -ascii
+
+save WLAT100T70.dat g16 -ascii
+
+
+***15 tracks
+
+
+
+*****For T=100; 69 tracks 

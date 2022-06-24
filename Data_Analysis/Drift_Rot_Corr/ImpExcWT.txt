@@ -1,0 +1,641 @@
+/*Import raw time series (previous drift and rotation correction) 
+from excel files, and converting to .dat format*/
+
+mario@ph89969:~/Documents/Yuval/LMNA/50$ octave
+#C1 time C2 X C3 Y C4 Z
+***File of interest LMNA1-3D_TEL.ods
+ 
+pkg load io
+a1 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K8:N57');# avoid this line
+a2 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K59:N108');
+a3 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K110:N159');
+a4 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K161:N210');
+a5 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K212:N261');
+a6 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K263:N312');
+a7 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K314:N363');
+a8 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K365:N414');
+a9 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K416:N465');
+a10 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K467:N516');
+a11 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K518:N567');
+a12 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K569:N618');
+a13 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K620:N669');
+a14 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K671:N720');
+a15 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K722:N771');
+a16 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K773:N822');
+a17 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K824:N873');
+a18 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K875:N924');
+a19 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K926:N975');
+a20 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K926:N975');#45UT
+a21 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K926:N975');#40UT
+a22 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K1064:N1113');
+a23 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K1115:N1164');
+a24 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K1166:N1215');
+a25 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K1217:N1266');
+a26 = xlsread('LMNA1-3D_TEL.ods','Spot Position','K1268:N1317');
+
+**25 tracks***
+#check TS by plotting
+plot3(a2(:,2),a2(:,3),a2(:,4),'b')
+
+#Create time series files
+#I start from a2
+
+save LAMT50T2.dat a2 -ascii
+
+save LAMT50T26.dat a26 -ascii
+
+
+
+****File of interest LMNA3-3D_TEL.ods
+mario@ph89969:~/Documents/Yuval/LMNA/50$ octave
+
+
+pkg load io
+#a1 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K8:N57');# avoid this line
+
+a27 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K59:N108');
+a28 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K110:N159');
+a29 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K161:N210');
+a30 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K212:N261');
+a31 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K263:N312');
+a32 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K314:N363');
+a33 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K365:N414');
+a34 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K416:N465');
+a35 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K467:N516');
+a36 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K518:N567');
+a37 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K569:N618');
+a38 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K620:N669');
+a39 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K671:N720');
+a40 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K722:N771');
+a41 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K773:N822');
+a42 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K824:N873');
+a43 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K875:N924');
+a44 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K926:N975');
+a45 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K977:N1026');
+a46 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1028:N1077');
+a47 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1079:N1128');
+a48 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1130:N1179');
+a49 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1181:N1230');
+a50 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1232:N1281');
+a51 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1283:N1332');
+a52 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1334:N1383');
+a53 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1385:N1434');
+a54 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1436:N1485');
+a55 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1487:N1536');
+a56 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1538:N1587');
+a57 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1589:N1638');
+a58 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1640:N1689');
+a59 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1691:N1740');
+a60 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1742:N1791');
+a61 = xlsread('LMNA3-3D_TEL.ods','Spot Position','K1793:N1842');
+
+
+
+
+**35 tracks***
+#check TS by plotting
+plot3(a27(:,2),a27(:,3),a27(:,4),'b')
+
+#Create time series files
+#I start from a27
+
+save LAMT50T27.dat a27 -ascii
+
+save LAMT50T61.dat a61 -ascii
+
+
+
+****File of interest LMNA4-3D_TEL.ods
+mario@ph89969:~/Documents/Yuval/LMNA/50$ octave
+
+pkg load io
+
+a62 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K59:N108');
+a63 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K110:N159');
+a64 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K161:N210');
+a65 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K212:N261');
+a66 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K263:N312');
+a67 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K314:N363');
+a68 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K365:N414');
+a69 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K416:N465');
+a70 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K467:N516');
+a71 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K518:N567');
+a72 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K569:N618');
+a73 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K620:N669');
+a74 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K671:N720');
+a75 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K722:N771');
+a76 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K773:N822');
+a77 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K824:N873');
+a78 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K875:N924');
+a79 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K926:N975');
+a80 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K977:N1026');
+a81 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1028:N1077');
+a82 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1079:N1128');
+a83 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1130:N1179');
+a84 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1181:N1230');
+a85 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1232:N1281');
+a86 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1283:N1332');
+a87 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1334:N1383');
+a88 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1385:N1434');
+a89 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1436:N1485');
+a90 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1487:N1536');
+a91 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1538:N1587');
+a92 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1589:N1638');
+a93 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1640:N1689');
+a94 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1691:N1740');
+a95 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1742:N1791');
+a96 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1793:N1842');
+a97 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1844:N1893');
+a98 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1895:N1944');
+a99 = xlsread('LMNA4-3D_TEL.ods','Spot Position','K1946:N1995');
+
+
+
+**38 tracks***
+#check TS by plotting
+plot3(a27(:,2),a27(:,3),a27(:,4),'b')
+
+#Create time series files
+#I start from a62
+
+save LAMT50T62.dat a62 -ascii
+
+save LAMT50T99.dat a99 -ascii
+
+
+
+****File of interest LMNA5-3D_TEL.ods
+mario@ph89969:~/Documents/Yuval/LMNA/50$ octave
+
+pkg load io
+
+a100 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K55:N104');
+a101 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K106:N155');
+a102 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K157:N206');
+a103 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K208:N257');
+a104 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K259:N308');
+a105 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K310:N359');
+a106 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K361:N410');
+a107 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K412:N461');
+a108 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K463:N512');
+a109 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K514:N563');
+a110 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K565:N614');
+a111 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K616:N665');
+a112 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K667:N716');
+a113 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K718:N767');
+a114 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K769:N818');
+a115 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K820:N869');
+a116 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K871:N920');
+a117 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K922:N971');
+a118 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K995:N1044');
+a119 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K1046:N1095');
+a120 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K1097:N1146');
+a121 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K1148:N1197');
+a122 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K1199:N1248');
+a123 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K1250:N1299');
+a124 = xlsread('LMNA5-3D_TEL.ods','Spot Position','K1301:N1350');
+
+
+**25 tracks***
+#check TS by plotting
+plot3(a100(:,2),a100(:,3),a100(:,4),'b')
+
+#Create time series files
+#I start from a100
+
+save LAMT50T100.dat a100 -ascii
+
+save LAMT50T124.dat a124 -ascii
+
+
+****File of interest LMNA6-3D_TEL.ods
+mario@ph89969:~/Documents/Yuval/LMNA/50$ octave
+
+pkg load io
+
+a125 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K50:N99');
+a126 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K101:N150');
+a127 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K152:N201');
+a128 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K203:N252');
+a129 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K254:N303');
+a130 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K305:N354');
+a131 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K356:N405');
+a132 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K407:N456');
+a133 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K458:N507');
+a134 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K509:N558');
+a135 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K560:N609');
+a136 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K611:N660');
+a137 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K662:N711');
+a138 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K713:N762');
+a139 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K764:N813');
+a140 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K815:N864');
+a141 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K866:N915');
+a142 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K917:N966');
+a143 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K968:N1017');
+a144 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1019:N1068');
+a145 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1070:N1119');
+a146 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1121:N1170');
+a147 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1172:N1221');
+a148 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1223:N1272');
+a149 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1274:N1323');
+a150 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1325:N1374');
+a151 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1376:N1425');
+a152 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1427:N1476');
+a153 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1478:N1527');
+a154 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1529:N1578');
+a155 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1580:N1629');
+a156 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1631:N1680');
+a157 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1682:N1731');
+a158 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1733:N1782');
+a159 = xlsread('LMNA6-3D_TEL.ods','Spot Position','K1784:N1833');
+
+
+**35 tracks***
+#check TS by plotting
+plot3(a125(:,2),a125(:,3),a125(:,4),'b')
+
+#Create time series files
+#I start from a125
+
+save LAMT50T125.dat a125 -ascii
+
+save LAMT50T159.dat a159 -ascii
+
+
+
+
+****File of interest LMNA7-3D_TEL.ods
+mario@ph89969:~/Documents/Yuval/LMNA/50$ octave
+
+pkg load io
+
+a160 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K58:N107');
+a161 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K109:N158');
+a162 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K160:N209');
+a163 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K211:N260');
+a164 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K262:N311');
+a165 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K313:N362');
+a166 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K364:N413');
+a167 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K415:N464');
+a168 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K466:N515');
+a169 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K517:N566');
+a170 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K568:N617');
+a171 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K619:N668');
+a172 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K670:N719');
+a173 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K721:N770');
+a174 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K772:N821');
+a175 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K823:N872');
+a176 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K874:N923');
+a177 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K925:N974');
+a178 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K976:N1025');
+a179 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1027:N1076');
+a180 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1078:N1127');
+a181 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1129:N1178');
+a182 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1180:N1229');
+a183 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1231:N1280');
+a184 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1282:N1331');
+a185 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1333:N1382');
+a186 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1384:N1433');
+a187 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1435:N1484');
+a188 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1486:N1535');
+a189 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1537:N1586');
+a190 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1588:N1637');
+a191 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1639:N1688');
+a192 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1690:N1739');
+a193 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1741:N1790');
+a194 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1792:N1841');
+a195 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1843:N1892');
+a196 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1894:N1943');
+a197 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1945:N1994');
+a198 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K1996:N2045');
+a199 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2047:N2096');
+a200 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2098:N2147');
+a201 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2149:N2198');
+a202 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2200:N2249');
+a203 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2251:N2300');
+a204 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2302:N2351');
+a205 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2353:N2402');
+a206 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2404:N2453');
+a207 = xlsread('LMNA7-3D_TEL.ods','Spot Position','K2455:N2504');
+
+
+**48 tracks***
+#check TS by plotting
+plot3(a160(:,2),a160(:,3),a160(:,4),'b')
+
+#Create time series files
+#I start from a160
+
+save LAMT50T160.dat a160 -ascii
+
+save LAMT50T207.dat a207 -ascii
+
+
+****File of interest LMNA9-3D_TEL.ods
+mario@ph89969:~/Documents/Yuval/LMNA/50$ octave
+
+pkg load io
+
+a208 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K60:N109');
+a209 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K111:N160');
+a210 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K162:N211');
+a211 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K213:N262');
+a212 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K264:N313');
+a213 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K315:N364');
+a214 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K366:N415');
+a215 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K417:N466');
+a216 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K468:N517');
+a217 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K519:N568');
+a218 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K570:N619');
+a219 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K621:N670');
+a220 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K672:N721');
+a221 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K723:N772');
+a222 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K774:N823');
+a223 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K825:N874');
+a224 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K876:N925');
+a225 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K927:N976');
+a226 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K978:N1027');
+a227 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K1029:N1078');
+a228 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K1080:N1129');
+a229 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K1131:N1180');
+a230 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K1182:N1231');
+a231 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K1233:N1282');
+a232 = xlsread('LMNA9-3D_TEL.ods','Spot Position','K1284:N1333');
+
+
+
+**25 tracks***
+#check TS by plotting
+plot3(a208(:,2),a208(:,3),a208(:,4),'b')
+
+#Create time series files
+#I start from a208
+
+save LAMT50T208.dat a208 -ascii
+
+save LAMT50T232.dat a232 -ascii
+
+
+
+****File of interest LMNA10-3D_TEL.ods
+mario@ph89969:~/Documents/Yuval/LMNA/50$ octave
+
+pkg load io
+
+a233 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K58:N107');
+a234 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K109:N158');
+a235 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K160:N209');
+a236 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K211:N260');
+a237 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K262:N311');
+a238 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K313:N362');
+a239 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K364:N413');
+a240 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K415:N464');
+a241 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K466:N515');
+a242 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K517:N566');
+a243 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K568:N617');
+a244 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K619:N668');
+a245 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K670:N719');
+a246 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K721:N770');
+a247 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K772:N821');
+a248 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K823:N872');
+a249 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K874:N923');
+a250 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K925:N974');
+a251 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K976:N1025');
+a252 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1027:N1076');
+a253 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1078:N1127');
+a254 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1129:N1178');
+a255 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1180:N1229');
+a256 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1231:N1280');
+a257 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1282:N1331');
+a258 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1333:N1382');
+a259 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1384:N1433');
+a260 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1435:N1484');
+a261 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1486:N1535');
+a262 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1537:N1586');
+a263 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1588:N1637');
+a264 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1639:N1688');
+a265 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1690:N1739');
+a266 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1741:N1790');
+a267 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1792:N1841');
+a268 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1843:N1892');
+a269 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1894:N1943');
+a270 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1945:N1994');
+a271 = xlsread('LMNA10-3D_TEL.ods','Spot Position','K1996:N2045');
+
+
+**39 tracks***
+#check TS by plotting
+plot3(a233(:,2),a233(:,3),a233(:,4),'b')
+
+#Create time series files
+#I start from a233
+
+save LAMT50T233.dat a233 -ascii
+
+save LAMT50T271.dat a271 -ascii
+
+
+***Total for T=50: 270 tracks
+
+
+mario@ph89969:~/Documents/Yuval/LMNA/100$ 
+****File of interest 2-3D_LMNA_100.ods
+
+pkg load io
+
+a2 = xlsread('2-3D LMNA 100.ods','Spot Position','K56:N155');
+a3 = xlsread('2-3D LMNA 100.ods','Spot Position','K157:N256');
+a4 = xlsread('2-3D LMNA 100.ods','Spot Position','K258:N357');
+a5 = xlsread('2-3D LMNA 100.ods','Spot Position','K359:N458');
+a6 = xlsread('2-3D LMNA 100.ods','Spot Position','K460:N559');
+a7 = xlsread('2-3D LMNA 100.ods','Spot Position','K561:N660');
+a8 = xlsread('2-3D LMNA 100.ods','Spot Position','K662:N761');
+a9 = xlsread('2-3D LMNA 100.ods','Spot Position','K763:N862');
+a10 = xlsread('2-3D LMNA 100.ods','Spot Position','K864:N963');
+a11 = xlsread('2-3D LMNA 100.ods','Spot Position','K965:N1064');
+a12 = xlsread('2-3D LMNA 100.ods','Spot Position','K1066:N1165');
+a13 = xlsread('2-3D LMNA 100.ods','Spot Position','K1167:N1266');
+a14 = xlsread('2-3D LMNA 100.ods','Spot Position','K1268:N1367');
+a15 = xlsread('2-3D LMNA 100.ods','Spot Position','K1369:N1468');
+a16 = xlsread('2-3D LMNA 100.ods','Spot Position','K1470:N1569');
+a17 = xlsread('2-3D LMNA 100.ods','Spot Position','K1571:N1670');
+a18 = xlsread('2-3D LMNA 100.ods','Spot Position','K1672:N1771');
+a19 = xlsread('2-3D LMNA 100.ods','Spot Position','K1773:N1872');
+a20 = xlsread('2-3D LMNA 100.ods','Spot Position','K1874:N1973');
+a21 = xlsread('2-3D LMNA 100.ods','Spot Position','K1975:N2074');
+a22 = xlsread('2-3D LMNA 100.ods','Spot Position','K2076:N2175');
+
+
+
+**21 tracks***
+#check TS by plotting
+plot3(a2(:,2),a2(:,3),a2(:,4),'b')
+
+#Create time series files
+#I start from a2
+
+save LAMT100T2.dat a2 -ascii
+
+save LAMT100T22.dat a22 -ascii
+
+
+****File of interest 3-3D LMNA 100.ods
+mario@ph89969:~/Documents/Yuval/LMNA/100$ 
+
+pkg load io
+
+a23 = xlsread('3-3D LMNA 100.ods','Spot Position','K64:N163');
+a24 = xlsread('3-3D LMNA 100.ods','Spot Position','K165:N264');
+a25 = xlsread('3-3D LMNA 100.ods','Spot Position','K266:N365');
+a26 = xlsread('3-3D LMNA 100.ods','Spot Position','K367:N466');
+a27 = xlsread('3-3D LMNA 100.ods','Spot Position','K468:N567');
+a28 = xlsread('3-3D LMNA 100.ods','Spot Position','K569:N668');
+a29 = xlsread('3-3D LMNA 100.ods','Spot Position','K670:N769');
+a30 = xlsread('3-3D LMNA 100.ods','Spot Position','K771:N870');
+a31 = xlsread('3-3D LMNA 100.ods','Spot Position','K872:N971');
+a32 = xlsread('3-3D LMNA 100.ods','Spot Position','K973:N1072');
+a33 = xlsread('3-3D LMNA 100.ods','Spot Position','K1074:N1173');
+a34 = xlsread('3-3D LMNA 100.ods','Spot Position','K1175:N1274');
+a35 = xlsread('3-3D LMNA 100.ods','Spot Position','K1276:N1375');
+a36 = xlsread('3-3D LMNA 100.ods','Spot Position','K1377:N1476');
+a37 = xlsread('3-3D LMNA 100.ods','Spot Position','K1478:N1577');
+a38 = xlsread('3-3D LMNA 100.ods','Spot Position','K1579:N1678');
+a39 = xlsread('3-3D LMNA 100.ods','Spot Position','K1680:N1779');
+a40 = xlsread('3-3D LMNA 100.ods','Spot Position','K1781:N1880');
+a41 = xlsread('3-3D LMNA 100.ods','Spot Position','K1882:N1981');
+a42 = xlsread('3-3D LMNA 100.ods','Spot Position','K1983:N2082');
+a43 = xlsread('3-3D LMNA 100.ods','Spot Position','K2084:N2183');
+a44 = xlsread('3-3D LMNA 100.ods','Spot Position','K2185:N2284');
+a45 = xlsread('3-3D LMNA 100.ods','Spot Position','K2286:N2385');
+a46 = xlsread('3-3D LMNA 100.ods','Spot Position','K2387:N2486');
+
+
+**24 tracks***
+#check TS by plotting
+plot3(a23(:,2),a23(:,3),a23(:,4),'b')
+
+#Create time series files
+#I start from a23
+
+save LAMT100T23.dat a23 -ascii
+
+save LAMT100T46.dat a46 -ascii
+
+
+
+****File of interest 4-3D LMNA 100.ods
+mario@ph89969:~/Documents/Yuval/LMNA/100$ 
+
+pkg load io
+
+a47 = xlsread('4-3D LMNA 100.ods','Spot Position','K86:N185');
+a48 = xlsread('4-3D LMNA 100.ods','Spot Position','K187:N286');
+a49 = xlsread('4-3D LMNA 100.ods','Spot Position','K288:N387');
+a50 = xlsread('4-3D LMNA 100.ods','Spot Position','K389:N488');
+a51 = xlsread('4-3D LMNA 100.ods','Spot Position','K490:N589');
+a52 = xlsread('4-3D LMNA 100.ods','Spot Position','K591:N690');
+a53 = xlsread('4-3D LMNA 100.ods','Spot Position','K692:N791');
+a54 = xlsread('4-3D LMNA 100.ods','Spot Position','K793:N892');
+a55 = xlsread('4-3D LMNA 100.ods','Spot Position','K894:N993');
+a56 = xlsread('4-3D LMNA 100.ods','Spot Position','K995:N1094');
+a57 = xlsread('4-3D LMNA 100.ods','Spot Position','K1096:N1195');
+a58 = xlsread('4-3D LMNA 100.ods','Spot Position','K1197:N1296');
+a59 = xlsread('4-3D LMNA 100.ods','Spot Position','K1298:N1397');
+a60 = xlsread('4-3D LMNA 100.ods','Spot Position','K1399:N1498');
+a61 = xlsread('4-3D LMNA 100.ods','Spot Position','K1500:N1599');
+a62 = xlsread('4-3D LMNA 100.ods','Spot Position','K1601:N1700');
+a63 = xlsread('4-3D LMNA 100.ods','Spot Position','K1702:N1801');
+a64 = xlsread('4-3D LMNA 100.ods','Spot Position','K1803:N1902');
+a65 = xlsread('4-3D LMNA 100.ods','Spot Position','K1904:N2003');
+a66 = xlsread('4-3D LMNA 100.ods','Spot Position','K2005:N2104');
+
+
+
+**20 tracks***
+#check TS by plotting
+plot3(a47(:,2),a47(:,3),a47(:,4),'b')
+
+#Create time series files
+#I start from a47
+
+save LAMT100T47.dat a47 -ascii
+
+save LAMT100T66.dat a66 -ascii
+
+
+
+
+****File of interest 5-3D LMNA 100.ods
+mario@ph89969:~/Documents/Yuval/LMNA/100$ 
+
+pkg load io
+
+a67 = xlsread('5-3D LMNA 100.ods','Spot Position','K81:N180');
+a68 = xlsread('5-3D LMNA 100.ods','Spot Position','K182:N281');
+a69 = xlsread('5-3D LMNA 100.ods','Spot Position','K283:N382');
+a70 = xlsread('5-3D LMNA 100.ods','Spot Position','K384:N483');
+a71 = xlsread('5-3D LMNA 100.ods','Spot Position','K485:N584');
+a72 = xlsread('5-3D LMNA 100.ods','Spot Position','K586:N685');
+a73 = xlsread('5-3D LMNA 100.ods','Spot Position','K687:N786');
+a74 = xlsread('5-3D LMNA 100.ods','Spot Position','K788:N887');
+a75 = xlsread('5-3D LMNA 100.ods','Spot Position','K889:N988');
+a76 = xlsread('5-3D LMNA 100.ods','Spot Position','K990:N1089');
+a77 = xlsread('5-3D LMNA 100.ods','Spot Position','K1091:N1190');
+a78 = xlsread('5-3D LMNA 100.ods','Spot Position','K1192:N1291');
+a79 = xlsread('5-3D LMNA 100.ods','Spot Position','K1293:N1392');
+
+
+**13 tracks***
+#check TS by plotting
+plot3(a67(:,2),a67(:,3),a67(:,4),'b')
+
+#Create time series files
+#I start from a67
+
+save LAMT100T67.dat a67 -ascii
+
+save LAMT100T79.dat a79 -ascii
+
+
+
+
+****File of interest 6-3D LMNA 100.ods
+mario@ph89969:~/Documents/Yuval/LMNA/100$ 
+
+pkg load io
+
+a80 = xlsread('6-3D LMNA 100.ods','Spot Position','K70:N169');
+a81 = xlsread('6-3D LMNA 100.ods','Spot Position','K171:N270');
+a82 = xlsread('6-3D LMNA 100.ods','Spot Position','K272:N371');
+a83 = xlsread('6-3D LMNA 100.ods','Spot Position','K373:N472');
+a84 = xlsread('6-3D LMNA 100.ods','Spot Position','K474:N573');
+a85 = xlsread('6-3D LMNA 100.ods','Spot Position','K575:N674');
+a86 = xlsread('6-3D LMNA 100.ods','Spot Position','K676:N775');
+a87 = xlsread('6-3D LMNA 100.ods','Spot Position','K777:N876');
+a88 = xlsread('6-3D LMNA 100.ods','Spot Position','K878:N977');
+a89 = xlsread('6-3D LMNA 100.ods','Spot Position','K979:N1078');
+a90 = xlsread('6-3D LMNA 100.ods','Spot Position','K1087:N1186');
+a91 = xlsread('6-3D LMNA 100.ods','Spot Position','K1188:N1287');
+a92 = xlsread('6-3D LMNA 100.ods','Spot Position','K1289:N1388');
+a93 = xlsread('6-3D LMNA 100.ods','Spot Position','K1390:N1489');
+a94 = xlsread('6-3D LMNA 100.ods','Spot Position','K1606:N1705');
+
+
+
+**15 tracks***
+#check TS by plotting
+plot3(a80(:,2),a80(:,3),a80(:,4),'b')
+
+#Create time series files
+#I start from a80
+
+save LAMT100T80.dat a80 -ascii
+
+save LAMT100T94.dat a94 -ascii
+
+
+*****For T=100; 93 tracks 
+
+
+
+
