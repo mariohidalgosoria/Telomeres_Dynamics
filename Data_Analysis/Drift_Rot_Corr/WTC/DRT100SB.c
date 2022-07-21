@@ -9,22 +9,15 @@ FILE *tm0;
 FILE *tm1;
 int main(void){
    
-  int          id,d,i,j,M,N,r,l;
+  int          id,i,j,M,N,r,l,k;
   double       *Ser_X,Count;
   double       *Ser_Y;
   double       *Ser_Z;
   double       *Ser_t;
-  double       **XT;
-  double       **YT;
-  double       **ZT;
-  double       **XRT;
-  double       **YRT;
-  double       **XIRT;
-  double       **YIRT;
   double       **XA;
   double       **YA;
   double       **ZA;
-  double        Rx,Ry,Rz,Rd,Th,STh;
+  double        Rx,Ry,Rz,Rd,Th,STh,R1,R2,Xtemp,Ytemp,avnum;
   int ini,Nexp,Nds;
   Count=0;
   
@@ -51,26 +44,12 @@ int main(void){
   XA=(double **)malloc(M*sizeof(double));
   YA=(double **)malloc(M*sizeof(double));
   ZA=(double **)malloc(M*sizeof(double));
-  XT=(double **)malloc(M*sizeof(double));
-  YT=(double **)malloc(M*sizeof(double));
-  ZT=(double **)malloc(M*sizeof(double));
-  XRT=(double **)malloc(M*sizeof(double));
-  YRT=(double **)malloc(M*sizeof(double));
-  XIRT=(double **)malloc(M*sizeof(double));
-  YIRT=(double **)malloc(M*sizeof(double));
-
+ 
   //allocate memory of size N
   for(r=0;r<M;r++){
     XA[r]=(double *)malloc(N*sizeof(double));
     YA[r]=(double *)malloc(N*sizeof(double));
     ZA[r]=(double *)malloc(N*sizeof(double));
-    XT[r]=(double *)malloc(N*sizeof(double));
-    YT[r]=(double *)malloc(N*sizeof(double));
-    ZT[r]=(double *)malloc(N*sizeof(double));
-    XRT[r]=(double *)malloc(N*sizeof(double));
-    YRT[r]=(double *)malloc(N*sizeof(double));
-    XIRT[r]=(double *)malloc(N*sizeof(double));
-    YIRT[r]=(double *)malloc(N*sizeof(double));
   }
   
   
@@ -159,66 +138,67 @@ int main(void){
     Ry=Ry/N;//average position at Y for each time point
     Rz=Rz/N;//average position at Z for each time point
     //printf("%lf\t%lf\t%lf\t%lf\n",Ser_t[i],Rx,Ry,Rz);
-    for(j=0;j<N;j++){//loop over tracks minus
-      XT[i][j]=XA[i][j]-Rx;
-      YT[i][j]=YA[i][j]-Ry;
-      ZT[i][j]=ZA[i][j]-Rz;
-    }//end loop over tracks minus
+    
+    for(k=i;k<M;k++){//loop for k shifting tracks forward in time
+      for(j=0;j<N;j++){//loop for j  over tracks 
+	XA[k][j]=XA[k][j]-Rx;
+	YA[k][j]=YA[k][j]-Ry;
+	ZA[k][j]=ZA[k][j]-Rz;
+      }//loop for j  over tracks
+    }//end loop for k shifting tracks forward in time
+    //end drift correction
+    
+    //start rotation correction
+    avnum=0;
+    STh=0;
+    for(j=0;j<N;j++){//loop for j  over tracks
+      if(i==0){//first time step
+	Rd=sqrt(pow(XA[i][j],2)+ pow(YA[i][j],2));
+	Th=acos(XA[i][j]/Rd);
+	if(YA[i][j]<0) Th=-Th;      
+	STh=STh+(Th/N);
+      }//end if i==0
+      else{//i>0
+	R2=sqrt( pow(XA[i][j],2) + pow(YA[i][j],2) );
+	R1=sqrt( pow(XA[i-1][j],2) + pow(YA[i-1][j],2) );
+	Th=acos((  (XA[i][j]*XA[i-1][j]) +  (YA[i][j]*YA[i-1][j]) )/(R1*R2));
+	if( asin( ( (-XA[i][j]*YA[i-1][j]) + (YA[i][j]*XA[i-1][j]) ) /(R1*R2)) <0) Th=-Th;
+	if(R2>0.5){//traj is close to 0
+          STh=STh+Th;
+	  avnum++;
+	}//end if traj too close to 0 
+      }//ens else i>0    
+    }//loop for j  over tracks
+    if(i !=0 ) STh=STh/avnum;
+ 
+    for(k=i;k<M;k++){//loop for k shifting tracks forward in time
+      for(j=0;j<N;j++){//loop for j  over tracks for inverse rotation
+	Xtemp=XA[k][j]*cos(STh) +  YA[k][j]*sin(STh);
+	Ytemp=-XA[k][j]*sin(STh) + YA[k][j]*cos(STh);
+	XA[k][j]=Xtemp;
+	YA[k][j]=Ytemp;
+      }//loop for j  over tracks for inverse rotation
+    }//end loop for k shifting tracks forward in time
   }//end loop over time
 
   //print the 2D array for cheking
   //for (i = 0; i < M; i++){
   //for (j = 0; j < N; j++){
-      //    // or *(A[r] + c) or *(*(A + r) + c)
-  //  printf("%lf ", ZT[i][j]); 
+  //    // or *(A[r] + c) or *(*(A + r) + c)
+  //  printf("%lf ", ZA[i][j]); 
   //}
   //printf("\n");
   //}//end print
-
-  //end drift correction
-
-
-  //start rotation correction
-  //compute averege angle
-  for(i=0;i<M;i++){//loop over time
-    //Th=0;
-    //Rd=0;
-    STh=0;
-    for(j=0;j<N;j++){//loop over tracks thav
-      Rd=sqrt(pow(XT[i][j],2)+ pow(YT[i][j],2));
-      Th=acos(XT[i][j]/Rd);
-      STh+=Th;
-    }//end loop over tracks thav
-    STh=STh/N;
-    //end compute average angle
-    for(j=0;j<N;j++){//do rotation
-      XRT[i][j]=XT[i][j]*cos(STh) - YT[i][j]*sin(STh);
-      YRT[i][j]=XT[i][j]*sin(STh) + YT[i][j]*cos(STh);
-    }//end rotation
-    for(j=0;j<N;j++){//do inverse rotation
-      XIRT[i][j]=XRT[i][j]*cos(STh) + YRT[i][j]*sin(STh);
-      YIRT[i][j]= -XRT[i][j]*sin(STh) + YRT[i][j]*cos(STh);
-    }//end invesre rotation
-  }//end loop over time
-  
-  //print the 2D array for cheking
-  //for (i = 0; i < M; i++){
-  //for (j = 0; j < N; j++)
-  //  printf("%lf ", YRT[i][j]);    // or *(A[r] + c) or *(*(A + r) + c)
-    
-  //printf("\n");
-  //}//end print
   //end rotation correction
-
   //save corrected data files
   for(id=ini;id<=Nexp;id++){//for over each different file
     sprintf(nam,"CLAT100T%d.dat",id);//la cadena nom='V.dat'
     tm1 = fopen(nam,"w"); //se crea el archivo V.dat
     for(i=0;i<M;i++){//write
-      fprintf(tm1,"%lf  %lf  %lf  %lf\n",Ser_t[i],XIRT[i][id-l],YIRT[i][id-l],ZT[i][id-l]);
+      fprintf(tm1,"%lf  %lf  %lf  %lf\n",Ser_t[i],XA[i][id-l],YA[i][id-l],ZA[i][id-l]);
     }//end write
     fclose(tm1);
-
+  
   }//end id
   
   
@@ -227,15 +207,8 @@ int main(void){
     free(XA[r]);
     free(YA[r]);
     free(ZA[r]);
-    free(XT[r]);
-    free(YT[r]);
-    free(ZT[r]);
-    free(XRT[r]);
-    free(YRT[r]);
-    free(XIRT[r]);
-    free(YIRT[r]);
   }
-
+  
   free(Ser_t);
   free(Ser_X);
   free(Ser_Y);
@@ -243,12 +216,6 @@ int main(void){
   free(XA);
   free(YA);
   free(ZA);
-  free(XT);
-  free(YT);
-  free(ZT);
-  free(XRT);
-  free(YRT);
-  free(XIRT);
-  free(YIRT);
+
   return 0;
 }
