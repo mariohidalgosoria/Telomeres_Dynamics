@@ -1,194 +1,288 @@
-mario@ph89969:~/Documents/Yuval/NCode/F6/WTCS$ (working directory)
-***Computing the relative angle of simulations of WTC****
+***Compute waiting times in L and S states for WT cells*****
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/FM/WTC   (working directory)
 
-***Compile and run  ANGDT1.c ANGDT5.c ANGDT10.c ANGDT20.c****
 
-#For \Delta t=Delta
+***Compute waiting times in Long Jumps and Small Jumps phase****
+****for \Delta T=5\Delta
+***Compile and run 
+gcc -o WTLLCH5DT WTLLCH5DT.c -lm
+***gives as an output the files
+WTLLADT5.dat waiting times in L state
+WTLLNADT5.dat waiting times in S state
+
+**Computing normalizd histograms**** 
+
 #open octave
+#For Dt=5
+load WTLLADT5.dat
+load WTLLNADT5.dat
+ta=WTLLADT5(:,1);
+tna=WTLLNADT5(:,1);
 
-load ANGDT1.dat
-t=ANGDT1(:,1);
-z=t/(pi);
-save ANGDZ1.dat z -ascii
+[pta,nta]=hist(ta,unique(ta));#frequencies of N
+Tta=numel(ta);#number of elements in N
+ppta=pta/Tta; #prob of N
+Pta=[nta;ppta];
+Pta=Pta';
+save LLTADT5.dat Pta -ascii
+
+[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
+Ttna=numel(tna);#number of elements in N
+pptna=ptna/Ttna; #prob of N
+Ptna=[ntna;pptna];
+Ptna=Ptna';
+save LLTNADT5.dat Ptna -ascii
+
+#report
+#mean waitig times
+mean(ta)
+%ans =  5.8629
+mean(tna)
+%ans =  9.5466
 
 
-#histogram ang theta/(2*pi) DT=1
+
+
+***Script for plotting Fig.S5a) PDF of waiting times in L and S for WTC***
+****Plotting PDF of waiting times
 #open gnuplot
 
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "ANGDZ1.dat" u ($1):(s($1))
-set table 'hist_ANGDZ1.dat'
-plot "ANGDZ1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-
-#For \Delta t=5Delta
-#open octave
-
-load ANGDT5.dat
-t=ANGDT5(:,1);
-z=t/(pi);
-save ANGDZ5.dat z -ascii
-
-#histogram ang theta/(2*pi) DT=1
-#open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "ANGDZ5.dat" u ($1):(s($1))
-set table 'hist_ANGDZ5.dat'
-plot "ANGDZ5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-#For \Delta t=10Delta
-#open octave
-
-load ANGDT10.dat
-t=ANGDT10(:,1);
-z=t/(pi);
-save ANGDZ10.dat z -ascii
-
-#histogram ang theta/(2*pi) DT=10
-#open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "ANGDZ10.dat" u ($1):(s($1))
-set table 'hist_ANGDZ10.dat'
-plot "ANGDZ10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-#For \Delta t=20Delta
-#open octave
-
-load ANGDT20.dat
-t=ANGDT20(:,1);
-z=t/(pi);
-save ANGDZ20.dat z -ascii
-
-#histogram ang theta/(2*pi) DT=20
-#open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "ANGDZ20.dat" u ($1):(s($1))
-set table 'hist_ANGDZ20.dat'
-plot "ANGDZ20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-***Script for FigS8a*****************
-#open gnuplot
-set style line 5 lc rgb 'grey' pt 5 ps 1.4  # square
-set yrange[0:2.1]
-set xrange[0:1.001]
-set xlabel '{/Symbol q}/{/Symbol p} ' font "Times-Roman,20" offset 0,0,0
-set ylabel 'P({/Symbol q}/{/Symbol p})' font "Times-Roman,20" offset 0,5,0
-set key center top font ",15"
-set xtics (0,0.25,0.75,1) font ", 20"
-set ytics 1 font ", 25"
-plot 'hist_ANGDZ1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D}','hist_ANGDZ5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D}','hist_ANGDZ10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D}','hist_ANGDZ20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D}' 
-
-
-
-******Computing TAMSD, Ensemble TAMSD and ensemble MSD for simulations of WTC**********
-****Compile and run TAMSDT100.c, ETAMSDT100.c, EMSDT100.c
-
-
-***Script for FigS8c*****************
-#open gnuplot
-set logscale xy
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS5a.eps'
+set logscale y
 set format y "10^{%L}" 
-set format x "10^{%L}" 
-set xrange[5:1000]
-set yrange[0.1*10e-7:0.1*10e2]
-set xlabel 't[s]' font "Times-Roman,20" offset -3,0,0
-set ylabel 'ETAMSD/t' font "Times-Roman,20" offset 0,8,0 
-#set key at 15,12
+set xrange[0:40]
+set yrange[1e-03:22e-01]
+set xlabel '{/Symbol t}_{L}, {/Symbol t}_{S}' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P({/Symbol t}_{L}), P({/Symbol t}_{S})' font "Times-Roman,20" offset 0,0,0 
 set key font ",15"
-set xtics font ", 20"
-set ytics (0.1*10e-6,0.1*10e-4,0.1*10e-2,0.1*10e2)  font ", 20"
-plot 'CETAMSDT100.dat' u ($1*18.5):($2/($1*18.5)) w l lw 9 lc rgb 'grey' notitle,'XYMSDT100.dat' u ($1*18.5):($2/($1*18.5)) w p lw 5 lc rgb 'red' notitle
+set xtics 10  font ", 20"
+set ytics (0.001,0.01,0,1)  font ", 20"
+h(x)=c*(1-c)**(x-1)
+fit h(x) 'LLTADT5.dat' u 1:2 via c
+j(x)=d*(1-d)**(x-1)
+fit j(x) 'LLTNADT5.dat' u 1:2 via d
+plot 'LLTADT5.dat' u 1:2 w p t 'LJ; WTC; {/Symbol D}t=5{/Symbol D}' lc rgb 'red' lw 4,'LLTNADT5.dat' u 1:2 w p t 'SJ; WTC.' lc rgb 'blue' lw 4, h(x) w l notitle lc rgb 'red' lw 3, j(x) w l notitle lc rgb 'blue' lw 3
 
- 
+
+#mean waiting times according the geometric distribution
+print(1.0/c)
+%5.06840760422672
+print(1.0/d)
+%5.31657465353673
 
 
-****Compute acutocorrelation function of the displacements (DX) for simulations of WTC*****
-***complie & run ACF2DXDT1.c, AUCF2DXDT1.c, EACF2DXDT1.c
-***compile & run ACF2DXDT5.c, AUCF2DXDT5.c, EACF2DXDT5.c
-***compile & run ACF2DXDT10.c, AUCF2DXDT10.c, EACF2DXDT10.c
-***Plotting ACFDX***************
-***Script for FigS8d*****************
-***open gnuplot
-set yrange[-0.5:1]
-set xrange[0:4]
-set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'ACF{/Symbol D}X' font "Times-Roman,17" offset 0,-2,0 
+
+****************************************************************************************************************
+
+***Compute waiting times in Long Jumps and Small Jumps phase****
+****for \Delta T=10\Delta
+***Compile and run 
+gcc -o WTLLCH10DT WTLLCH10DT.c -lm
+***gives as an output the files
+WTLLADT10.dat waiting times in L state
+WTLLNADT10.dat waiting times in S state
+
+**Computing normalizd histograms**** 
+
+#open octave
+#For Dt=10
+load WTLLADT10.dat
+load WTLLNADT10.dat
+ta=WTLLADT10(:,1);
+tna=WTLLNADT10(:,1);
+
+[pta,nta]=hist(ta,unique(ta));#frequencies of N
+Tta=numel(ta);#number of elements in N
+ppta=pta/Tta; #prob of N
+Pta=[nta;ppta];
+Pta=Pta';
+save LLTADT10.dat Pta -ascii
+
+[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
+Ttna=numel(tna);#number of elements in N
+pptna=ptna/Ttna; #prob of N
+Ptna=[ntna;pptna];
+Ptna=Ptna';
+save LLTNADT10.dat Ptna -ascii
+
+#report
+#mean waitig times
+mean(ta)
+%ans =  9.2103
+mean(tna)
+%ans =  14.982
+
+
+
+
+
+****Plotting PDF of waiting times
+#open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS5b.eps'
+set logscale y
+set format y "10^{%L}" 
+set xrange[0:40]
+set yrange[1e-03:22e-01]
+set xlabel '{/Symbol t}_{L}, {/Symbol t}_{S}' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P({/Symbol t}_{L}), P({/Symbol t}_{S})' font "Times-Roman,20" offset 0,0,0 
 set key font ",15"
-set xtics 1 font ", 20"
-set ytics 0.5 font ", 20"
-f(x)=0
-plot 'ETAVDXDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDXDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDXDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+set xtics 10  font ", 20"
+set ytics (0.001,0.01,0,1)  font ", 20"
+h(x)=c*(1-c)**(x-1)
+fit h(x) 'LLTADT10.dat' u 1:2 via c
+j(x)=d*(1-d)**(x-1)
+fit j(x) 'LLTNADT10.dat' u 1:2 via d
+plot 'LLTADT10.dat' u 1:2 w p t 'LJ; WTC; {/Symbol D}t=10{/Symbol D}' lc rgb 'red' lw 4,'LLTNADT10.dat' u 1:2 w p t 'SJ; WTC' lc rgb 'blue' lw 4, h(x) w l notitle lc rgb 'red' lw 3, j(x) w l notitle lc rgb 'blue' lw 3
 
-****Compute acutocorrelation function of the displacements (DY) for simulations of WTC*****
-***complie & run ACF2DYDT1.c, AUCF2DYDT1.c, EACF2DYDT1.c
-***compile & run ACF2DYDT5.c, AUCF2DYDT5.c, EACF2DYDT5.c
-***compile & run ACF2DYDT10.c, AUCF2DYDT10.c, EACF2DYDT10.c
-***Plotting ACFDY
-***Script for FigS8e*****************
-***open gnuplot
-set yrange[-0.5:1]
-set xrange[0:4]
-set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'ACF{/Symbol D}Y' font "Times-Roman,17" offset 0,-2,0 
+
+#mean waiting times according the geometric distribution
+print(1.0/c)
+#7.85643389246246
+print(1.0/d)
+#9.17591101140837
+
+
+
+
+
+
+****************************************************************************************************************
+***Compute waiting times in L and S states for Lamin-A depleted cells*****
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/FM/KOC  (working directory)
+
+
+
+***Compute waiting times in Persistent and non-persistent phase****
+***Compile and run 
+WTANADT5.c
+*give as an output files
+WTADT5.dat waiting times in P state
+WTNADT5.dat waiting times in NP state
+
+**Computing normalizd histograms**** 
+#open octave
+
+
+
+#For DT=5
+load WTADT5.dat
+load WTNADT5.dat
+ta=WTADT5(:,1);
+tna=WTNADT5(:,1);
+
+[pta,nta]=hist(ta,unique(ta));#frequencies of N
+Tta=numel(ta);#number of elements in N
+ppta=pta/Tta; #prob of N
+Pta=[nta;ppta];
+Pta=Pta';
+save TADT5.dat Pta -ascii
+
+[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
+Ttna=numel(tna);#number of elements in N
+pptna=ptna/Ttna; #prob of N
+Ptna=[ntna;pptna];
+Ptna=Ptna';
+save TNADT5.dat Ptna -ascii
+
+#report
+mean(ta)
+%ans =  1.6389
+mean(tna)
+%ans =  6.7498
+
+
+***Script for plotting Fig.S5c) PDF of waiting times in L and S for LADC***
+****Plotting PDF of waiting times
+#open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS5c.eps'
+set logscale y
+set format y "10^{%L}" 
+set xrange[0:35]
+set yrange[4e-04:10^1]
+set xlabel '{/Symbol t}_{P}, {/Symbol t}_{NP}' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P({/Symbol t}_{P}), P({/Symbol t}_{NP})' font "Times-Roman,16" offset 0,0,0 
 set key font ",15"
-set xtics 1 font ", 20"
-set ytics 0.5 font ", 20"
-f(x)=0
-plot 'ETAVDYDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDYDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDYDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+set xtics 10 font ", 20"
+set ytics (0.001,0.01,0,1)  font ", 20"
+h(x)=c*(1-c)**(x-1)
+fit h(x) 'TADT5.dat' u 1:2 via c
+j(x)=d*(1-d)**(x-1)
+fit j(x) 'TNADT5.dat' u 1:2 via d
+plot 'TADT5.dat' u 1:2 w p t 'P; KOC; {/Symbol D}t=5{/Symbol D}' lc rgb 'red' lw 4,'TNADT5.dat' u 1:2 w p t 'NP; KOC' lc rgb 'blue' lw 4,  h(x) w l notitle lc rgb 'red' lw 3, j(x) w l notitle lc rgb 'blue' lw 3
+
+**mean waiting times according the geometric distribution
+print(1.0/c)
+#1.55278278877679
+print(1.0/d)
+#6.04383544786319
 
 
-*******************************************************************************************************************
-***Data analysis and script for figS8b**********************
 
-mario@ph89969:~/Documents/Yuval/NCode/SM/FigS6/WTC$  (working directory)
+***Compute waiting times in Persistent and non-persistent phase****
+***Compile and run 
+WTANADT10.c
+*give as an output files
+WTADT10.dat waiting times in P state
+WTNADT10.dat waiting times in NP state
 
-****fitting the distributio of the time average relative angle per trajectory, with a beta distribution 
-**Open R
-library('fitdistrplus')
-dat <-read.table("MNthetacDT10.dat")
-Q<-dat$V1
-plotdist(Q,histo=TRUE,demp=TRUE)
-fbb<-fitdist(Q,"beta")
-summary(fbb) 
+**Computing normalizd histograms**** 
+#open octave
 
-#Fitting of the distribution ' beta ' by maximum likelihood 
-#Parameters : 
- #      estimate Std. Error
-#shape1 5.595341  0.4064204
-#shape2 6.043203  0.4404118
-#Loglikelihood:  199.3071   AIC:  -394.6141   BIC:  -386.8253 
-#Correlation matrix:
- #         shape1    shape2
-#shape1 1.0000000 0.9178992
-#shape2 0.9178992 1.0000000
+#For DT=10
+load WTADT10.dat
+load WTNADT10.dat
+ta=WTADT10(:,1);
+tna=WTNADT10(:,1);
+
+[pta,nta]=hist(ta,unique(ta));#frequencies of N
+Tta=numel(ta);#number of elements in N
+ppta=pta/Tta; #prob of N
+Pta=[nta;ppta];
+Pta=Pta';
+save TADT10.dat Pta -ascii
+
+[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
+Ttna=numel(tna);#number of elements in N
+pptna=ptna/Ttna; #prob of N
+Ptna=[ntna;pptna];
+Ptna=Ptna';
+save TNADT10.dat Ptna -ascii
+
+#report
+#mean waitig times
+mean(ta)
+%ans =  2.0042
+mean(tna)
+%ans =  7.4277
 
 
-#Script for FigS8b
-pdf("PPZWDT10.pdf")
-denscomp(list(fbb),legendtext=NULL,xlab="z",ylab="P(z)", cex.lab=1.5, cex.axis=1.5,xlim=c(0,1))
-dev.off()
 
+
+***Plotting PDF of waiting times
+#open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS5d.eps'
+set logscale y
+set format y "10^{%L}" 
+set xrange[0:35]
+set yrange[4e-04:10^1]
+set xlabel '{/Symbol t}_{P}, {/Symbol t}_{NP}' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P({/Symbol t}_{P}), P({/Symbol t}_{NP})' font "Times-Roman,16" offset 0,0,0 
+set key font ",15"
+set xtics 10 font ", 20"
+set ytics (0.001,0.01,0,1)  font ", 20"
+h(x)=c*(1-c)**(x-1)
+fit h(x) 'TADT10.dat' u 1:2 via c
+j(x)=d*(1-d)**(x-1)
+fit j(x) 'TNADT10.dat' u 1:2 via d
+plot 'TADT10.dat' u 1:2 w p t 'P; KOC; {/Symbol D}t=10{/Symbol D}' lc rgb 'red' lw 4,'TNADT10.dat' u 1:2 w p t 'NP; KOC' lc rgb 'blue' lw 4,  h(x) w l notitle lc rgb 'red' lw 3, j(x) w l notitle lc rgb 'blue' lw 3
+
+**mean waiting times according the geometric distribution
+print(1.0/c)
+#1.77802138541772
+print(1.0/d)
+#5.84593280569428
 
