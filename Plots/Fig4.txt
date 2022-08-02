@@ -3,8 +3,7 @@
 
 ***Go to the working directory***
 cd ../F3/WTCT/
-
-mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working directory)
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/F3/WTC (working directory)
 
 **Compile and Run**
 ANGDT1.c  ANGDT2.c   ANGDT3.c
@@ -18,140 +17,154 @@ load ANGDT1.dat
 t=ANGDT1(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.58387
+%ans =  0.60871
 
 clear
 load ANGDT2.dat
 t=ANGDT2(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.55635
+#ans =  0.59198
+
 
 clear
 load ANGDT3.dat
 t=ANGDT3(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.53804
+%ans =  0.58333
+
 
 clear
 load ANGDT4.dat
 t=ANGDT4(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.52689
+%ans =  0.57906
 
 clear
 load ANGDT5.dat
 t=ANGDT5(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.52093
+%ans =  0.57781
+
 
 clear
 load ANGDT6.dat
 t=ANGDT6(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.51029
+%ans =  0.57263
+
 
 clear
 load ANGDT7.dat
 t=ANGDT7(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.50601
+%ans =  0.57007
+
 
 clear
 load ANGDT8.dat
 t=ANGDT8(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.50158
+%ans =  0.57091
+
 
 clear
 load ANGDT9.dat
 t=ANGDT9(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.49422
+%ans =  0.56699
 
 clear
 load ANGDT10.dat
 t=ANGDT10(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.49176
+%ans =  0.56888
+
 
 clear
 load ANGDT11.dat
 t=ANGDT11(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.48783
+%ans =  0.56602
 
 clear
 load ANGDT12.dat
 t=ANGDT12(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.48541
+%ans =  0.56588
+
 
 clear
 load ANGDT13.dat
 t=ANGDT13(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.48439
+%ans =  0.56805
+
 
 clear
 load ANGDT14.dat
 t=ANGDT14(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.48060
+%ans =  0.56519
+
 
 clear
 load ANGDT15.dat
 t=ANGDT15(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.47798
+%ans =  0.56399
+
 
 clear
 load ANGDT16.dat
 t=ANGDT16(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.47205
+%ans =  0.56264
+
 
 clear
 load ANGDT17.dat
 t=ANGDT17(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.46757
+%ans =  0.56121
+
 
 clear
 load ANGDT18.dat
 t=ANGDT18(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.46429
+%ans =  0.56082
+
 
 clear
 load ANGDT19.dat
 t=ANGDT19(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.46068
+%ans =  0.56013
 
 clear
 load ANGDT20.dat
 t=ANGDT20(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.45595
+%ans =  0.56248
 
 
 ***extract the ensemble of the time average relative angle. 
@@ -178,7 +191,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.57833
+%ans =  0.60526
 save mthetacDT1.dat thetac -ascii
 save MNthetacDT1.dat z -ascii
 
@@ -199,7 +212,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.54878
+%ans =  0.58836
 
 clear
 #DT=3\Delta
@@ -218,7 +231,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.52948
+%ans =  0.57875
+
 
 clear
 #DT=4\Delta
@@ -237,7 +251,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.52051
+%ans =  0.57652
+
 
 clear
 #For DT=5\Delta
@@ -256,7 +271,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.51398
+%ans =  0.57511
 save mthetacDT5.dat thetac -ascii
 save MNthetacDT5.dat z -ascii
 
@@ -277,7 +292,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.50389
+%ans =  0.56985
+
 
 clear
 #DT=7\Delta
@@ -296,7 +312,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.49854
+%ans =  0.56621
+
 
 clear
 #DT=8\Delta
@@ -315,7 +332,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.49354
+%ans =  0.56659
+
 
 clear
 #DT=9\Delta
@@ -334,7 +352,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.48705
+%ans =  0.56362
 
 clear
 #For DT=10\Delta
@@ -353,7 +371,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.48507
+%ans =  0.56589
 save mthetacDT10.dat thetac -ascii
 save MNthetacDT10.dat z -ascii
 
@@ -374,7 +392,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.48173
+%ans =  0.56196
+
 
 clear
 #DT=12\Delta
@@ -393,7 +412,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.48383
+%ans =  0.56375
+
 
 clear
 #DT=13\Delta
@@ -412,7 +432,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-#ans =  0.48470
+%ans =  0.56485
+
 
 clear
 #DT=14\Delta
@@ -431,7 +452,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.48327
+%ans =  0.56146
+
 
 clear
 #For DT=15\Delta
@@ -450,7 +472,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.48205
+%ans =  0.55704
 save mthetacDT15.dat thetac -ascii
 save MNthetacDT15.dat z -ascii
 
@@ -471,7 +493,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.47744
+%ans =  0.55192
+
 
 clear
 #DT=17\Delta
@@ -490,7 +513,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.47316
+%ans =  0.54716
+
 
 clear
 #DT=18\Delta
@@ -509,7 +533,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.47000
+%ans =  0.54467
+
 
 clear
 #DT=19\Delta
@@ -528,7 +553,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.46856
+%ans =  0.54285
+
 
 clear
 #For DT=20\Delta
@@ -547,7 +573,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.46317
+%ans =  0.54275
 save mthetacDT20.dat thetac -ascii
 save MNthetacDT20.dat z -ascii
 
@@ -578,140 +604,144 @@ load ANGDT1.dat
 t=ANGDT1(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.47112
+%ans =  0.49025
+
 
 clear
 load ANGDT2.dat
 t=ANGDT2(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.46430
+%ans =  0.48415
 
 clear
 load ANGDT3.dat
 t=ANGDT3(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.46471
+%ans =  0.49131
 
 clear
 load ANGDT4.dat
 t=ANGDT4(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.46326
+%ans =  0.49297
 
 clear
 load ANGDT5.dat
 t=ANGDT5(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.46036
+%ans =  0.49117
+
 
 clear
 load ANGDT6.dat
 t=ANGDT6(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.45649
+%ans =  0.49230
 
 clear
 load ANGDT7.dat
 t=ANGDT7(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.45108
+%ans =  0.48743
 
 clear
 load ANGDT8.dat
 t=ANGDT8(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.44774
+%ans =  0.48260
 
 clear
 load ANGDT9.dat
 t=ANGDT9(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.44532
+%ans =  0.48134
 
 clear
 load ANGDT10.dat
 t=ANGDT10(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.44023
+%ans =  0.47720
 
 clear
 load ANGDT11.dat
 t=ANGDT11(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.43556
+%ans =  0.47114
 
 clear
 load ANGDT12.dat
 t=ANGDT12(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.43227
+%ans =  0.46476
 
 clear
 load ANGDT13.dat
 t=ANGDT13(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.42807
+%ans =  0.46355
+
 
 clear
 load ANGDT14.dat
 t=ANGDT14(:,1);
 z=t/pi;
 mean(z)
-ans =  0.42447
+%ans =  0.46052
 
 clear
 load ANGDT15.dat
 t=ANGDT15(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.42615
+%ans =  0.45798
 
 clear
 load ANGDT16.dat
 t=ANGDT16(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.42719
+%ans =  0.45928
 
 clear
 load ANGDT17.dat
 t=ANGDT17(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.42987
+%ans =  0.46087
+
 
 clear
 load ANGDT18.dat
 t=ANGDT18(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.43394 
+%ans =  0.46836
 
 clear
 load ANGDT19.dat
 t=ANGDT19(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.43916
+%ans =  0.47200
 
 clear
 load ANGDT20.dat
 t=ANGDT20(:,1);
 z=t/pi;
 mean(z)
-%ans =  0.44285
+%ans =  0.47579
 
 
 
@@ -738,7 +768,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.46233
+%ans =  0.48711
 save mthetacDT1.dat thetac -ascii
 save MNthetacDT1.dat z -ascii
 
@@ -759,7 +789,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.45893
+%ans =  0.48277
+
 
 clear
 #DT=3\Delta
@@ -778,7 +809,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.45908
+%ans =  0.48892
+
 
 clear
 #DT=4\Delta
@@ -797,7 +829,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.45622
+%ans =  0.48967
+
 
 clear
 #For DT=5\Delta
@@ -816,7 +849,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.45255
+%ans =  0.48758
 save mthetacDT5.dat thetac -ascii
 save MNthetacDT5.dat z -ascii
 
@@ -837,7 +870,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.45214
+%ans =  0.49100
+
 
 clear
 #DT=7\Delta
@@ -856,7 +890,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.44931
+%ans =  0.48639
+
 
 clear
 #DT=8\Delta
@@ -875,7 +910,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.44918
+%ans =  0.48024
+
 
 clear
 #DT=9\Delta
@@ -894,7 +930,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.44749
+%ans =  0.47961
+
 
 clear
 #For DT=10\Delta
@@ -913,7 +950,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.44322
+%ans =  0.47610
 save mthetacDT10.dat thetac -ascii
 save MNthetacDT10.dat z -ascii
 
@@ -934,7 +971,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.43779
+%ans =  0.46783
+
 
 clear
 #DT=12\Delta
@@ -953,7 +991,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.43211
+%ans =  0.45839
+
 
 clear
 #DT=13\Delta
@@ -972,7 +1011,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.42490
+%ans =  0.45313
+
 
 clear
 #DT=14\Delta
@@ -991,7 +1031,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.41693
+%ans =  0.44751
+
 
 clear
 #For DT=15\Delta
@@ -1010,7 +1051,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.41417
+%ans =  0.44282
 save mthetacDT15.dat thetac -ascii
 save MNthetacDT15.dat z -ascii
 
@@ -1031,7 +1072,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.41227
+%ans =  0.44126
 
 clear
 #DT=17\Delta
@@ -1050,7 +1091,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.41157
+%ans =  0.44036
+
 
 clear
 #DT=18\Delta
@@ -1069,7 +1111,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.41197
+%ans =  0.44536
 
 clear
 #DT=19\Delta
@@ -1088,7 +1130,8 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.41245
+%ans =  0.44690
+
 
 clear
 #For DT=20\Delta
@@ -1107,7 +1150,7 @@ end
 thetac(1,:)=[];
 z=thetac/pi;
 mean(z)
-%ans =  0.40858
+%ans =  0.44594
 save mthetacDT20.dat thetac -ascii
 save MNthetacDT20.dat z -ascii
 
@@ -1131,7 +1174,8 @@ cp ../LADCT/TAVZLADC.dat .
 mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working dirctory)
 
 #open gnuplot
-
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'F4.eps'
 set style line 1 linecolor rgb 'blue' linetype 1 linewidth 2 pointtype 7 pointsize 2.5
 set style line 2 linecolor rgb 'red' linetype 1 linewidth 2 pointtype 7 pointsize 2.5
 set style line 3 linecolor rgb 'cyan' linetype 1 linewidth 2 pointtype 7 pointsize 2.5
@@ -1140,11 +1184,10 @@ set style line 4 linecolor rgb 'magenta' linetype 1 linewidth 2 pointtype 7 poin
 set xrange[0:22]
 set yrange[0.35:0.65]
 set xlabel '{/Symbol D}t ' font "Times-Roman,20" offset 3,0,0
-set ylabel '<~{/Symbol q}{1.-}_{ }>/{/Symbol p},<{/Symbol q}>/{/Symbol p}' font "Times-Roman,20" offset -4,6,0
+set ylabel '<~{/Symbol q}{1.-}_{ }>/{/Symbol p},<{/Symbol q}>/{/Symbol p}' font "Times-Roman,20" offset 0,3,0
 set key font ",15"
 set xtics 5 font ", 20"
 set ytics 0.1  font ", 25"
 f(x)=0.5
-plot 'TAVZWTC.dat'  u 1:2  with lp ls 1 t 'WTC; Ensemble time average', f(x) dt '..' lc rgb 'grey'  lw 3 notitle,'AVZWTC.dat'  u 1:2  with lp ls 2 t 'WTC; Ensemble average','TAVZLADC.dat'  u 1:2  with lp ls 4 t 'LADC; Ensemble time average','AVZLADC.dat'  u 1:2  with lp ls 3 t 'LADC; Ensemble average'
-
+plot 'TAVZWTC.dat'  u 1:2  with lp ls 1 t 'WTC; Ensemble time average', f(x) dt '..' lc rgb 'grey'  lw 3 notitle,'AVZWTC.dat'  u 1:2  with lp ls 2 t 'WTC; Ensemble average','TAVZLADC.dat'  u 1:2  with lp ls 4 t 'KOC; Ensemble time average','AVZLADC.dat'  u 1:2  with lp ls 3 t 'KOC; Ensemble average'
 
