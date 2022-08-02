@@ -1,705 +1,2096 @@
-***Data analysis of the time average relative angle for a 2D Pearson random walk******
-mario@ph89969:~/Documents/Yuval/NCode/SM/FigS6/RW$ (working directory)
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/SM/FigS12/RW (working directory)
 
-***generate trajectories of a 2D Pearson random walkers
-**compile & run PearsonRW.c
-
-****generates as an output time seires****
-XYT1.dat, XYT2.dat,....., XYT10000.dat 
-
-each one with (t,x,y,theta), with theta=\tilde{theta} in main text
-
-
-***Generate time series of the relative angle per each track of the Pearson random walk****
-
-***For different \Delta t
-****compile run MANGDT10.c  MANGDT15.c  MANGDT1.c  MANGDT20.c  MANGDT5.c
+***run PearsonRWIC.c****
+***gives output traj***
+XYT1.dat .... XYT1000.dat 
 
 
 
-***For DT=\Delta
-**compute persistent angle 
-**open Octave
+***Cell #1*************************************
+**tracks XYT2.dat-XYT30.dat (one cell) ***
 
-thetac=0;
-for i=1:10000
- name=sprintf('MANGDT%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+run TA2CDT1C1.c,TA2CDT5C1.c,TA2CDT10C1.c,TA2CDT20C1.c
+
+gives output
+
+TA2CDT1C1.dat,TA2CDT5C1.dat,TA2CDT10C1.dat,TA2CDT20C1.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C1.dat 
+A=TA2CDT1C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT1.dat thetac -ascii
-save MNthetacDT1.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C1.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT1.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT1.dat'
-plot "MNthetacDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-***Dt=5\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=1:10000
- name=sprintf('MANGD5T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C1.dat 
+A=TA2CDT5C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT5.dat thetac -ascii
-save MNthetacDT5.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C1.dat PP -ascii
 
-
-**Compute histogram
-**open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT5.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT5.dat'
-plot "MNthetacDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-
-***Dt=10\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=1:10000
- name=sprintf('MANGD10T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C1.dat 
+A=TA2CDT10C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT10.dat thetac -ascii
-save MNthetacDT10.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C1.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT10.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT10.dat'
-plot "MNthetacDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-
-***Dt=15\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=1:10000
- name=sprintf('MANGD15T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C1.dat 
+A=TA2CDT20C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT15.dat thetac -ascii
-save MNthetacDT15.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C1.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
+***Cell #2*************************************
+**tracks XYT31.dat-XYT60.dat (one cell) ***
 
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT15.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT15.dat'
-plot "MNthetacDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
+run TA2CDT1C2.c,TA2CDT5C2.c,TA2CDT10C2.c,TA2CDT20C2.c
 
-***Dt=20\Delta
-**compute persistent angle 
-**open Octave/Matlab
+gives output
 
-thetac=0;
-for i=1:10000
- name=sprintf('MANGD20T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+TA2CDT1C2.dat,TA2CDT5C2.dat,TA2CDT10C2.dat,TA2CDT20C2.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C2.dat 
+A=TA2CDT1C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT20.dat thetac -ascii
-save MNthetacDT20.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C2.dat PP -ascii
 
-
-**Compute histogram
-**open gnuplot
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT20.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT20.dat'
-plot "MNthetacDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-
-****Script for  FigS6c*****
-#open gnuplot
-set style line 5 lc rgb 'black' pt 5 ps 1.4  # square
-set xrange[0:1]
-set yrange[0:14]
-set xlabel '~{/Symbol q}{1.-}_{ }/{/Symbol p}' font "Times-Roman,20" offset 0,0,0
-set ylabel 'P(~{/Symbol q}{1.-}/{/Symbol p})' font "Times-Roman,20" offset 0,3,0
-set key font ",15"
-set xtics 0.2 font ", 20"
-set ytics (0,2,6,12)  font ", 25"
-plot 'hist_MNthetacDT1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D};RW','hist_MNthetacDT5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D};RW','hist_MNthetacDT10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D};RW','hist_MNthetacDT20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D};RW'
-
-
-**Compute average persistent angle
-**open Octave/Matlab
-
-load MNthetacDT1.dat
-load MNthetacDT5.dat
-load MNthetacDT10.dat
-load MNthetacDT15.dat
-load MNthetacDT20.dat
-a=MNthetacDT1(:,1);
-b=MNthetacDT5(:,1);
-c=MNthetacDT10(:,1);
-d=MNthetacDT15(:,1);
-e=MNthetacDT20(:,1);
-am=mean(a);
-bm=mean(b);
-cm=mean(c);
-dm=mean(d);
-em=mean(e);
-M=[am,bm,cm,dm,em];
-M=M';
-DT=[1,5,10,15,20];
-DT=DT';
-plot(DT,M,'r')
-ylim([0 1])
-
-AV=[DT,M];
-
-save AVRW.dat AV -ascii
-
-
-
-***For telomeres in WTC***
-***tracks labeled  CCLAT%d.dat********
-mario@ph89969:~/Documents/Yuval/NCode/SM/FigS6/WTC$ (working trajectory)
-
-***Generate time series of the relative angle per each track of the Pearson random walk****
-
-***For different \Delta t
-****compile run MANGDT10.c  MANGDT15.c  MANGDT1.c  MANGDT20.c  MANGDT5.c
-
-
-***For DT=\Delta
-**compute persistent angle 
-**open Octave
-
-thetac=0;
-for i=2:364
- name=sprintf('MANGDT%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C2.dat 
+A=TA2CDT5C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT1.dat thetac -ascii
-save MNthetacDT1.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C2.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT1.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT1.dat'
-plot "MNthetacDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-***For DT=5\Delta
-**compute persistent angle 
-**open Octave/Matlab
-thetac=0;
-for i=2:364
- name=sprintf('MANGD5T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C2.dat 
+A=TA2CDT10C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT5.dat thetac -ascii
-save MNthetacDT5.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C2.dat PP -ascii
 
-
-**Compute histogram
-**open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT5.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT5.dat'
-plot "MNthetacDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-
-***For DT=10\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=2:364
- name=sprintf('MANGD10T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C2.dat 
+A=TA2CDT20C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT10.dat thetac -ascii
-save MNthetacDT10.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C2.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
 
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT10.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT10.dat'
-plot "MNthetacDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
+***Cell #3*************************************
+**tracks XYT61.dat-XYT90.dat (one cell) ***
 
-***For DT=15\Delta
-**compute persistent angle 
-**open Octave/Matlab
+run TA2CDT1C3.c,TA2CDT5C3.c,TA2CDT10C3.c,TA2CDT20C3.c
 
-thetac=0;
-for i=2:364
- name=sprintf('MANGD15T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+gives output
+
+TA2CDT1C3.dat,TA2CDT5C3.dat,TA2CDT10C3.dat,TA2CDT20C3.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C3.dat 
+A=TA2CDT1C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT15.dat thetac -ascii
-save MNthetacDT15.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C3.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT15.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT15.dat'
-plot "MNthetacDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-***For DT=20\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=2:364
- name=sprintf('MANGD20T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C3.dat 
+A=TA2CDT5C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT20.dat thetac -ascii
-save MNthetacDT20.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C3.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT20.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT20.dat'
-plot "MNthetacDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-
-
-***Compute Average persitent angle
-**open Octave/Matlab
-
-load MNthetacDT1.dat
-load MNthetacDT5.dat
-load MNthetacDT10.dat
-load MNthetacDT15.dat
-load MNthetacDT20.dat
-a=MNthetacDT1(:,1);
-b=MNthetacDT5(:,1);
-c=MNthetacDT10(:,1);
-d=MNthetacDT15(:,1);
-e=MNthetacDT20(:,1);
-am=mean(a);
-bm=mean(b);
-cm=mean(c);
-dm=mean(d);
-em=mean(e);
-M=[am,bm,cm,dm,em];
-M=M';
-DT=[1,5,10,15,20];
-DT=DT';
-plot(DT,M)
-ylim([0 1])
-AV=[DT,M];
-save AVEX.dat AV -ascii
-
-cp ../RW/AVRW.dat .
-
-set xrange[0:22]
-set yrange[0:1]
-set xlabel '{/Symbol D} t ' font "Times-Roman,20" offset 3,0,0
-set ylabel '<~{/Symbol q}{1.-}_{ }>/{/Symbol p}' font "Times-Roman,20" offset 0,6,0
-set key font ",15"
-set xtics 5 font ", 20"
-set ytics (0,0.5,1)  font ", 25"
-plot 'AVEX.dat'  u 1:2  w lp  lw 6 lc rgb 'red' t 'Exp.','AVRW.dat'  u 1:2  w lp  lw 6 t 'RW'
-
-****Script for  FigS6a*****
-#open gnuplot
-set style line 5 lc rgb 'black' pt 5 ps 1.4  # square
-set xrange[0:1]
-set yrange[0:14]
-set xlabel '~{/Symbol q}{1.-}_{ }/{/Symbol p}' font "Times-Roman,20" offset 0,0,0
-set ylabel 'P(~{/Symbol q}{1.-}/{/Symbol p})' font "Times-Roman,20" offset 0,3,0
-set key font ",15"
-set xtics 0.2 font ", 20"
-set ytics (0,2,6,12)  font ", 25"
-plot 'hist_MNthetacDT1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D}; W.T.C.','hist_MNthetacDT5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D}; W.T.C.','hist_MNthetacDT10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D}; W.T.C.','hist_MNthetacDT20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D}; W.T.C.'
-
-
-***For telomeres in Lamin-A Depleted Cell***
-mario@ph89969:~/Documents/Yuval/NCode/SM/FigS6/LDC$  (working directory)
-
-***Generate time series of the relative angle per each track of the Pearson random walk****
-
-***For different \Delta t
-****compile run MANGDT10.c  MANGDT15.c  MANGDT1.c  MANGDT20.c  MANGDT5.c
-
-
-***For DT=\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=2:129
- name=sprintf('MANGDT%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C3.dat 
+A=TA2CDT10C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT1.dat thetac -ascii
-save MNthetacDT1.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C3.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
-
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT1.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT1.dat'
-plot "MNthetacDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-
-***For DT=5\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=2:129
- name=sprintf('MANGD5T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C3.dat 
+A=TA2CDT20C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT5.dat thetac -ascii
-save MNthetacDT5.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C3.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
+***Cell #4*************************************
+**tracks XYT91.dat-XYT120.dat (one cell) ***
 
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT5.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT5.dat'
-plot "MNthetacDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
+run TA2CDT1C4.c,TA2CDT5C4.c,TA2CDT10C4.c,TA2CDT20C4.c
+
+gives output
+
+TA2CDT1C4.dat,TA2CDT5C4.dat,TA2CDT10C4.dat,TA2CDT20C4.dat
 
 
-***For DT=10\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=2:129
- name=sprintf('MANGD10T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C4.dat 
+A=TA2CDT1C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT10.dat thetac -ascii
-save MNthetacDT10.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C4.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT10.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT10.dat'
-plot "MNthetacDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-***For DT=15\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=2:129
- name=sprintf('MANGD15T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C4.dat 
+A=TA2CDT5C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT15.dat thetac -ascii
-save MNthetacDT15.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C4.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
-
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT15.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT15.dat'
-plot "MNthetacDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-***For DT=20\Delta
-**compute persistent angle 
-**open Octave/Matlab
-
-thetac=0;
-for i=2:129
- name=sprintf('MANGD20T%d.dat',i);
- data=load(name);
- Dth=zeros(rows(data),1);
- for i=1:(rows(data))
-  Dth(i)=data(i,2);
- end 
- thetam=mean(Dth);
- thetac=[thetac; thetam];
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C4.dat 
+A=TA2CDT10C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-thetac(1,:)=[];
-z=thetac/pi;
-save mthetacDT20.dat thetac -ascii
-save MNthetacDT20.dat z -ascii
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C4.dat PP -ascii
 
-**Compute histogram
-**open gnuplot
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C4.dat 
+A=TA2CDT20C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
 
-binwidth = 0.02
-set boxwidth binwidth
-sum = 0
-s(x) = ((sum=sum+1), 0)
-bin(x, width) = width*floor(x/width) + binwidth/2.0
-plot "MNthetacDT20.dat" u ($1):(s($1))
-set table 'hist_MNthetacDT20.dat'
-plot "MNthetacDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
-unset table
-
-
-***Compute Average persitent angle
-**open Octave/Matlab
-
-load MNthetacDT1.dat
-load MNthetacDT5.dat
-load MNthetacDT10.dat
-load MNthetacDT15.dat
-load MNthetacDT20.dat
-a=MNthetacDT1(:,1);
-b=MNthetacDT5(:,1);
-c=MNthetacDT10(:,1);
-d=MNthetacDT15(:,1);
-e=MNthetacDT20(:,1);
-am=mean(a);
-bm=mean(b);
-cm=mean(c);
-dm=mean(d);
-em=mean(e);
-M=[am,bm,cm,dm,em];
-M=M';
-DT=[1,5,10,15,20];
-DT=DT';
-plot(DT,M)
-ylim([0 1])
-AV=[DT,M];
-save AVEX.dat AV -ascii
-
-cp ../RW/AVRW.dat .
-
-set xrange[0:22]
-set yrange[0:1]
-set xlabel '{/Symbol D} t ' font "Times-Roman,20" offset 3,0,0
-set ylabel '<~{/Symbol q}{1.-}_{ }>/{/Symbol p}' font "Times-Roman,20" offset 0,6,0
-set key font ",15"
-set xtics 5 font ", 20"
-set ytics (0,0.5,1)  font ", 25"
-plot 'AVEX.dat'  u 1:2  w lp  lw 6 t 'Exp.','AVRW.dat'  u 1:2  w lp  lw 6 t 'RW'
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C4.dat PP -ascii
 
 
-****Script for  FigS6b*****
-#open gnuplot
-set style line 5 lc rgb 'black' pt 5 ps 1.4  # square
-set xrange[0:1]
-set yrange[0:14]
-set xlabel '~{/Symbol q}{1.-}_{ }/{/Symbol p}' font "Times-Roman,20" offset 0,0,0
-set ylabel 'P(~{/Symbol q}{1.-}/{/Symbol p})' font "Times-Roman,20" offset 0,3,0
-set key font ",15"
-set xtics 0.2 font ", 20"
-set ytics (0,2,6,12)  font ", 25"
-plot 'hist_MNthetacDT1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D}; Lamin-A D.C.','hist_MNthetacDT5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D}; Lamin-A D.C.','hist_MNthetacDT10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D}; Lamin-A D.C.','hist_MNthetacDT20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D}; Lamin-A D.C.'
 
+***Cell #5*************************************
+**tracks XYT121.dat-XYT150.dat (one cell) ***
+
+run TA2CDT1C5.c,TA2CDT5C5.c,TA2CDT10C5.c,TA2CDT20C5.c
+
+gives output
+
+TA2CDT1C5.dat,TA2CDT5C5.dat,TA2CDT10C5.dat,TA2CDT20C5.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C5.dat 
+A=TA2CDT1C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C5.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C5.dat 
+A=TA2CDT5C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C5.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C5.dat 
+A=TA2CDT10C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C5.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C5.dat 
+A=TA2CDT20C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C5.dat PP -ascii
+
+***Cell #6*************************************
+**tracks XYT151.dat-XYT180.dat (one cell) ***
+
+run TA2CDT1C6.c,TA2CDT5C6.c,TA2CDT10C6.c,TA2CDT20C6.c
+
+gives output
+
+TA2CDT1C6.dat,TA2CDT5C6.dat,TA2CDT10C6.dat,TA2CDT20C6.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C6.dat 
+A=TA2CDT1C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C6.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C6.dat 
+A=TA2CDT5C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C6.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C6.dat 
+A=TA2CDT10C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C6.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C6.dat 
+A=TA2CDT20C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C6.dat PP -ascii
+
+
+***Cell #7*************************************
+**tracks XYT181.dat-XYT210.dat (one cell) ***
+
+run TA2CDT1C7.c,TA2CDT5C7.c,TA2CDT10C7.c,TA2CDT20C7.c
+
+gives output
+
+TA2CDT1C7.dat,TA2CDT5C7.dat,TA2CDT10C7.dat,TA2CDT20C7.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C7.dat 
+A=TA2CDT1C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C7.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C7.dat 
+A=TA2CDT5C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C7.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C7.dat 
+A=TA2CDT10C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C7.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C7.dat 
+A=TA2CDT20C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C7.dat PP -ascii
+
+
+***Cell #8*************************************
+**tracks XYT211.dat-XYT240.dat (one cell) ***
+
+run TA2CDT1C8.c,TA2CDT5C8.c,TA2CDT10C8.c,TA2CDT20C8.c
+
+gives output
+
+TA2CDT1C8.dat,TA2CDT5C8.dat,TA2CDT10C8.dat,TA2CDT20C8.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C8.dat 
+A=TA2CDT1C8;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C8.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C8.dat 
+A=TA2CDT5C8;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C8.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C8.dat 
+A=TA2CDT10C8;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C8.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C8.dat 
+A=TA2CDT20C8;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C8.dat PP -ascii
+
+
+***Cell #9*************************************
+**tracks XYT241.dat-XYT270.dat (one cell) ***
+
+run TA2CDT1C9.c,TA2CDT5C9.c,TA2CDT10C9.c,TA2CDT20C9.c
+
+gives output
+
+TA2CDT1C9.dat,TA2CDT5C9.dat,TA2CDT10C9.dat,TA2CDT20C9.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C9.dat 
+A=TA2CDT1C9;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C9.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C9.dat 
+A=TA2CDT5C9;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C9.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C9.dat 
+A=TA2CDT10C9;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C9.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C9.dat 
+A=TA2CDT20C9;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C9.dat PP -ascii
+
+
+***Cell #10*************************************
+**tracks XYT271.dat-XYT300.dat (one cell) ***
+
+run TA2CDT1C10.c,TA2CDT5C10.c,TA2CDT10C10.c,TA2CDT20C10.c
+
+gives output
+
+TA2CDT1C10.dat,TA2CDT5C10.dat,TA2CDT10C10.dat,TA2CDT20C10.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C10.dat 
+A=TA2CDT1C10;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C10.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C10.dat 
+A=TA2CDT5C10;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C10.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C10.dat 
+A=TA2CDT10C10;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C10.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C10.dat 
+A=TA2CDT20C10;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C10.dat PP -ascii
+
+***Cell #11*************************************
+**tracks XYT301.dat-XYT330.dat (one cell) ***
+
+run TA2CDT1C11.c,TA2CDT5C11.c,TA2CDT10C11.c,TA2CDT20C11.c
+
+gives output
+
+TA2CDT1C11.dat,TA2CDT5C11.dat,TA2CDT10C11.dat,TA2CDT20C11.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C11.dat 
+A=TA2CDT1C11;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C11.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C11.dat 
+A=TA2CDT5C11;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C11.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C11.dat 
+A=TA2CDT10C11;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C11.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C11.dat 
+A=TA2CDT20C11;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C11.dat PP -ascii
+
+***Cell #12*************************************
+**tracks XYT331.dat-XYT360.dat (one cell) ***
+
+run TA2CDT1C12.c,TA2CDT5C12.c,TA2CDT10C12.c,TA2CDT20C12.c
+
+gives output
+
+TA2CDT1C12.dat,TA2CDT5C12.dat,TA2CDT10C12.dat,TA2CDT20C12.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C12.dat 
+A=TA2CDT1C12;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C12.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C12.dat 
+A=TA2CDT5C12;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C12.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C12.dat 
+A=TA2CDT10C12;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C12.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C12.dat 
+A=TA2CDT20C12;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C12.dat PP -ascii
+
+
+***Cell #13*************************************
+**tracks XYT361.dat-XYT390.dat (one cell) ***
+
+run TA2CDT1C13.c,TA2CDT5C13.c,TA2CDT10C13.c,TA2CDT20C13.c
+
+gives output
+
+TA2CDT1C13.dat,TA2CDT5C13.dat,TA2CDT10C13.dat,TA2CDT20C13.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C13.dat 
+A=TA2CDT1C13;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C13.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C13.dat 
+A=TA2CDT5C13;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C13.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C13.dat 
+A=TA2CDT10C13;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C13.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C13.dat 
+A=TA2CDT20C13;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C13.dat PP -ascii
+
+***Cell #14*************************************
+**tracks XYT391.dat-XYT420.dat (one cell) ***
+
+run TA2CDT1C14.c,TA2CDT5C14.c,TA2CDT10C14.c,TA2CDT20C14.c
+
+gives output
+
+TA2CDT1C14.dat,TA2CDT5C14.dat,TA2CDT10C14.dat,TA2CDT20C14.dat
+
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C14.dat 
+A=TA2CDT1C14;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C14.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C14.dat 
+A=TA2CDT5C14;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C14.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C14.dat 
+A=TA2CDT10C14;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C14.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C14.dat 
+A=TA2CDT20C14;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C14.dat PP -ascii
+
+***Cell #15*************************************
+**tracks XYT421.dat-XYT450.dat (one cell) ***
+
+run TA2CDT1C15.c,TA2CDT5C15.c,TA2CDT10C15.c,TA2CDT20C15.c
+
+gives output
+
+TA2CDT1C15.dat,TA2CDT5C15.dat,TA2CDT10C15.dat,TA2CDT20C15.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C15.dat 
+A=TA2CDT1C15;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C15.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C15.dat 
+A=TA2CDT5C15;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C15.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C15.dat 
+A=TA2CDT10C15;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C15.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C15.dat 
+A=TA2CDT20C15;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C15.dat PP -ascii
+
+
+***run AVDT1.c, AVDT5.c, AVDT10.c, AVDT20.c ***
+gives as an output 
+AVDT1.dat, AVDT5.dat, AVDT10.dat, AVDT20.dat
+
+
+***Script for plotting Fig.S6 ensemble average per cell type of pair correlation versus Delta t***
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS12.eps'
+set style line 1 linecolor rgb 'dark-violet' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 2 linecolor rgb 'turquoise' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 3 linecolor rgb 'web-blue' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 4 linecolor rgb 'goldenrod' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set xrange[0:20]
+set yrange[-0.5:0.5]
+set xlabel 'd_{AB} [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel '<{/Symbol b}_{AB}({/Symbol D}t,d_{AB})>' font "Times-Roman,20" offset 0,0,0
+set key font ",20"
+set xtics  font ", 25"
+set ytics  font ", 25"
+f(x)=0
+plot 'AVDT1.dat'  u 1:2  with lp ls 1 t 'RW; {/Symbol D}t={/Symbol D}', f(x) dt '..' lc rgb 'grey'  lw 3 notitle,'AVDT5.dat'  u 1:2  with lp ls 2 t '{/Symbol D}t=5{/Symbol D}','AVDT10.dat'  u 1:2  with lp ls 3 t '{/Symbol D}t=10{/Symbol D}','AVDT20.dat'  u 1:2  with lp ls 4 t '{/Symbol D}t=20{/Symbol D}'
 
