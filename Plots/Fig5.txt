@@ -1,1978 +1,2855 @@
-****Compute the autocorrelation function of the prob of directed intervals per trajectory 
-and average length per trajectory*****
-***go to working directory****
+***Compute pair-wise correlations***
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/CORR/WTC (working directory)
+Bring trajectories
+cp ../../Drift_Rotation_Correction/WTC/CCLAT*[0-9]*.dat .
+***For each cell the pair correlations of telomeres insde 
+the same cell are comuted***
 
-cd ../F3/WTCT/
-***For WT cells***
-mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working directory)
+***Cell #1 WTC**
+**tracks CCLAT2.dat-CCLAT26.dat (one cell)***
 
-#open OCTAVE
+run TA2CDT1C1.c,TA2CDT5C1.c,TA2CDT10C1.c,TA2CDT20C1.c 
 
-#Delta t=20
+gives output
 
-Deltat=20;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
+TA2CDT1C1.dat,TA2CDT5C1.dat,TA2CDT10C1.dat,TA2CDT20C1.dat
 
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD20T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
-end
-
-PR(1,:)=[];
-plot(PR,TR,'.')
-
-SS=[PR,TR];
-save PRWTCDT20.dat SS -ascii
-corr(PR,TR)
-
-
-
-
-
-#Delta t=19
-
+**smoothing data***
+%start with zero DA
+%DT=\Delta
+hold off
 clear
-Deltat=19;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
+load TA2CDT1C1.dat 
+A=TA2CDT1C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD+1,1);
+DA=zeros(CD+1,1);
+for i=2:(CD+1)
+   DA(i)=(i-1)-0.5; 
 end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD19T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+for i=1:(CD+1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i-1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
 end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C1.dat PP -ascii
 
-PR(1,:)=[];
-plot(PR,TR,'.')
-
-SS=[PR,TR];
-save PRWTCDT19.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=18
-
+%start with zero DA
+%DT=5\Delta
+hold off
 clear
-Deltat=18;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
+load TA2CDT5C1.dat 
+A=TA2CDT5C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD+1,1);
+DA=zeros(CD+1,1);
+for i=2:(CD+1)
+   DA(i)=(i-1)-0.5; 
 end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD18T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+for i=1:(CD+1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i-1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
 end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C1.dat PP -ascii
 
-PR(1,:)=[];
-plot(PR,TR,'.')
-
-SS=[PR,TR];
-save PRWTCDT18.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=17
-
+%start with zero DA
+%DT=10\Delta
+hold off
 clear
-Deltat=17;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
+load TA2CDT10C1.dat 
+A=TA2CDT10C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD+1,1);
+DA=zeros(CD+1,1);
+for i=2:(CD+1)
+   DA(i)=(i-1)-0.5; 
 end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD17T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+for i=1:(CD+1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i-1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
 end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C1.dat PP -ascii
 
-PR(1,:)=[];
-plot(PR,TR,'.')
-
-SS=[PR,TR];
-save PRWTCDT17.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=16
-
+%start with zero DA
+%DT=20\Delta
+hold off
 clear
-Deltat=16;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
+load TA2CDT20C1.dat 
+A=TA2CDT20C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD+1,1);
+DA=zeros(CD+1,1);
+for i=2:(CD+1)
+   DA(i)=(i-1)-0.5; 
 end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD16T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+for i=1:(CD+1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i-1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
 end
-
-PR(1,:)=[];
-plot(PR,TR,'.')
-
-SS=[PR,TR];
-save PRWTCDT16.dat SS -ascii
-corr(PR,TR)
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C1.dat PP -ascii
 
 
+***Cell #2*************************************
+**tracks CCLAT27.dat-CCLAT61.dat (one cell) ***
 
-#Delta t=15
+run TA2CDT1C2.c,TA2CDT5C2.c,TA2CDT10C2.c,TA2CDT20C2.c 
 
+gives output
+
+TA2CDT1C2.dat,TA2CDT5C2.dat,TA2CDT10C2.dat,TA2CDT20C2.dat
+
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
 clear
-Deltat=15;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD15T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C2.dat 
+A=TA2CDT1C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C2.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT15.dat SS -ascii
-corr(PR,TR)
-
-
-
-
-#Delta t=14
-
+%it does not start with zero DA
+%DT=5\Delta
+hold off
 clear
-Deltat=14;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD14T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C2.dat 
+A=TA2CDT5C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C2.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT14.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=13
-
+%it does not start with zero DA
+%DT=10\Delta
+hold off
 clear
-Deltat=13;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD13T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C2.dat 
+A=TA2CDT10C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C2.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT13.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=12
-
+%it does not start with zero DA
+%DT=20\Delta
+hold off
 clear
-Deltat=12;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD12T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT20C2.dat 
+A=TA2CDT20C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C2.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT12.dat SS -ascii
-corr(PR,TR)
+***Cell #3*************************************
+**tracks CCLAT62.dat-CCLAT99.dat (one cell) ***
 
+run TA2CDT1C3.c,TA2CDT5C3.c,TA2CDT10C3.c,TA2CDT20C3.c 
 
+gives output
 
-#Delta t=11
+TA2CDT1C3.dat,TA2CDT5C3.dat,TA2CDT10C3.dat,TA2CDT20C3.dat
 
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
 clear
-Deltat=11;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD11T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C3.dat 
+A=TA2CDT1C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C3.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT11.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=10
-
+%it does not start with zero DA
+%DT=5\Delta
+hold off
 clear
-Deltat=10;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD10T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C3.dat 
+A=TA2CDT5C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C3.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT10.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=9
-
+%it does not start with zero DA
+%DT=10\Delta
+hold off
 clear
-Deltat=9;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD9T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C3.dat 
+A=TA2CDT10C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C3.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT9.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=8
-
+%it does not start with zero DA
+%DT=20\Delta
+hold off
 clear
-Deltat=8;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD8T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT20C3.dat 
+A=TA2CDT20C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C3.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT8.dat SS -ascii
-corr(PR,TR)
 
+***Cell #4*************************************
+**tracks CCLAT100.dat-CCLAT124.dat (one cell) ***
 
+run TA2CDT1C4.c,TA2CDT5C4.c,TA2CDT10C4.c,TA2CDT20C4.c 
 
-#Delta t=7
+gives output
 
+TA2CDT1C4.dat,TA2CDT5C4.dat,TA2CDT10C4.dat,TA2CDT20C4.dat
+
+**smoothing data***
+%it does not start with zero DA, has a value above 1
+%DT=\Delta
 clear
-Deltat=7;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD7T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C4.dat 
+A=TA2CDT1C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C4.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT7.dat SS -ascii
-corr(PR,TR)
 
-
-#Delta t=6
-
+%it does not start with zero DA, has a value above 1
+%DT=5\Delta
+hold off
 clear
-Deltat=6;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD6T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C4.dat 
+A=TA2CDT5C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C4.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT6.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=5
-
+%it does not start with zero DA, has a value above 1
+%DT=10\Delta
+hold off
 clear
-Deltat=5;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD5T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C4.dat 
+A=TA2CDT10C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C4.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT5.dat SS -ascii
-corr(PR,TR)
 
-
-
-#Delta t=4
-
+%it does not start with zero DA, has a value above 1
+%DT=20\Delta
+hold off
 clear
-Deltat=4;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD4T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT20C4.dat 
+A=TA2CDT20C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C4.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT4.dat SS -ascii
-corr(PR,TR)
 
+***Cell #5*************************************
+**tracks CCLAT125.dat-CCLAT159.dat (one cell)***
 
+run TA2CDT1C5.c,TA2CDT5C5.c,TA2CDT10C5.c,TA2CDT20C5.c 
 
-#Delta t=3
+gives output
 
+TA2CDT1C5.dat,TA2CDT5C5.dat,TA2CDT10C5.dat,TA2CDT20C5.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
 clear
-Deltat=3;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD3T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C5.dat 
+A=TA2CDT1C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C5.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT3.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=2
-
+%it does not start with zero DA
+%DT=5\Delta
+hold off
 clear
-Deltat=2;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGD2T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C5.dat 
+A=TA2CDT5C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C5.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT2.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=1
-
+%it does not start with zero DA
+%DT=10\Delta
+hold off
 clear
-Deltat=1;
-TR=0;
-for i=2:364
- name=sprintf('CCLAT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:364
- name=sprintf('MANGDT%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C5.dat 
+A=TA2CDT10C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C5.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT1.dat SS -ascii
-corr(PR,TR)
-
-****The values of the correlation are saved in the file****
-CPRWTC.dat
-
-
-
-
-*FigureV1
-mario@ph89969:~/Documents/Yuval/NCode/F3/LADCT$ 
-
-#open OCTAVE
-
-#Delta t=20
-
+%it does not start with zero DA
+%DT=20\Delta
+hold off
 clear
-Deltat=20;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD20T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT20C5.dat 
+A=TA2CDT20C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C5.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT20.dat SS -ascii
-corr(PR,TR)
+***Cell #6*************************************
+**tracks CCLAT160.dat-CCLAT207.dat (one cell)***
+
+run TA2CDT1C6.c,TA2CDT5C6.c,TA2CDT10C6.c,TA2CDT20C6.c 
+
+gives output
+
+TA2CDT1C6.dat,TA2CDT5C6.dat,TA2CDT10C6.dat,TA2CDT20C6.dat
 
 
-
-#Delta t=19
-
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
 clear
-Deltat=19;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD19T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C6.dat 
+A=TA2CDT1C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C6.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT19.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=18
-
+%it does not start with zero DA
+%DT=5\Delta
+hold off
 clear
-Deltat=18;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD18T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C6.dat 
+A=TA2CDT5C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C6.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT18.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=17
-
+%it does not start with zero DA
+%DT=10\Delta
+hold off
 clear
-Deltat=17;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD17T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C6.dat 
+A=TA2CDT10C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C6.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT17.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=16
-
+%it does not start with zero DA
+%DT=20\Delta
+hold off
 clear
-Deltat=16;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD16T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT20C6.dat 
+A=TA2CDT20C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C6.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT16.dat SS -ascii
-corr(PR,TR)
+***Cell #7*************************************
+**tracks CCLAT208.dat-CCLAT232.dat (one cell)***
+
+run TA2CDT1C7.c,TA2CDT5C7.c,TA2CDT10C7.c,TA2CDT20C7.c 
+
+gives output
+
+TA2CDT1C7.dat,TA2CDT5C7.dat,TA2CDT10C7.dat,TA2CDT20C7.dat
 
 
-
-#Delta t=15
-
+**smoothing data***
+%it does not start with zero DA, has a value above 1
+%DT=\Delta
 clear
-Deltat=15;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD15T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C7.dat 
+A=TA2CDT1C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C7.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT15.dat SS -ascii
-corr(PR,TR)
 
-
-
-#Delta t=14
-
+%it does not start with zero DA, has a value above 1
+%DT=5\Delta
+hold off
 clear
-Deltat=14;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD14T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C7.dat 
+A=TA2CDT5C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C7.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT14.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=13
-
+%it does not start with zero DA, has a value above 1
+%DT=10\Delta
+hold off
 clear
-Deltat=13;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD13T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C7.dat 
+A=TA2CDT10C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C7.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT13.dat SS -ascii
-corr(PR,TR)
 
-
-
-#Delta t=12
-
+%it does not start with zero DA, has a value above 1
+%DT=20\Delta
+hold off
 clear
-Deltat=12;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD12T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT20C7.dat 
+A=TA2CDT20C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C7.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT12.dat SS -ascii
-corr(PR,TR)
+***Cell #8*************************************
+**tracks CCLAT233.dat-CCLAT271.dat (one cell)***
 
+run TA2CDT1C8.c,TA2CDT5C8.c,TA2CDT10C8.c,TA2CDT20C8.c 
 
+gives output
 
-#Delta t=11
+TA2CDT1C8.dat,TA2CDT5C8.dat,TA2CDT10C8.dat,TA2CDT20C8.dat
 
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
 clear
-Deltat=11;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD11T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C8.dat 
+A=TA2CDT1C8;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C8.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT11.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=10
-
+%it does not start with zero DA
+%DT=5\Delta
+hold off
 clear
-Deltat=10;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD10T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C8.dat 
+A=TA2CDT5C8;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C8.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT10.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=9
-
+%it does not start with zero DA
+%DT=10\Delta
+hold off
 clear
-Deltat=9;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD9T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C8.dat 
+A=TA2CDT10C8;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C8.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT9.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=8
-
+%it does not start with zero DA
+%DT=20\Delta
+hold off
 clear
-Deltat=8;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD8T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT20C8.dat 
+A=TA2CDT20C8;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C8.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT8.dat SS -ascii
-corr(PR,TR)
+***Cell #9*************************************
+**tracks CCLAT272.dat-CCLAT292.dat (one cell)***
 
+run TA2CDT1C9.c,TA2CDT5C9.c,TA2CDT10C9.c,TA2CDT20C9.c 
 
-#Delta t=7
+gives output
 
+TA2CDT1C9.dat,TA2CDT5C9.dat,TA2CDT10C9.dat,TA2CDT20C9.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
 clear
-Deltat=7;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD7T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C9.dat 
+A=TA2CDT1C9;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C9.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT7.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=6
-
+%it does not start with zero DA
+%DT=5\Delta
+hold off
 clear
-Deltat=6;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD6T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C9.dat 
+A=TA2CDT5C9;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C9.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT6.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=5
-
+%it does not start with zero DA
+%DT=10\Delta
+hold off
 clear
-Deltat=5;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD5T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C9.dat 
+A=TA2CDT10C9;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C9.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT5.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=4
-
+%it does not start with zero DA
+%DT=20\Delta
+hold off
 clear
-Deltat=4;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD4T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT20C9.dat 
+A=TA2CDT20C9;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C9.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT4.dat SS -ascii
-corr(PR,TR)
+***interpolate data with gaps**+
+load MTA2CDT1C9.dat
+d=MTA2CDT1C9(:,1);
+b=MTA2CDT1C9(:,2);
 
 
-#Delta t=3
 
+***Cell #10*************************************
+**tracks CCLAT293.dat-CCLAT316.dat (one cell)***
+
+run TA2CDT1C10.c,TA2CDT5C10.c,TA2CDT10C10.c,TA2CDT20C10.c 
+
+gives output
+
+TA2CDT1C10.dat,TA2CDT5C10.dat,TA2CDT10C10.dat,TA2CDT20C10.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
 clear
-Deltat=3;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD3T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT1C10.dat 
+A=TA2CDT1C10;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C10.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT3.dat SS -ascii
-corr(PR,TR)
-
-
-#Delta t=2
-
+%it does not start with zero DA
+%DT=5\Delta
+hold off
 clear
-Deltat=2;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGD2T%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT5C10.dat 
+A=TA2CDT5C10;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C10.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT2.dat SS -ascii
-corr(PR,TR)
-
-
-
-#Delta t=1
-
+%it does not start with zero DA
+%DT=10\Delta
+hold off
 clear
-Deltat=1;
-TR=0;
-for i=2:129
- name=sprintf('CCWLT%d.dat',i);
- data=load(name);
- TM=0;
- for i=1:(rows(data)-Deltat)
-    DX=data(i+Deltat,2)-data(i,2);
-    DY=data(i+Deltat,3)-data(i,3);
-    R=sqrt(DX^2 + DY^2);
-    TM=[TM;R];
- end 
-TM(1,:)=[];
-R=mean(TM)/max(TM);
-TR=[TR;R];
-end
-TR(1,:)=[];
-
-
-PR=0;
-for i=2:129
- name=sprintf('MANGDT%d.dat',i);
- data=load(name);
- P=data(:,2);
- P=P/pi;
- count=0;
- PB=0; 
- for i=1:(rows(data))
-   if(P(i)<= 0.1)
-     count++;
-   end
- end
-PB=count/rows(data);
-PR=[PR;PB]; 
+load TA2CDT10C10.dat 
+A=TA2CDT10C10;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
 end
 
-PR(1,:)=[];
-plot(PR,TR,'.')
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C10.dat PP -ascii
 
-SS=[PR,TR];
-save PRWTCDT1.dat SS -ascii
-corr(PR,TR)
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C10.dat 
+A=TA2CDT20C10;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
 
-****The values of the correlation are saved in the file****
-CPRLADC.dat
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C10.dat PP -ascii
+
+***Cell #11*************************************
+**tracks CCLAT317.dat-CCLAT336.dat (one cell)***
+
+run TA2CDT1C11.c,TA2CDT5C11.c,TA2CDT10C11.c,TA2CDT20C11.c 
+
+gives output
+
+TA2CDT1C11.dat,TA2CDT5C11.dat,TA2CDT10C11.dat,TA2CDT20C11.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C11.dat 
+A=TA2CDT1C11;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C11.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C11.dat 
+A=TA2CDT5C11;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C11.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C11.dat 
+A=TA2CDT10C11;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C11.dat PP -ascii
 
 
 
-***go to the working directory**** 
-cd ../F3/WTCT/
-mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working directory)
-
-***Script for plotting Fig.5a) for telomeres in WT cells and Dt=1***
-***Scatter plot of P(theta/pi<0.1) per tracks and \bar{r}/r_{max} per tracks**** 
-
-set style fill  solid  
-set style circle radius 0.01 
-set yrange[-0.02:1.1]
-set xrange[-0.02:1.1]
-set xlabel 'V_{{/Symbol D}t}' font "Times-Roman,30" offset 15,1,0
-set ylabel 'R_{{/Symbol D}t}' font "Times-Roman,30" offset 2,6,0 
-set ytics (0,0.5,1) font ", 30"
-set xtics 0.5 font ", 30"
-set key font ", 30"
-plot 'PRWTCDT1.dat' u 1:2  w circles lc rgb 'sienna1' t "WTC; {/Symbol D}t={/Symbol D}"
-
-***Script for plotting Fig.5b) for telomeres in WT cells and Dt=20***
-***Scatter plot of P(theta/pi<0.1) per tracks and \bar{r}/r_{max} per tracks**** 
-
-set style fill  solid  
-set style circle radius 0.01 
-set yrange[-0.02:1.1]
-set xrange[-0.02:1.1]
-set xlabel 'V_{{/Symbol D}t}' font "Times-Roman,30" offset 15,1,0
-set ylabel 'R_{{/Symbol D}t}' font "Times-Roman,30" offset 2,6,0 
-set ytics (0,0.5,1) font ", 30"
-set xtics 0.5 font ", 30"
-set key font ", 30"
-plot 'PRWTCDT20.dat' u 1:2  w circles lc rgb 'sienna1' t "WTC; {/Symbol D}t=20{/Symbol D}"
 
 
-***bring Lamin-A depleted cells file***
-cp ../LADCT/CPRLADC.dat .
 
-***Script for plotting Fig.5c) correlation coefficient versus Delta t***
 
-set style line 1 linecolor rgb 'turquoise' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
-set style line 2 linecolor rgb 'sienna1' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
-set xrange[0:22]
-set yrange[-1:1]
-set xlabel '{/Symbol D}t ' font "Times-Roman,20" offset 3,0,0
-set ylabel '{/Symbol r}(V_{{/Symbol D}t},R_{{/Symbol D}t})' font "Times-Roman,20" offset -4,3,0
-set key bottom font ",15"
-set xtics 5 font ", 25"
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C11.dat 
+A=TA2CDT20C11;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C11.dat PP -ascii
+
+***Cell #12*************************************
+**tracks CCLAT337.dat-CCLAT349.dat (one cell)***
+
+run TA2CDT1C12.c,TA2CDT5C12.c,TA2CDT10C12.c,TA2CDT20C12.c 
+
+gives output
+
+TA2CDT1C12.dat,TA2CDT5C12.dat,TA2CDT10C12.dat,TA2CDT20C12.dat
+
+
+**smoothing data***
+%it does not start with zero DA, has a value above 1
+%DT=\Delta
+clear
+load TA2CDT1C12.dat 
+A=TA2CDT1C12;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C12.dat PP -ascii
+
+
+%it does not start with zero DA, has a value above 1
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C12.dat 
+A=TA2CDT5C12;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C12.dat PP -ascii
+
+%it does not start with zero DA, has a value above 1
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C12.dat 
+A=TA2CDT10C12;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C12.dat PP -ascii
+
+
+%it does not start with zero DA, has a value above 1
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C12.dat 
+A=TA2CDT20C12;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C12.dat PP -ascii
+
+
+***Cell #13*************************************
+**tracks CCLAT350.dat-CCLAT364.dat (one cell)***
+
+run TA2CDT1C13.c,TA2CDT5C13.c,TA2CDT10C13.c,TA2CDT20C13.c 
+
+gives output
+
+TA2CDT1C13.dat,TA2CDT5C13.dat,TA2CDT10C13.dat,TA2CDT20C13.dat
+
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C13.dat 
+A=TA2CDT1C13;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C13.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C13.dat 
+A=TA2CDT5C13;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C13.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C13.dat 
+A=TA2CDT10C13;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C13.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C13.dat 
+A=TA2CDT20C13;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C13.dat PP -ascii
+
+
+***run AVDT1.c, AVDT5.c, AVDT10.c, AVDT20.c ***
+gives as an output 
+AVDT1.dat, AVDT5.dat, AVDT10.dat, AVDT20.dat
+
+
+***Script for plotting Fig.6a) ensemble average per cell type of pair correlation versus Delta t***
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'F6a.eps'
+set style line 1 linecolor rgb 'dark-violet' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 2 linecolor rgb 'turquoise' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 3 linecolor rgb 'web-blue' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 4 linecolor rgb 'goldenrod' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set xrange[0:20]
+set yrange[-0.5:0.5]
+set xlabel 'd_{AB} [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel '<{/Symbol b}_{AB}({/Symbol D}t,d_{AB})>' font "Times-Roman,20" offset 0,0,0
+set key font ",20"
+set xtics  font ", 25"
 set ytics  font ", 25"
 f(x)=0
-plot 'CPRLADC.dat'  u 1:2  with lp ls 1 t 'LADC', f(x) dt '..' lc rgb 'grey'  lw 3 notitle,'CPRWTC.dat'  u 1:2  with lp ls 2 t 'WTC'
+plot 'AVDT1.dat'  u 1:2  with lp ls 1 t 'WT; {/Symbol D}t={/Symbol D}', f(x) dt '..' lc rgb 'grey'  lw 3 notitle,'AVDT5.dat'  u 1:2  with lp ls 2 t '{/Symbol D}t=5{/Symbol D}','AVDT10.dat'  u 1:2  with lp ls 3 t '{/Symbol D}t=10{/Symbol D}','AVDT20.dat'  u 1:2  with lp ls 4 t '{/Symbol D}t=20{/Symbol D}'
+
+
+
+
+
+
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/CORR/KOC (working directory)
+
+Bring trajectories
+
+cp ../../Drift_Rotation_Correction/KOC/CCWLT*[0-9]*.dat .
+
+***Cell #1 KOC**********************************
+**tracks CCWLT2.dat-CCWLT20.dat(one cell)***
+
+run TA2CDT1C1.c,TA2CDT5C1.c,TA2CDT10C1.c,TA2CDT20C1.c 
+
+gives output
+
+TA2CDT1C1.dat,TA2CDT5C1.dat,TA2CDT10C1.dat,TA2CDT20C1.dat
+
+**smoothing data***
+%start with zero DA
+%DT=\Delta
+hold off
+clear
+load TA2CDT1C1.dat 
+A=TA2CDT1C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD+1,1);
+DA=zeros(CD+1,1);
+for i=2:(CD+1)
+   DA(i)=(i-1)-0.5; 
+end
+for i=1:(CD+1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i-1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C1.dat PP -ascii
+
+%start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C1.dat 
+A=TA2CDT5C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD+1,1);
+DA=zeros(CD+1,1);
+for i=2:(CD+1)
+   DA(i)=(i-1)-0.5; 
+end
+for i=1:(CD+1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i-1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C1.dat PP -ascii
+
+%start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C1.dat 
+A=TA2CDT10C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD+1,1);
+DA=zeros(CD+1,1);
+for i=2:(CD+1)
+   DA(i)=(i-1)-0.5; 
+end
+for i=1:(CD+1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i-1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C1.dat PP -ascii
+
+%start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C1.dat 
+A=TA2CDT20C1;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD+1,1);
+DA=zeros(CD+1,1);
+for i=2:(CD+1)
+   DA(i)=(i-1)-0.5; 
+end
+for i=1:(CD+1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i-1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C1.dat PP -ascii
+
+
+***Cell #2**********************************
+**tracks CCWLT21.dat-CCWLT37.dat(one cell)***
+
+run TA2CDT1C2.c,TA2CDT5C2.c,TA2CDT10C2.c,TA2CDT20C2.c 
+
+gives output
+
+TA2CDT1C2.dat,TA2CDT5C2.dat,TA2CDT10C2.dat,TA2CDT20C2.dat
+
+**smoothing data***
+%it does not start with zero DA, has a value above 1
+%DT=\Delta
+clear
+load TA2CDT1C2.dat 
+A=TA2CDT1C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C2.dat PP -ascii
+
+
+%it does not start with zero DA, has a value above 1
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C2.dat 
+A=TA2CDT5C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C2.dat PP -ascii
+
+%it does not start with zero DA, has a value above 1
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C2.dat 
+A=TA2CDT10C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C2.dat PP -ascii
+
+
+
+
+
+
+%it does not start with zero DA, has a value above 1
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C2.dat 
+A=TA2CDT20C2;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C2.dat PP -ascii
+
+***Cell #3**********************************
+**tracks CCWLT38.dat-CCWLT60.dat(one cell)***
+
+run TA2CDT1C3.c,TA2CDT5C3.c,TA2CDT10C3.c,TA2CDT20C3.c 
+
+gives output
+
+TA2CDT1C3.dat,TA2CDT5C3.dat,TA2CDT10C3.dat,TA2CDT20C3.dat
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C3.dat 
+A=TA2CDT1C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C3.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C3.dat 
+A=TA2CDT5C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C3.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C3.dat 
+A=TA2CDT10C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C3.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C3.dat 
+A=TA2CDT20C3;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C3.dat PP -ascii
+
+
+***Cell #4**********************************
+**tracks CCWLT61.dat-CCWLT78.dat(one cell)***
+
+run TA2CDT1C4.c,TA2CDT5C4.c,TA2CDT10C4.c,TA2CDT20C4.c 
+
+gives output
+
+TA2CDT1C4.dat,TA2CDT5C4.dat,TA2CDT10C4.dat,TA2CDT20C4.dat
+
+**smoothing data***
+%it does not start with zero DA, has a value above 1
+%DT=\Delta
+clear
+load TA2CDT1C4.dat 
+A=TA2CDT1C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C4.dat PP -ascii
+
+
+%it does not start with zero DA, has a value above 1
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C4.dat 
+A=TA2CDT5C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C4.dat PP -ascii
+
+%it does not start with zero DA, has a value above 1
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C4.dat 
+A=TA2CDT10C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C4.dat PP -ascii
+
+
+
+
+
+
+%it does not start with zero DA, has a value above 1
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C4.dat 
+A=TA2CDT20C4;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C4.dat PP -ascii
+
+***Cell #5**********************************
+**tracks CCWLT79.dat-CCWLT104.dat(one cell)***
+
+run TA2CDT1C5.c,TA2CDT5C5.c,TA2CDT10C5.c,TA2CDT20C5.c 
+
+gives output
+
+TA2CDT1C5.dat,TA2CDT5C5.dat,TA2CDT10C5.dat,TA2CDT20C5.dat
+
+
+**smoothing data***
+%it does not start with zero DA
+%DT=\Delta
+clear
+load TA2CDT1C5.dat 
+A=TA2CDT1C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C5.dat PP -ascii
+
+%it does not start with zero DA
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C5.dat 
+A=TA2CDT5C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C5.dat PP -ascii
+
+%it does not start with zero DA
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C5.dat 
+A=TA2CDT10C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C5.dat PP -ascii
+
+%it does not start with zero DA
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C5.dat 
+A=TA2CDT20C5;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i-1)+0.5; 
+end
+
+for i=1:CD
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==i
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C5.dat PP -ascii
+
+***Cell #6**********************************
+**tracks CCWLT105.dat-CCWLT114.dat(one cell)***
+
+run TA2CDT1C6.c,TA2CDT5C6.c,TA2CDT10C6.c,TA2CDT20C6.c 
+
+gives output
+
+TA2CDT1C6.dat,TA2CDT5C6.dat,TA2CDT10C6.dat,TA2CDT20C6.dat
+
+**smoothing data***
+%it does not start with zero DA, has a value above 1
+%DT=\Delta
+clear
+load TA2CDT1C6.dat 
+A=TA2CDT1C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C6.dat PP -ascii
+
+
+%it does not start with zero DA, has a value above 1
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C6.dat 
+A=TA2CDT5C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C6.dat PP -ascii
+
+%it does not start with zero DA, has a value above 1
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C6.dat 
+A=TA2CDT10C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C6.dat PP -ascii
+
+
+
+
+
+
+%it does not start with zero DA, has a value above 1
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C6.dat 
+A=TA2CDT20C6;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C6.dat PP -ascii
+
+***Cell #7**********************************
+**tracks CCWLT115.dat-CCWLT129.dat(one cell)***
+
+run TA2CDT1C7.c,TA2CDT5C7.c,TA2CDT10C7.c,TA2CDT20C7.c 
+
+gives output
+
+TA2CDT1C7.dat,TA2CDT5C7.dat,TA2CDT10C7.dat,TA2CDT20C7.dat
+
+**smoothing data***
+%it does not start with zero DA, has a value above 1
+%DT=\Delta
+clear
+load TA2CDT1C7.dat 
+A=TA2CDT1C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT1C7.dat PP -ascii
+
+
+%it does not start with zero DA, has a value above 1
+%DT=5\Delta
+hold off
+clear
+load TA2CDT5C7.dat 
+A=TA2CDT5C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT5C7.dat PP -ascii
+
+%it does not start with zero DA, has a value above 1
+%DT=10\Delta
+hold off
+clear
+load TA2CDT10C7.dat 
+A=TA2CDT10C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT10C7.dat PP -ascii
+
+
+
+
+
+
+%it does not start with zero DA, has a value above 1
+%DT=20\Delta
+hold off
+clear
+load TA2CDT20C7.dat 
+A=TA2CDT20C7;
+D=sortrows(A,1);
+RR=rows(D);
+CD=ceil(D(RR,1));
+MA=zeros(CD,1);
+DA=zeros(CD,1);
+for i=1:(CD)
+   DA(i)=(i)+0.5; 
+end
+
+for i=1:(CD-1)
+    s=0;
+    count=0;
+    for j=1:RR
+        if ceil(D(j,1))==(i+1)
+           s+=D(j,2);
+           count++;
+        end
+    end
+    MA(i)=s/count;
+end
+plot(D(:,1),D(:,2))
+hold on
+plot(DA,MA,'r')
+PP=[DA,MA];
+save MTA2CDT20C7.dat PP -ascii
+
+
+
+
+***run AVDT1.c, AVDT5.c, AVDT10.c, AVDT20.c ***
+gives as an output 
+AVDT1.dat, AVDT5.dat, AVDT10.dat, AVDT20.dat
+
+
+***Script for plotting Fig.6a) ensemble average per cell type of pair correlation versus Delta t***
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'F6b.eps'
+set style line 1 linecolor rgb 'dark-violet' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 2 linecolor rgb 'turquoise' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 3 linecolor rgb 'web-blue' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set style line 4 linecolor rgb 'goldenrod' linetype 1 linewidth 2 pointtype 9 pointsize 2.5
+set xrange[0:20]
+set yrange[-0.5:0.5]
+set xlabel 'd_{AB} [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel '<{/Symbol b}_{AB}({/Symbol D}t,d_{AB})>' font "Times-Roman,20" offset 0,0,0
+set key font ",20"
+set xtics  font ", 25"
+set ytics  font ", 25"
+f(x)=0
+plot 'AVDT1.dat'  u 1:2  with lp ls 1 t 'KO; {/Symbol D}t={/Symbol D}', f(x) dt '..' lc rgb 'grey'  lw 3 notitle,'AVDT5.dat'  u 1:2  with lp ls 2 t '{/Symbol D}t=5{/Symbol D}','AVDT10.dat'  u 1:2  with lp ls 3 t '{/Symbol D}t=10{/Symbol D}','AVDT20.dat'  u 1:2  with lp ls 4 t '{/Symbol D}t=20{/Symbol D}'
+
+
 
