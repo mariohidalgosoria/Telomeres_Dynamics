@@ -1,63 +1,39 @@
-/*
-Compile using bash file trajWTC.sh, as:
-./trajWTC.sh
-or directly on terminal as
-$gcc -Wall -I/home/mario/gsl/include -c trajWTC.c
-$gcc -L/home/mario/gsl/lib trajWTC.o -lgsl -lgslcblas -lm
-$LD_LIBRARY_PATH=/home/mario/gsl/lib
-$export LD_LIBRARY_PATH
-Run
-$./a.out
-*/
 #include <stdio.h>
 #include<stdlib.h> 
 #include<math.h> 
 #include <time.h>
-#include <gsl/gsl_rng.h>
-#include <gsl/gsl_randist.h>
-
-
-
 float ran2(long *idum);
 int ProbSampleReplace(int n, double *p);
+double rgeom(double p);
 #define PI 3.14159265358979323846
 int main()
 {
-  double a,b,v,x,y,theta,thetac,Dtheta,ac,bc,u,thetai;
-  double alpha,beta,z,pa,pc,rad,xo,yo,xd,yd,dist,MtauP,MtauNP;
+  double a,b,v,vd,x,y,theta;
+  double pa,pc,rad,xo,yo,xd,yd,dist,MtauP,MtauNP;
   int k,T,N,TA,TC,t,ta,s;
-  long iseed;
-  const gsl_rng_type * TT;
-  gsl_rng * r;
-  
- 
+  long iseed;  
   FILE *dat;
   FILE *data;
   char nom[50];
   char nem[50];
   double pib[2]={0,0};//prob of plus=pib[0]; prob of minus=pib[1]
   srand(time(NULL));
-  gsl_rng_env_setup();
-
-  TT = gsl_rng_default;
-  r = gsl_rng_alloc (TT);
+   
   x=0;
   y=0;
   N=20;//number of steps between each sampling
   T=50;//final time
-  v=0.0125;
+  v=0.005;//disp length C
+  vd=0.02;//disp length RW
   b=2*PI;//max value
   a=0;//min value of theta in time series with Dt=1
-  alpha=5.59;//peaked near one as exp data Dt=10Delta
-  beta=6.04;//WTC case
-  
-  MtauP=1.21;
-  MtauNP=7.0;
+  MtauP=9.0;
+  MtauNP=15.0;
   pa=1.0/MtauP;
   pc=1.0/MtauNP;
   pib[0]= MtauNP  / ( MtauNP + MtauP  );//prob of starting at caging phase
   pib[1]= MtauP  / ( MtauNP + MtauP  );//prob of starting at active phase
-  rad=0.035;
+  rad=0.01;
   sprintf(nom,"XYT.dat");
   dat=fopen(nom,"w");
   sprintf(nem,"XYN.dat");
@@ -70,28 +46,9 @@ int main()
     x=0;
     y=0;  
     t=1;//simulation time steps  
-    z=gsl_ran_beta(r,alpha,beta);
-    z=0.3/PI;
-    //while(z > 0.73) z=gsl_ran_beta(r,alpha,beta);
-    iseed=-(long) rand();
-    u=ran2(&iseed);
-    if (u>=0.5){
-      thetac=z*PI;
-      ac=-thetac;
-      bc=thetac;
-    }
-    else{
-      thetac=(-1)*z*PI;
-      bc=-thetac;
-      ac=thetac;
-    }
-    printf("thetac=%g\n",thetac);
-    iseed=-(long) rand();
-    thetai=(b-a)*ran2(&iseed)+a;
-    printf("thetai=%g\n",thetai);
     while(t<=(T*N)){//loop over time
       //enter cage phase
-      TC= gsl_ran_geometric(r,pc);
+      TC=rgeom(pc);
       TC=TC*N;
       t+=TC;
       ta=t-TC;
@@ -106,7 +63,7 @@ int main()
 	x+=xd;
 	y+=yd;
 	//check if is inside the circle
-	dist=sqrt( pow((x-xo),2)  + pow((y-yo),2));	  
+	dist=sqrt( pow((x-xo),2)  + pow((y-yo),2));  
 	if(dist < rad){
 	  if((( (ta+k) % N) == 0) && (((ta+k)/N)  <=T) )  fprintf(dat,"%d\t%g\t%g\t%g\n",(ta+k)/N,x,y,0.0);
 	  if((ta+k) <= (T*N)) fprintf(data,"%d\t%g\t%g\t%g\n",ta+k,x,y,0.0);
@@ -122,93 +79,50 @@ int main()
 	k++;
       }//end while (t<TC) Caging phase
      
-      //enter varying persistence phase
-      TA= gsl_ran_geometric(r,pa);
+      //enter RW phase
+      TA= rgeom(pa);
       TA=TA*N;
       t+=TA;
       ta=t-TA;
       k=0;
       while(k<TA){
-	if(k==0){//first step
-	  theta=thetai;
-	  //theta=thetac;
-	  x+=v*cos(theta);
-	  y+=v*sin(theta);
-	  if((( (ta+k) % N) == 0) && (((ta+k)/N)  <=T) )  fprintf(dat,"%d\t%g\t%g\t%g\n",(ta+k)/N,x,y,1.0);
-	  if((ta+k) <= (T*N)) fprintf(data,"%d\t%g\t%g\t%g\n",ta+k,x,y,1.0);
-	  k++;//create one transition between states
-	}//end fisrt step
-	else{//step k>0
-	  //draw Dtheta Uniform
-	  iseed=-(long) rand();
-	  Dtheta=(bc-ac)*ran2(&iseed)+ac;
-	  theta+=Dtheta;
-	  x+=v*cos(theta);
-	  y+=v*sin(theta);
-	  if((( (ta+k) % N) == 0) && (((ta+k)/N)  <=T) )  fprintf(dat,"%d\t%g\t%g\t%g\n",(ta+k)/N,x,y,1.0);
-	  if((ta+k) <= (T*N)) fprintf(data,"%d\t%g\t%g\t%g\n",ta+k,x,y,1.0);
-	  k++;//create one transition between states
-	}//end step k>0	
-      }//end while(t<TA) varying persistence
+	iseed=-(long) rand();
+	theta=(b-a)*ran2(&iseed)+a;
+	x+=vd*cos(theta);
+	y+=vd*sin(theta);
+	if((( (ta+k) % N) == 0) && (((ta+k)/N)  <=T) )  fprintf(dat,"%d\t%g\t%g\t%g\n",(ta+k)/N,x,y,1.0);
+	if((ta+k) <= (T*N)) fprintf(data,"%d\t%g\t%g\t%g\n",ta+k,x,y,1.0);
+	k++;//create one transition between states
+      }//end while(t<TA) RW
     
     }//end t<(T*N) while 
   }//end IC at caging phase
 
-  else if(s == 2){//initial condition varying persistence
-    printf("IC varying persistence\n");
+  else if(s == 2){//initial condition RW
+    printf("IC RW\n");
     x=0;
     y=0;  
     t=1;//simulation time steps  
-    z=gsl_ran_beta(r,alpha,beta);
-    z=0.3/PI;
-    iseed=-(long) rand();
-    u=ran2(&iseed);
-    if (u>=0.5){
-      thetac=z*PI;
-      ac=-thetac;
-      bc=thetac;
-    }
-    else {
-      thetac=(-1)*z*PI;
-      bc=-thetac;
-      ac=thetac;
-    }
-    printf("thetac=%g\n",thetac);
-    iseed=-(long) rand();
-    thetai=(b-a)*ran2(&iseed)+a;
-    printf("thetai=%g\n",thetai);
-    while(t<=(T*N)){//loop over time
 
-      //enter varying persistence phase 
-      TA= gsl_ran_geometric(r,pa);
+    while(t<=(T*N)){//loop over time
+      //enter RW phase 
+      TA=rgeom(pa);
       TA=TA*N;
       t+=TA;
       ta=t-TA;
       k=0;
       while(k<TA){
-	if(k==0){//first step
-	  theta=thetai;
-	  x+=v*cos(theta);
-	  y+=v*sin(theta);
-	  if((( (ta+k) % N) == 0) && (((ta+k)/N)  <=T) )  fprintf(dat,"%d\t%g\t%g\t%g\n",(ta+k)/N,x,y,1.0);
-	  if((ta+k) <= (T*N)) fprintf(data,"%d\t%g\t%g\t%g\n",ta+k,x,y,1.0);
-	  k++;//create one transition between states
-	}//end fisrt step
-	else{//step k>0
-	  //draw Dtheta Uniform
-	  iseed=-(long) rand();
-	  Dtheta=(bc-ac)*ran2(&iseed)+ac;
-	  theta+=Dtheta;
-	  x+=v*cos(theta);
-	  y+=v*sin(theta);
-	  if((( (ta+k) % N) == 0) && (((ta+k)/N)  <=T) )  fprintf(dat,"%d\t%g\t%g\t%g\n",(ta+k)/N,x,y,1.0);
-	  if((ta+k) <= (T*N)) fprintf(data,"%d\t%g\t%g\t%g\n",ta+k,x,y,1.0);
-	  k++;//create one transition between states
-	}//end step k>0	
-      }//end while(t<TA) varying persistence phase
-	
+	iseed=-(long) rand();
+	theta=(b-a)*ran2(&iseed)+a;
+	x+=vd*cos(theta);
+	y+=vd*sin(theta);
+	if((( (ta+k) % N) == 0) && (((ta+k)/N)  <=T) )  fprintf(dat,"%d\t%g\t%g\t%g\n",(ta+k)/N,x,y,1.0);
+	if((ta+k) <= (T*N)) fprintf(data,"%d\t%g\t%g\t%g\n",ta+k,x,y,1.0);
+	k++;//create one transition between states
+      }//end while(t<TA) RW phase
+      
       //enter cage phase
-      TC= gsl_ran_geometric(r,pc);
+      TC=rgeom(pc);
       TC=TC*N;
       t+=TC;
       ta=t-TC;
@@ -223,7 +137,7 @@ int main()
 	x+=xd;
 	y+=yd;
 	//check if is inside the circle
-	dist=sqrt( pow((x-xo),2)  + pow((y-yo),2));	  
+	dist=sqrt( pow((x-xo),2)  + pow((y-yo),2));  
 	if(dist < rad){
 	  if((( (ta+k) % N) == 0) && (((ta+k)/N)  <=T) )  fprintf(dat,"%d\t%g\t%g\t%g\n",(ta+k)/N,x,y,0.0);
 	  if((ta+k) <= (T*N)) fprintf(data,"%d\t%g\t%g\t%g\n",ta+k,x,y,0.0);
@@ -239,7 +153,7 @@ int main()
 	}// end else dist > rad
 	k++;
       }//end while (t<TC) Caging phase
-	
+      
     }//end t<(T*N) while
       
   }//end IC at varying persistence  phase
@@ -248,7 +162,7 @@ int main()
 
   fclose(dat);
   fclose(data);
-  gsl_rng_free (r);
+  
   
   return 0;
 
@@ -353,3 +267,11 @@ int ProbSampleReplace(int n, double *p)
 }
 
 
+
+
+double rgeom(double p)
+{
+  long iseed;
+  iseed=-(long) rand();
+  return ceil(log(1-ran2(&iseed)) / log(1-p));
+}
