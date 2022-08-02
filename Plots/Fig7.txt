@@ -1,7 +1,5 @@
-
-mario@ph89969:~/Documents/Yuval/NCode/F7Methods/WTCN$   (working directory)
- 
-***Bring trajectories***
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/FM/WTC  (working directory)
+ ***Bring trajectories***
 cp ../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
 
 
@@ -12,7 +10,7 @@ cp ../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
 #open OCATVE
 
 
-pkg load statistics
+%pkg load statistics
 DP=0;
 DT=5;
 for i=2:364
@@ -62,21 +60,22 @@ for i=2:364
       y2 = yk(i2max);
       XLL=[x2,y2];
       XL=[x1,y1];
-      DPP=pdist2(XLL,XL);
+      %DPP=pdist2(XLL,XL);
+      DPP=sqrt((x2-x1)^2 + (y2-y1)^2 );
       DP=[DP;DPP];
   end
 end
 mean(DP)
-%ans =  0.14649
+%ans =  0.13172
 
 ***Generate two state (0,1) time seres using average diameter of LCH*****
 
 #open OCTAVE
 
-pkg load statistics
+%pkg load statistics
 DP=0;
 DT=5;
-C=0.14649;
+C=0.13172;
 for i=2:364
  name=sprintf('CCLAT%d.dat',i);
  data=load(name);
@@ -126,12 +125,13 @@ for i=2:364
       y2 = yk(i2max);
       XLL=[x2,y2];
       XL=[x1,y1];
-      DPP=pdist2(XLL,XL);
+      %DPP=pdist2(XLL,XL);
+      DPP=sqrt((x2-x1)^2 + (y2-y1)^2 );
       if DPP>=C
-        P=1; 
+        P=1;
         fprintf(fil,"%d %f %f\n",i,P,DPP);
       elseif DPP<C
-        P=0; 
+        P=0;
         fprintf(fil,"%d %f %f\n",i,P,DPP);
       endif
   end
@@ -157,7 +157,7 @@ THRT5.c ***
 ****For obtaining the mean value of the diameter of the LCH
 #open OCATVE
 
-pkg load statistics
+%pkg load statistics
 DP=0;
 DT=10;
 for i=2:364
@@ -207,21 +207,22 @@ for i=2:364
       y2 = yk(i2max);
       XLL=[x2,y2];
       XL=[x1,y1];
-      DPP=pdist2(XLL,XL);
+      %DPP=pdist2(XLL,XL);
+      DPP=sqrt((x2-x1)^2 + (y2-y1)^2 );
       DP=[DP;DPP];
   end
 end
 mean(DP)
-%ans =  0.21121
+%ans =  0.17871
 
 ***Generate two state (0,1) time seres using average diameter of LCH*****
 
 #open OCTAVE
 
-pkg load statistics
+%pkg load statistics
 DP=0;
 DT=10;
-C=0.21121;
+C=0.17871;
 for i=2:364
  name=sprintf('CCLAT%d.dat',i);
  data=load(name);
@@ -271,7 +272,8 @@ for i=2:364
       y2 = yk(i2max);
       XLL=[x2,y2];
       XL=[x1,y1];
-      DPP=pdist2(XLL,XL);
+      %DPP=pdist2(XLL,XL);
+      DPP=sqrt((x2-x1)^2 + (y2-y1)^2 );
       if DPP>=C
         P=1; 
         fprintf(fil,"%d %f %f\n",i,P,DPP);
@@ -291,64 +293,49 @@ end
 **Compile and Run 
 gcc -o LCHcutdat10DT LCHcutdat10DT.c -lm
 
-***Obtain two state (0,1) series of the persistence with the relative angle****
-***For \Delta t= 10\Delta
-***Compile and run***
-THRT10.c ***
 
-***gives as an output THR10T%.dat
-
-
-
-***Script for plotting Fig.7***
-
-*****Figure F7c)
+***Script for plotting Fig.M***
+*****Figure FMc)
 **** track III
-set yrange[1.5:3.5]
-set xrange[-8.5:-6.5]
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMc.eps'
+set yrange[-3.2:-1.2]
+set xrange[-1:1]
+set cbtics font "Times-Roman,15" offset 0,0,0
 set palette rgb 33,13,10
-set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 1,1.5,0
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
 set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
 set xtics 1 font ", 20"
 set ytics 1 font ", 20"
-plot 'CCLAT128.dat' u 2:3:1 w l lw 3 palette notitle
+plot 'CCLAT18.dat' u 2:3:1 w l palette notitle
 
-*****Figure F7f)
-set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
-set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
-set xtics (0,10,20,30) font ", 20"
-set ytics 0.5 font ", 20"
-set yrange[-0.3:1.3]
-plot 'THR10T128.dat' w steps lw 3 lc rgb 'magenta' notitle
-
-*****Figure F7i)
+*****Figure FMf)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMf.eps'
 set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
 set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
 set xtics (0,10,20,30) font ", 20"
 set ytics 0.5 font ", 20"
 set yrange[-0.3:1.3]
-plot 'CALLCH10DT128.dat' w steps lw 3 lc rgb 'cyan' notitle
+plot 'CALLCH10DT18.dat' w steps lw 3 lc rgb 'cyan' notitle
 
-*****Figure F7b)
+*****Figure FMb)
 ****track II
-set yrange[1.5:3.5]
-set xrange[-3.8:-1.8]
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMb.eps'
+set yrange[2:4]
+set xrange[-3.5:-1.5]
+set cbtics font "Times-Roman,15" offset 0,0,0
 set palette rgb 33,13,10
-set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 7,1.5,0
-set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,1,0 
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
 set xtics 1 font ", 20"
 set ytics 1 font ", 20"
-plot 'CCLAT7.dat' u 2:3:1 w l lw 3 palette notitle
+plot 'CCLAT7.dat' u 2:3:1 w l palette notitle
 
-*****Figure F7e)
-set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
-set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
-set xtics (0,10,20,30) font ", 20"
-set ytics 0.5 font ", 20"
-set yrange[-0.3:1.3]
-plot 'THR10T7.dat' w steps lw 3 lc rgb 'magenta' notitle
-
-*****Figure F7h)
+*****Figure FMe)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMe.eps'
 set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
 set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
 set xtics (0,10,20,30) font ", 20"
@@ -356,32 +343,29 @@ set ytics 0.5 font ", 20"
 set yrange[-0.3:1.3]
 plot 'CALLCH10DT7.dat' w steps lw 3 lc rgb 'cyan' notitle
 
-*****Figure F7a)
+*****Figure FMa)
 ****track I
-set yrange[0:-2]
-set xrange[0:2]
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMa.eps'
+set yrange[3.5:5.5]
+set xrange[-7.5:-5.5]
+set cbtics font "Times-Roman,15" offset 0,0,0
 set palette rgb 33,13,10
-set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 10,1.5,0
-set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,6,0 
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
 set xtics 1 font ", 20"
 set ytics 1 font ", 20"
-plot 'CCLAT10.dat' u 2:3:1 w l lw 3 palette notitle
+plot 'CCLAT128.dat' u 2:3:1 w l  palette notitle
 
-*****Figure F7d)
-set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
-set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
-set xtics (0,10,20,30) font ", 20"
-set ytics 0.5 font ", 20"
-set yrange[-0.3:1.3]
-plot 'THR10T10.dat' w steps lw 3 lc rgb 'magenta' notitle
-
-*****Figure F7g)
+*****Figure FMd)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMd.eps
 set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
 set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
 set xtics (0,10,20,30) font ", 20"
 set ytics 0.5 font ", 20"
 set yrange[-0.3:1.3]
-plot 'CALLCH10DT10.dat' w steps lw 3 lc rgb 'cyan' notitle
+plot 'CALLCH10DT128.dat' w steps lw 3 lc rgb 'cyan' notitle
 
 
 ****************************************************************************************************************
@@ -539,46 +523,49 @@ THRT5.c ***
 
 ******************************************************************************************************************
 
-***Script for plotting Fig.7***
+***Script for plotting Fig.M***
 **** track III
-***Fig 7l)
-set yrange[-7:0]
-set xrange[1:8]
+***Fig Mi)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMi.eps'
+set yrange[0:4]
+set xrange[-9:-5]
+set cbtics font "Times-Roman,15" offset 0,0,0
 set palette rgb 33,13,10
-set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 1,1.5,0
-set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,1,0 
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
 set xtics 2 font ", 20"
 set ytics 2 font ", 20"
-plot 'CCWLT24.dat' u 2:3:1 w l lw 3 palette notitle
+plot 'CCWLT29.dat' u 2:3:1 w l palette notitle
 
-***Fig 7o)
+***Fig Ml)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMl.eps'
 set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
 set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
 set xtics (0,10,30,40) font ", 20"
 set ytics 0.5 font ", 20"
 set yrange[-0.3:1.3]
-plot 'THR5T24.dat' w steps lw 3 lc rgb 'magenta' notitle
+plot 'THR5T29.dat' w steps lw 3 lc rgb 'magenta' notitle
 
-***Fig 7r)
-set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
-set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
-set xtics (0,10,30,40) font ", 20"
-set ytics 0.5 font ", 20"
-set yrange[-0.3:1.3]
-plot 'CALLCH5DT24.dat' w steps lw 3 lc rgb 'cyan' notitle
 
 ****track II
-***Fig 7k)
-set yrange[-7:0]
-set xrange[-7:0]
+***Fig Mh)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMh.eps'
+set yrange[-6:-2]
+set xrange[-4.5:-0.5]
+set cbtics font "Times-Roman,15" offset 0,0,0
 set palette rgb 33,13,10
-set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 1,1.5,0
-set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,1,0 
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
 set xtics 2 font ", 20"
 set ytics 2 font ", 20"
-plot 'CCWLT6.dat' u 2:3:1 w l lw 3 palette notitle
+plot 'CCWLT6.dat' u 2:3:1 w l palette notitle
 
-***Fig 7n)
+***Fig Mk)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMk.eps'
 set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
 set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
 set xtics (0,10,30,40) font ", 20"
@@ -586,41 +573,33 @@ set ytics 0.5 font ", 20"
 set yrange[-0.3:1.3]
 plot 'THR5T6.dat' w steps lw 3 lc rgb 'magenta' notitle
 
-***Fig 7q)
-set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
-set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
-set xtics (0,10,30,40) font ", 20"
-set ytics 0.5 font ", 20"
-set yrange[-0.3:1.3]
-plot 'CALLCH5DT6.dat' w steps lw 3 lc rgb 'cyan' notitle
 
 ****track I, This track was cut until 50 \Delta 
-***Fig 7j)
-set yrange[3:10]
-set xrange[-2:5]
+***Fig Mg)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMg.eps'
+set yrange[-2:2]
+set xrange[3:7]
+set cbtics font "Times-Roman,15" offset 0,0,0
 set palette rgb 33,13,10
-set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 1,1.5,0
-set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,6,0 
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
 set xtics 2 font ", 20"
 set ytics 2 font ", 20"
-plot '2CCWLT127.dat' u 2:3:1 w l lw 3 palette notitle
+plot 'CCWLT8.dat' u 2:3:1 w l palette notitle
 
-***Fig 7m)
+***Fig Mj)
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FMj.eps'
 set xrange[0:40]
 set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
 set ylabel 'P' font "Times-Roman,25" offset 1,4,0 
 set xtics (0,10,30,40) font ", 20"
 set ytics 0.5 font ", 20"
 set yrange[-0.3:1.3]
-plot 'THR5T127.dat' w steps lw 3 lc rgb 'magenta' notitle
+plot 'THR5T8.dat' w steps lw 3 lc rgb 'magenta' notitle
 
-***Fig 7p)
-set xlabel 't' font "Times-Roman,25" offset 1,1.5,0
-set ylabel 'L' font "Times-Roman,25" offset 1,4,0 
-set xtics (0,10,30,40) font ", 20"
-set ytics 0.5 font ", 20"
-set yrange[-0.3:1.3]
-plot 'CALLCH5DT127.dat' w steps lw 3 lc rgb 'cyan' notitle
+
 
 *****************************************************************************************************
 
@@ -775,5 +754,4 @@ gcc -o LCHcutdat10DT LCHcutdat10DT.c -lm
 THRT10.c ***
 
 ***gives as an output THR10T%.dat
-
 
