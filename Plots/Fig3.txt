@@ -1,5 +1,5 @@
 ***Compute the relative angle for different Delta t and for WTC***
-mario@ph89969:~/Documents/Yuval/NCode/F3/WTCT$ (working directory)
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/F3/WTC (working directory)
 
 ***Bring trajectories to the current  directory***
 cp ../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
@@ -102,21 +102,22 @@ unset table
 ***Script for plotting Fig.3a) P(theta/pi) for telomeres in WT cells***
 #open gnuplot
 
-
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'F3a.eps'
 set style line 5 lc rgb 'grey' pt 5 ps 1.4  # square
 set yrange[-0.2:2.1]
 set xrange[0:1.001]
 set xlabel '{/Symbol q}/{/Symbol p} ' font "Times-Roman,20" offset 0,0,0
-set ylabel 'P({/Symbol q}/{/Symbol p})' font "Times-Roman,20" offset 0,5,0
+set ylabel 'P({/Symbol q}/{/Symbol p})' font "Times-Roman,20" offset 0,3,0
 set key  bottom font ",15"
 set xtics (0,0.25,0.75,1) font ", 20"
 set ytics 1 font ", 25"
-plot 'hist_ANGDZ1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D}','hist_ANGDZ5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D}','hist_ANGDZ10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D}','hist_ANGDZ20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D}'
+plot 'hist_ANGDZ1.dat'  u 1:2  w lp  lw 2 t '{/Symbol D}t={/Symbol D}','hist_ANGDZ5.dat'  u 1:2  w lp  lw 2 t '{/Symbol D}t=5{/Symbol D}','hist_ANGDZ10.dat'  u 1:2  w lp  lw 2 t '{/Symbol D}t=10{/Symbol D}','hist_ANGDZ20.dat'  u 1:2  w lp  lw 2 t '{/Symbol D}t=20{/Symbol D}'
 
 
 
 ***Compute the relative angle for different Delta t and for Lamin-A depleted cells***
-mario@ph89969:~/Documents/Yuval/NCode/F3/LADCT$ (working directory)
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/F3/KOC  (working directory)
 
 ***Bring trajectories to the current  directory***
 cp ../../Drift_Rotation_Corr/LADC/CCWLT*[0-9]*.dat .
@@ -221,16 +222,15 @@ unset table
 ***Script for plotting Fig.3b) P(theta/pi) for telomeres in Lamin-A depleted  cells***
 #open gnuplot
 
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'F3b.eps'
 set style line 5 lc rgb 'grey' pt 5 ps 1.4  # square
-set yrange[0:2.2]
+set yrange[0:1.7]
 set xrange[0:1.001]
 set xlabel '{/Symbol q}/{/Symbol p} ' font "Times-Roman,20" offset 0,0,0
-set ylabel 'P({/Symbol q}/{/Symbol p})' font "Times-Roman,20" offset 0,5,0
-set key top center font ",15"
+set ylabel 'P({/Symbol q}/{/Symbol p})' font "Times-Roman,20" offset 0,3,0
+set key right font ",15"
 set xtics (0,0.25,0.75,1) font ", 20"
-set ytics 1 font ", 25"
-plot 'hist_ANGDZ1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D}','hist_ANGDZ5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D}','hist_ANGDZ10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D}','hist_ANGDZ20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D}'
-
-
-
-
+set ytics 0.5 font ", 25"
+f(x)=1
+plot 'hist_ANGDZ1.dat'  u 1:2  w lp  lw 2 t '{/Symbol D}t={/Symbol D}','hist_ANGDZ5.dat'  u 1:2  w lp  lw 2 t '{/Symbol D}t=5{/Symbol D}','hist_ANGDZ10.dat'  u 1:2  w lp  lw 2 t '{/Symbol D}t=10{/Symbol D}','hist_ANGDZ20.dat'  u 1:2  w lp  lw 2 t '{/Symbol D}t=20{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 2 notitle
