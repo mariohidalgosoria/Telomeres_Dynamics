@@ -1,36 +1,91 @@
-mario@ph89969:~/Documents/Yuval/NCode/Drift_Rotation_Corr/LADC$ (working directory)
-****Example of a local convex hull polygons in a trajectoria of telomeres in Lamin-a depleted cells***
-***Script for FigS4*************
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/SM/FigS4/WTC (working directory)
+***Compute autocorrelation function of the displacements for trajectories in WT cells*****
 
-#open octave
-load CCWLT11.dat
-y11=CCWLT11(:,3);
-x11=CCWLT11(:,2);
-k11=convhull(x11,y11);
-
-#plot trajectory
-plot(x11,y11)
-xl=zeros(5,1);
-yl=zeros(5,1);
-for i=1:5
-  xl(i)=x11(39+i);
-  yl(i)=y11(39+i);
-end
-
-k11l=convhull(xl,yl);
-hold on
-#plot LCH 1
-plot(xl(k11l),yl(k11l),"r-",xl,yl,"k+")
+***bring trajectories****
+cp ../../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
 
 
-xd=zeros(5,1);
-yd=zeros(5,1);
-for i=1:5
-  xd(i)=x11(11+i);
-  yd(i)=y11(11+i);
-end
+****Compute acutocorrelation function of the displacements (DX) for tracks in WTC*****
+***complie & run ACF2DXDT1.c, AUCF2DXDT1.c, EACF2DXDT1.c
+***compile & run ACF2DXDT5.c, AUCF2DXDT5.c, EACF2DXDT5.c
+***compile & run ACF2DXDT10.c, AUCF2DXDT10.c, EACF2DXDT10.c
+***Plotting ACFDX***************
+***Script for FigS8d*****************
+***open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS3wtx.eps'
+set yrange[-0.5:1]
+set xrange[0:4]
+set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,0,0
+set ylabel 'ACF{/Symbol D}X' font "Times-Roman,20" offset 0,0,0 
+set key font ",15"
+set xtics 1 font ", 20"
+set ytics 0.5 font ", 20"
+f(x)=0
+plot 'ETAVDXDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDXDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDXDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
 
-k11d=convhull(xd,yd);
-#plot LCH 2
-plot(xd(k11d),yd(k11d),"r-",xd,yd,"k+")
+****Compute acutocorrelation function of the displacements (DY) for tracks in  WTC*****
+***complie & run ACF2DYDT1.c, AUCF2DYDT1.c, EACF2DYDT1.c
+***compile & run ACF2DYDT5.c, AUCF2DYDT5.c, EACF2DYDT5.c
+***compile & run ACF2DYDT10.c, AUCF2DYDT10.c, EACF2DYDT10.c
+***Plotting ACFDY
+***Script for FigS8e*****************
+***open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS3wty.eps'
+set yrange[-0.5:1]
+set xrange[0:4]
+set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,0,0
+set ylabel 'ACF{/Symbol D}Y' font "Times-Roman,20" offset 0,0,0 
+set key font ",15"
+set xtics 1 font ", 20"
+set ytics 0.5 font ", 20"
+f(x)=0
+plot 'ETAVDYDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDYDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDYDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+
+
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/SM/FigS4/KOC  (working directory)
+***Compute autocorrelation function of the displacements for trajectories in Lamin-A depleted cells*****
+
+***bring trajectories****
+cp  ../../../Drift_Rotation_Corr/LADC/CCWLT*[0-9]*.dat .
+
+
+****Compute acutocorrelation function of the displacements (DX) for tracks in Lamin-A depleted cells*****
+***complie & run ACF2DXDT1.c, AUCF2DXDT1.c, EACF2DXDT1.c
+***compile & run ACF2DXDT5.c, AUCF2DXDT5.c, EACF2DXDT5.c
+***compile & run ACF2DXDT10.c, AUCF2DXDT10.c, EACF2DXDT10.c
+***Plotting ACFDX***************
+***Script for FigS8d*****************
+***open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS3kox.eps'
+set yrange[-0.5:1]
+set xrange[0:4]
+set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,0,0
+set ylabel 'ACF{/Symbol D}X' font "Times-Roman,20" offset 0,0,0 
+set key font ",15"
+set xtics 1 font ", 20"
+set ytics 0.5 font ", 20"
+f(x)=0
+plot 'ETAVDXDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDXDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDXDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+
+****Compute acutocorrelation function of the displacements (DY) for tracks in  Lamin-A depleted cells*****
+***complie & run ACF2DYDT1.c, AUCF2DYDT1.c, EACF2DYDT1.c
+***compile & run ACF2DYDT5.c, AUCF2DYDT5.c, EACF2DYDT5.c
+***compile & run ACF2DYDT10.c, AUCF2DYDT10.c, EACF2DYDT10.c
+***Plotting ACFDY
+***Script for FigS8e*****************
+***open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS3koy.eps'
+set yrange[-0.5:1]
+set xrange[0:4]
+set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,0,0
+set ylabel 'ACF{/Symbol D}Y' font "Times-Roman,20" offset 0,0,0 
+set key font ",15"
+set xtics 1 font ", 20"
+set ytics 0.5 font ", 20"
+f(x)=0
+plot 'ETAVDYDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDYDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDYDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
 
