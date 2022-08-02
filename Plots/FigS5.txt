@@ -1,555 +1,760 @@
-***Compute waiting times in L and S states for WT cells*****
-mario@ph89969:~/Documents/Yuval/NCode/F7Methods/WTCN$   (working directory)
+***Data analysis of the time average relative angle for a 2D Pearson random walk******
+mario@ph89969:~/Documents/Yuval/NCode/SM/FigS7/RW$ (working directory)
+
+***generate trajectories of a 2D Pearson random walkers
+**compile & run PearsonRW.c
+
+****generates as an output time seires****
+XYT1.dat, XYT2.dat,....., XYT10000.dat 
+
+each one with (t,x,y,theta), with theta=\tilde{theta} in main text
 
 
-***Compute waiting times in Long Jumps and Small Jumps phase****
-****for \Delta T=5\Delta
-***Compile and run 
-gcc -o WTLLCH5DT WTLLCH5DT.c -lm
-***gives as an output the files
-WTLLADT5.dat waiting times in L state
-WTLLNADT5.dat waiting times in S state
+***Generate time series of the relative angle per each track of the Pearson random walk****
 
-**Computing normalizd histograms**** 
-
-#open octave
-#For Dt=5
-load WTLLADT5.dat
-load WTLLNADT5.dat
-ta=WTLLADT5(:,1);
-tna=WTLLNADT5(:,1);
-
-[pta,nta]=hist(ta,unique(ta));#frequencies of N
-Tta=numel(ta);#number of elements in N
-ppta=pta/Tta; #prob of N
-Pta=[nta;ppta];
-Pta=Pta';
-save LLTADT5.dat Pta -ascii
-
-[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
-Ttna=numel(tna);#number of elements in N
-pptna=ptna/Ttna; #prob of N
-Ptna=[ntna;pptna];
-Ptna=Ptna';
-save LLTNADT5.dat Ptna -ascii
-
-#report
-#mean waitig times
-mean(ta)
-%ans =  5.6695
-mean(tna)
-%ans =  8.8225
+***For different \Delta t
+****compile run MANGDT10.c  MANGDT15.c  MANGDT1.c  MANGDT20.c  MANGDT5.c
 
 
 
-***Script for plotting Fig.S5b) PDF of waiting times in L and S for WTC***
-****Plotting PDF of waiting times
+***For DT=\Delta
+**compute persistent angle 
+**open Octave
+
+thetac=0;
+for i=1:10000
+ name=sprintf('MANGDT%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT1.dat thetac -ascii
+save MNthetacDT1.dat z -ascii
+
+
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT1.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT1.dat'
+plot "MNthetacDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+***Dt=5\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=1:10000
+ name=sprintf('MANGD5T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT5.dat thetac -ascii
+save MNthetacDT5.dat z -ascii
+
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT5.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT5.dat'
+plot "MNthetacDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+
+***Dt=10\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=1:10000
+ name=sprintf('MANGD10T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT10.dat thetac -ascii
+save MNthetacDT10.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT10.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT10.dat'
+plot "MNthetacDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+
+***Dt=15\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=1:10000
+ name=sprintf('MANGD15T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT15.dat thetac -ascii
+save MNthetacDT15.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT15.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT15.dat'
+plot "MNthetacDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+
+***Dt=20\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=1:10000
+ name=sprintf('MANGD20T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT20.dat thetac -ascii
+save MNthetacDT20.dat z -ascii
+
+
+**Compute histogram
+**open gnuplot
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT20.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT20.dat'
+plot "MNthetacDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+
+****Script for  FigS5c*****
 #open gnuplot
-
-set logscale y
-set format y "10^{%L}" 
-set xrange[0:40]
-set yrange[1e-03:22e-01]
-set xlabel '{/Symbol t}_{L}, {/Symbol t}_{S}' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'P({/Symbol t}_{L}), P({/Symbol t}_{S})' font "Times-Roman,20" offset 0,3,0 
+set style line 5 lc rgb 'black' pt 5 ps 1.4  # square
+set xrange[0:1]
+set yrange[0:14]
+set xlabel '~{/Symbol q}{1.-}_{ }/{/Symbol p}' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P(~{/Symbol q}{1.-}/{/Symbol p})' font "Times-Roman,20" offset 0,3,0
 set key font ",15"
-set xtics 10  font ", 20"
-set ytics (0.001,0.01,0,1)  font ", 20"
-h(x)=c*(1-c)**(x-1)
-fit h(x) 'LLTADT5.dat' u 1:2 via c
-j(x)=d*(1-d)**(x-1)
-fit j(x) 'LLTNADT5.dat' u 1:2 via d
-plot 'LLTADT5.dat' u 1:2 w p t 'LJ; W.T.C.' lc rgb 'red' lw 4,'LLTNADT5.dat' u 1:2 w p t 'SJ; W.T.C.' lc rgb 'blue' lw 4 
-replot h(x) w l notitle lc rgb 'red' lw 3
-replot j(x) w l notitle lc rgb 'blue' lw 3
+set xtics 0.2 font ", 20"
+set ytics (0,2,6,12)  font ", 25"
+plot 'hist_MNthetacDT1.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t={/Symbol D};RW','hist_MNthetacDT5.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=5{/Symbol D};RW','hist_MNthetacDT10.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=10{/Symbol D};RW','hist_MNthetacDT20.dat'  u 1:2  w lp  lw 3 t '{/Symbol D}t=20{/Symbol D};RW'
 
 
-#mean waiting times according the geometric distribution
-print(1.0/c)
-5.19597413061013
-print(1.0/d)
-5.35823019022347
+**Compute average persistent angle
+**open Octave/Matlab
+
+load MNthetacDT1.dat
+load MNthetacDT5.dat
+load MNthetacDT10.dat
+load MNthetacDT15.dat
+load MNthetacDT20.dat
+a=MNthetacDT1(:,1);
+b=MNthetacDT5(:,1);
+c=MNthetacDT10(:,1);
+d=MNthetacDT15(:,1);
+e=MNthetacDT20(:,1);
+am=mean(a);
+bm=mean(b);
+cm=mean(c);
+dm=mean(d);
+em=mean(e);
+M=[am,bm,cm,dm,em];
+M=M';
+DT=[1,5,10,15,20];
+DT=DT';
+plot(DT,M,'r')
+ylim([0 1])
+
+AV=[DT,M];
+
+save AVRW.dat AV -ascii
 
 
 
-***Compute waiting times in Persistent and non-persistent phase****
-***Compile and run 
-WTANADT5.c
-*give as an output files
-WTADT5.dat waiting times in P state
-WTNADT5.dat waiting times in NP state
+***For telomeres in WTC***
+***tracks labeled  CCLAT%d.dat********
+mario@ph89969:~/Documents/Yuval/NCode/SM/FigS7/WTC$ (working trajectory)
 
-**Computing normalizd histograms**** 
-#open octave
+***Generate time series of the relative angle per each track of the Pearson random walk****
 
-#For DT=5
-load WTADT5.dat
-load WTNADT5.dat
-ta=WTADT5(:,1);
-tna=WTNADT5(:,1);
-
-[pta,nta]=hist(ta,unique(ta));#frequencies of N
-Tta=numel(ta);#number of elements in N
-ppta=pta/Tta; #prob of N
-Pta=[nta;ppta];
-Pta=Pta';
-save TADT5.dat Pta -ascii
-
-[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
-Ttna=numel(tna);#number of elements in N
-pptna=ptna/Ttna; #prob of N
-Ptna=[ntna;pptna];
-Ptna=Ptna';
-save TNADT5.dat Ptna -ascii
-
-#report
-#mean waitig times
-mean(ta)
-%ans =  1.4539
-mean(tna)
-%ans =  6.1140
+***For different \Delta t
+****compile run MANGDT10.c  MANGDT15.c  MANGDT1.c  MANGDT20.c  MANGDT5.c
 
 
-***Script for plotting Fig.S5a) PDF of waiting times in P and NP for WTC****
-***Plotting PDF of waiting times
+***For DT=\Delta
+**compute persistent angle 
+**open Octave
+
+thetac=0;
+for i=2:364
+ name=sprintf('MANGDT%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT1.dat thetac -ascii
+save MNthetacDT1.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT1.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT1.dat'
+plot "MNthetacDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT1.dat 
+t=mthetacDT1(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.0051522
+
+***For DT=5\Delta
+**compute persistent angle 
+**open Octave/Matlab
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD5T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT5.dat thetac -ascii
+save MNthetacDT5.dat z -ascii
+
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT5.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT5.dat'
+plot "MNthetacDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT5.dat 
+t=mthetacDT5(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.014209
+
+***For DT=10\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD10T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT10.dat thetac -ascii
+save MNthetacDT10.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT10.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT10.dat'
+plot "MNthetacDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT10.dat 
+t=mthetacDT10(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.025701
+
+***For DT=15\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD15T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT15.dat thetac -ascii
+save MNthetacDT15.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT15.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT15.dat'
+plot "MNthetacDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+load mthetacDT15.dat 
+t=mthetacDT15(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.043549
+
+
+***For DT=20\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=2:364
+ name=sprintf('MANGD20T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT20.dat thetac -ascii
+save MNthetacDT20.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT20.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT20.dat'
+plot "MNthetacDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT20.dat 
+t=mthetacDT20(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.088457
+
+
+***Compute Average persitent angle
+**open Octave/Matlab
+
+load MNthetacDT1.dat
+load MNthetacDT5.dat
+load MNthetacDT10.dat
+load MNthetacDT15.dat
+load MNthetacDT20.dat
+a=MNthetacDT1(:,1);
+b=MNthetacDT5(:,1);
+c=MNthetacDT10(:,1);
+d=MNthetacDT15(:,1);
+e=MNthetacDT20(:,1);
+am=mean(a);
+bm=mean(b);
+cm=mean(c);
+dm=mean(d);
+em=mean(e);
+M=[am,bm,cm,dm,em];
+M=M';
+DT=[1,5,10,15,20];
+DT=DT';
+plot(DT,M)
+ylim([0 1])
+AV=[DT,M];
+save AVEX.dat AV -ascii
+
+cp ../RW/AVRW.dat .
+
+set xrange[0:22]
+set yrange[0:1]
+set xlabel '{/Symbol D} t ' font "Times-Roman,20" offset 3,0,0
+set ylabel '<~{/Symbol q}{1.-}_{ }>/{/Symbol p}' font "Times-Roman,20" offset 0,6,0
+set key font ",15"
+set xtics 5 font ", 20"
+set ytics (0,0.5,1)  font ", 25"
+plot 'AVEX.dat'  u 1:2  w lp  lw 6 lc rgb 'red' t 'Exp.','AVRW.dat'  u 1:2  w lp  lw 6 t 'RW'
+
+****Script for  FigS5a*****
 #open gnuplot
-
-set logscale y
-set format y "10^{%L}" 
-set xrange[0:35]
-set yrange[4e-04:10^1]
-set xlabel '{/Symbol t}_{P}, {/Symbol t}_{NP}' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'P({/Symbol t}_{P}), P({/Symbol t}_{NP})' font "Times-Roman,16" offset 0,1,0 
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS6a.eps'
+set style line 5 lc rgb 'black' pt 5 ps 1.4  # square
+set xrange[0:1]
+set yrange[0:14.2]
+set xlabel '~{/Symbol q}{1.-}_{ }/{/Symbol p}' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P(~{/Symbol q}{1.-}/{/Symbol p})' font "Times-Roman,20" offset 0,0,0
 set key font ",15"
-set xtics 10 font ", 20"
-set ytics (0.001,0.01,0,1)  font ", 20"
-h(x)=c*(1-c)**(x-1)
-fit h(x) 'TADT5.dat' u 1:2 via c
-j(x)=d*(1-d)**(x-1)
-fit j(x) 'TNADT5.dat' u 1:2 via d
-plot 'TADT5.dat' u 1:2 w p t 'A; W.T.C.' lc rgb 'red' lw 4,'TNADT5.dat' u 1:2 w p t 'NA; W.T.C.' lc rgb 'blue' lw 4 
-replot h(x) w l notitle lc rgb 'red' lw 3
-replot j(x) w l notitle lc rgb 'blue' lw 3
-
-**mean waiting times according the geometric distribution
-print(1.0/c)
-#1.33741221554207
-print(1.0/d)
-#5.5177053434575
+set xtics 0.2 font ", 20"
+set ytics (0,2,6,12)  font ", 25"
+plot 'hist_MNthetacDT1.dat'  u 1:2  w lp  lw 1 t '{/Symbol D}t={/Symbol D}; WT','hist_MNthetacDT5.dat'  u 1:2  w lp  lw 1 t '{/Symbol D}t=5{/Symbol D}; WT','hist_MNthetacDT10.dat'  u 1:2  w lp  lw 1 t '{/Symbol D}t=10{/Symbol D}; WT','hist_MNthetacDT20.dat'  u 1:2  w lp  lw 1 t '{/Symbol D}t=20{/Symbol D}; WT'
 
 
+***For telomeres in Lamin-A Depleted Cell***
+mario@ph89969:~/Documents/Yuval/NCode/SM/FigS7/LDC$  (working directory)
 
-****************************************************************************************************************
+***Generate time series of the relative angle per each track of the Pearson random walk****
 
-***Compute waiting times in Long Jumps and Small Jumps phase****
-****for \Delta T=10\Delta
-***Compile and run 
-gcc -o WTLLCH10DT WTLLCH10DT.c -lm
-***gives as an output the files
-WTLLADT10.dat waiting times in L state
-WTLLNADT10.dat waiting times in S state
-
-**Computing normalizd histograms**** 
-
-#open octave
-#For Dt=10
-load WTLLADT10.dat
-load WTLLNADT10.dat
-ta=WTLLADT10(:,1);
-tna=WTLLNADT10(:,1);
-
-[pta,nta]=hist(ta,unique(ta));#frequencies of N
-Tta=numel(ta);#number of elements in N
-ppta=pta/Tta; #prob of N
-Pta=[nta;ppta];
-Pta=Pta';
-save LLTADT10.dat Pta -ascii
-
-[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
-Ttna=numel(tna);#number of elements in N
-pptna=ptna/Ttna; #prob of N
-Ptna=[ntna;pptna];
-Ptna=Ptna';
-save LLTNADT10.dat Ptna -ascii
-
-#report
-#mean waitig times
-mean(ta)
-%ans =  8.9732
-mean(tna)
-%ans =  13.929
+***For different \Delta t
+****compile run MANGDT10.c  MANGDT15.c  MANGDT1.c  MANGDT20.c  MANGDT5.c
 
 
+***For DT=\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=2:129
+ name=sprintf('MANGDT%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT1.dat thetac -ascii
+save MNthetacDT1.dat z -ascii
+
+**Compute histogram
+**open gnuplot
 
 
-****Plotting PDF of waiting times
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT1.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT1.dat'
+plot "MNthetacDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT1.dat 
+t=mthetacDT1(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.0090850
+
+***For DT=5\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD5T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT5.dat thetac -ascii
+save MNthetacDT5.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT5.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT5.dat'
+plot "MNthetacDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT5.dat 
+t=mthetacDT5(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.023398
+
+***For DT=10\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD10T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT10.dat thetac -ascii
+save MNthetacDT10.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT10.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT10.dat'
+plot "MNthetacDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT10.dat 
+t=mthetacDT10(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.068787
+
+***For DT=15\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD15T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT15.dat thetac -ascii
+save MNthetacDT15.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT15.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT15.dat'
+plot "MNthetacDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT15.dat 
+t=mthetacDT15(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.088059
+
+***For DT=20\Delta
+**compute persistent angle 
+**open Octave/Matlab
+
+thetac=0;
+for i=2:129
+ name=sprintf('MANGD20T%d.dat',i);
+ data=load(name);
+ Dth=zeros(rows(data),1);
+ for i=1:(rows(data))
+  Dth(i)=data(i,2);
+ end 
+ thetam=mean(Dth);
+ thetac=[thetac; thetam];
+end
+
+thetac(1,:)=[];
+z=thetac/pi;
+save mthetacDT20.dat thetac -ascii
+save MNthetacDT20.dat z -ascii
+
+**Compute histogram
+**open gnuplot
+
+binwidth = 0.02
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "MNthetacDT20.dat" u ($1):(s($1))
+set table 'hist_MNthetacDT20.dat'
+plot "MNthetacDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+load mthetacDT20.dat 
+t=mthetacDT20(:,1);
+var(t)/(mean(t)*mean(t))
+%ans =  0.13366
+
+***Compute Average persitent angle
+**open Octave/Matlab
+
+load MNthetacDT1.dat
+load MNthetacDT5.dat
+load MNthetacDT10.dat
+load MNthetacDT15.dat
+load MNthetacDT20.dat
+a=MNthetacDT1(:,1);
+b=MNthetacDT5(:,1);
+c=MNthetacDT10(:,1);
+d=MNthetacDT15(:,1);
+e=MNthetacDT20(:,1);
+am=mean(a);
+bm=mean(b);
+cm=mean(c);
+dm=mean(d);
+em=mean(e);
+M=[am,bm,cm,dm,em];
+M=M';
+DT=[1,5,10,15,20];
+DT=DT';
+plot(DT,M)
+ylim([0 1])
+AV=[DT,M];
+save AVEX.dat AV -ascii
+
+cp ../RW/AVRW.dat .
+
+set xrange[0:22]
+set yrange[0:1]
+set xlabel '{/Symbol D} t ' font "Times-Roman,20" offset 3,0,0
+set ylabel '<~{/Symbol q}{1.-}_{ }>/{/Symbol p}' font "Times-Roman,20" offset 0,6,0
+set key font ",15"
+set xtics 5 font ", 20"
+set ytics (0,0.5,1)  font ", 25"
+plot 'AVEX.dat'  u 1:2  w lp  lw 6 t 'Exp.','AVRW.dat'  u 1:2  w lp  lw 6 t 'RW'
+
+
+****Script for  FigS5b*****
 #open gnuplot
-
-set logscale y
-set format y "10^{%L}" 
-set xrange[0:40]
-set yrange[1e-03:22e-01]
-set xlabel '{/Symbol t}_{L}, {/Symbol t}_{S}' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'P({/Symbol t}_{L}), P({/Symbol t}_{S})' font "Times-Roman,20" offset 0,3,0 
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS6b.eps'
+set style line 5 lc rgb 'black' pt 5 ps 1.4  # square
+set xrange[0:1]
+set yrange[0:14]
+set xlabel '~{/Symbol q}{1.-}_{ }/{/Symbol p}' font "Times-Roman,20" offset 0,0,0
+set ylabel 'P(~{/Symbol q}{1.-}/{/Symbol p})' font "Times-Roman,20" offset 0,0,0
 set key font ",15"
-set xtics 10  font ", 20"
-set ytics (0.001,0.01,0,1)  font ", 20"
-h(x)=c*(1-c)**(x-1)
-fit h(x) 'LLTADT10.dat' u 1:2 via c
-j(x)=d*(1-d)**(x-1)
-fit j(x) 'LLTNADT10.dat' u 1:2 via d
-plot 'LLTADT10.dat' u 1:2 w p t 'LJ; W.T.C.' lc rgb 'red' lw 4,'LLTNADT10.dat' u 1:2 w p t 'SJ; W.T.C.' lc rgb 'blue' lw 4 
-replot h(x) w l notitle lc rgb 'red' lw 3
-replot j(x) w l notitle lc rgb 'blue' lw 3
-
-
-#mean waiting times according the geometric distribution
-print(1.0/c)
-#8.88257030814279
-print(1.0/d)
-#8.78157227549868
-
-
-
-***Compute waiting times in Persistent and non-persistent phase****
-***Compile and run 
-WTANADT10.c
-*give as an output files
-WTADT10.dat waiting times in P state
-WTNADT10.dat waiting times in NP state
-
-**Computing normalizd histograms**** 
-#open octave
-
-#For DT=10
-load WTADT10.dat
-load WTNADT10.dat
-ta=WTADT10(:,1);
-tna=WTNADT10(:,1);
-
-[pta,nta]=hist(ta,unique(ta));#frequencies of N
-Tta=numel(ta);#number of elements in N
-ppta=pta/Tta; #prob of N
-Pta=[nta;ppta];
-Pta=Pta';
-save TADT10.dat Pta -ascii
-
-[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
-Ttna=numel(tna);#number of elements in N
-pptna=ptna/Ttna; #prob of N
-Ptna=[ntna;pptna];
-Ptna=Ptna';
-save TNADT10.dat Ptna -ascii
-
-#report
-#mean waitig times
-mean(ta)
-%ans =  1.7179
-mean(tna)
-%ans =  6.1463
-
-
-
-***Plotting PDF of waiting times
-#open gnuplot
-
-set logscale y
-set format y "10^{%L}" 
-set xrange[0:35]
-set yrange[4e-04:10^1]
-set xlabel '{/Symbol t}_{P}, {/Symbol t}_{NP}' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'P({/Symbol t}_{P}), P({/Symbol t}_{NP})' font "Times-Roman,16" offset 0,1,0 
-set key font ",15"
-set xtics 10 font ", 20"
-set ytics (0.001,0.01,0,1)  font ", 20"
-h(x)=c*(1-c)**(x-1)
-fit h(x) 'TADT10.dat' u 1:2 via c
-j(x)=d*(1-d)**(x-1)
-fit j(x) 'TNADT10.dat' u 1:2 via d
-plot 'TADT10.dat' u 1:2 w p t 'A; W.T.C.' lc rgb 'red' lw 4,'TNADT10.dat' u 1:2 w p t 'NA; W.T.C.' lc rgb 'blue' lw 4 
-replot h(x) w l notitle lc rgb 'red' lw 3
-replot j(x) w l notitle lc rgb 'blue' lw 3
-
-**mean waiting times according the geometric distribution
-print(1.0/c)
-#1.46107797343211
-print(1.0/d)
-#4.55924953773802
-
-
-****************************************************************************************************************
-***Compute waiting times in L and S states for Lamin-A depleted cells*****
-mario@ph89969:~/Documents/Yuval/NCode/F7Methods/LADCN$  (working directory)
-
-***Compute waiting times in Long Jumps and Small Jumps phase****
-****for \Delta T=5\Delta
-***Compile and run 
-
-gcc -o WTLLCH5DT WTLLCH5DT.c -lm
-
-***gives as an output the files
-WTLLADT5.dat waiting times in L state
-WTLLNADT5.dat waiting times in S state
-
-**Computing normalizd histograms**** 
-#open octave
-
-
-#For Dt=5
-load WTLLADT5.dat
-load WTLLNADT5.dat
-ta=WTLLADT5(:,1);
-tna=WTLLNADT5(:,1);
-
-[pta,nta]=hist(ta,unique(ta));#frequencies of N
-Tta=numel(ta);#number of elements in N
-ppta=pta/Tta; #prob of N
-Pta=[nta;ppta];
-Pta=Pta';
-save LLTADT5.dat Pta -ascii
-
-[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
-Ttna=numel(tna);#number of elements in N
-pptna=ptna/Ttna; #prob of N
-Ptna=[ntna;pptna];
-Ptna=Ptna';
-save LLTNADT5.dat Ptna -ascii
-
-#report
-mean(ta)
-%ans =  6.0037
-mean(tna)
-%ans =  10.674
-
-
-***Script for plotting Fig.S5d) PDF of waiting times in L and S for LADC***
-****Plotting PDF of waiting times
-#open gnuplot
-
-set logscale y
-set format y "10^{%L}" 
-set xrange[0:40]
-set yrange[1e-03:22e-01]
-set xlabel '{/Symbol t}_{L}, {/Symbol t}_{S}' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'P({/Symbol t}_{L}), P({/Symbol t}_{S})' font "Times-Roman,20" offset 0,3,0 
-set key font ",15"
-set xtics 10  font ", 20"
-set ytics (0.001,0.01,0,1)  font ", 20"
-h(x)=c*(1-c)**(x-1)
-fit h(x) 'LLTADT5.dat' u 1:2 via c
-j(x)=d*(1-d)**(x-1)
-fit j(x) 'LLTNADT5.dat' u 1:2 via d
-plot 'LLTADT5.dat' u 1:2 w p t 'LJ; Lamin-A D.C.' lc rgb 'red' lw 4,'LLTNADT5.dat' u 1:2 w p t 'SJ; Lamin-A D.C.' lc rgb 'blue' lw 4 
-replot h(x) w l notitle lc rgb 'red' lw 3
-replot j(x) w l notitle lc rgb 'blue' lw 3
-
-**mean waiting times according the geometric distribution
-print(1.0/c)
-#5.40736892932834
-print(1.0/d)
-#5.51127977319523
-
-
-
-***Compute waiting times in Persistent and non-persistent phase****
-***Compile and run 
-WTANADT5.c
-*give as an output files
-WTADT5.dat waiting times in P state
-WTNADT5.dat waiting times in NP state
-
-**Computing normalizd histograms**** 
-#open octave
-
-
-
-#For DT=5
-load WTADT5.dat
-load WTNADT5.dat
-ta=WTADT5(:,1);
-tna=WTNADT5(:,1);
-
-[pta,nta]=hist(ta,unique(ta));#frequencies of N
-Tta=numel(ta);#number of elements in N
-ppta=pta/Tta; #prob of N
-Pta=[nta;ppta];
-Pta=Pta';
-save TADT5.dat Pta -ascii
-
-[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
-Ttna=numel(tna);#number of elements in N
-pptna=ptna/Ttna; #prob of N
-Ptna=[ntna;pptna];
-Ptna=Ptna';
-save TNADT5.dat Ptna -ascii
-
-#report
-mean(ta)
-%ans =  1.8990
-mean(tna)
-%ans =  6.1140
-
-***Script for plotting Fig.S5c) PDF of waiting times in L and S for LADC***
-****Plotting PDF of waiting times
-#open gnuplot
-set logscale y
-set format y "10^{%L}" 
-set xrange[0:35]
-set yrange[4e-04:10^1]
-set xlabel '{/Symbol t}_{A}, {/Symbol t}_{NA}' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'P({/Symbol t}_{A}), P({/Symbol t}_{NA})' font "Times-Roman,16" offset 0,1,0 
-set key font ",15"
-set xtics 10 font ", 20"
-set ytics (0.001,0.01,0,1)  font ", 20"
-h(x)=c*(1-c)**(x-1)
-fit h(x) 'TADT5.dat' u 1:2 via c
-j(x)=d*(1-d)**(x-1)
-fit j(x) 'TNADT5.dat' u 1:2 via d
-plot 'TADT5.dat' u 1:2 w p t 'A; Lamin-A D.C.' lc rgb 'red' lw 4,'TNADT5.dat' u 1:2 w p t 'NA; Lamin-A D.C.' lc rgb 'blue' lw 4 
-replot h(x) w l notitle lc rgb 'red' lw 3
-replot j(x) w l notitle lc rgb 'blue' lw 3
-
-**mean waiting times according the geometric distribution
-print(1.0/c)
-#1.63155950654734
-print(1.0/d)
-#5.28923913759923
-
-
-****************************************************************************************************************
-
-***Compute waiting times in Long Jumps and Small Jumps phase****
-****for \Delta T=10\Delta
-***Compile and run 
-gcc -o WTLLCH10DT WTLLCH10DT.c -lm
-***gives as an output the files
-WTLLADT10.dat waiting times in L state
-WTLLNADT10.dat waiting times in S state
-
-**Computing normalizd histograms**** 
-
-#open octave
-#For Dt=10
-load WTLLADT10.dat
-load WTLLNADT10.dat
-ta=WTLLADT10(:,1);
-tna=WTLLNADT10(:,1);
-
-[pta,nta]=hist(ta,unique(ta));#frequencies of N
-Tta=numel(ta);#number of elements in N
-ppta=pta/Tta; #prob of N
-Pta=[nta;ppta];
-Pta=Pta';
-save LLTADT10.dat Pta -ascii
-
-[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
-Ttna=numel(tna);#number of elements in N
-pptna=ptna/Ttna; #prob of N
-Ptna=[ntna;pptna];
-Ptna=Ptna';
-save LLTNADT10.dat Ptna -ascii
-
-#report
-#mean waitig times
-mean(ta)
-%ans =  9.9103
-mean(tna)
-%ans =  18.554
-
-
-
-
-****Plotting PDF of waiting times
-#open gnuplot
-
-set logscale y
-set format y "10^{%L}" 
-set xrange[0:40]
-set yrange[1e-03:22e-01]
-set xlabel '{/Symbol t}_{L}, {/Symbol t}_{S}' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'P({/Symbol t}_{L}), P({/Symbol t}_{S})' font "Times-Roman,20" offset 0,3,0 
-set key font ",15"
-set xtics 10  font ", 20"
-set ytics (0.001,0.01,0,1)  font ", 20"
-h(x)=c*(1-c)**(x-1)
-fit h(x) 'LLTADT10.dat' u 1:2 via c
-j(x)=d*(1-d)**(x-1)
-fit j(x) 'LLTNADT10.dat' u 1:2 via d
-plot 'LLTADT10.dat' u 1:2 w p t 'LJ; W.T.C.' lc rgb 'red' lw 4,'LLTNADT10.dat' u 1:2 w p t 'SJ; W.T.C.' lc rgb 'blue' lw 4 
-replot h(x) w l notitle lc rgb 'red' lw 3
-replot j(x) w l notitle lc rgb 'blue' lw 3
-
-
-#mean waiting times according the geometric distribution
-print(1.0/c)
-#9.92757801182605
-print(1.0/d)
-#11.341289583769
-
-
-
-***Compute waiting times in Persistent and non-persistent phase****
-***Compile and run 
-WTANADT10.c
-*give as an output files
-WTADT10.dat waiting times in P state
-WTNADT10.dat waiting times in NP state
-
-**Computing normalizd histograms**** 
-#open octave
-
-#For DT=10
-load WTADT10.dat
-load WTNADT10.dat
-ta=WTADT10(:,1);
-tna=WTNADT10(:,1);
-
-[pta,nta]=hist(ta,unique(ta));#frequencies of N
-Tta=numel(ta);#number of elements in N
-ppta=pta/Tta; #prob of N
-Pta=[nta;ppta];
-Pta=Pta';
-save TADT10.dat Pta -ascii
-
-[ptna,ntna]=hist(tna,unique(tna));#frequencies of N
-Ttna=numel(tna);#number of elements in N
-pptna=ptna/Ttna; #prob of N
-Ptna=[ntna;pptna];
-Ptna=Ptna';
-save TNADT10.dat Ptna -ascii
-
-#report
-#mean waitig times
-mean(ta)
-%ans =  2.4327
-mean(tna)
-%ans =  6.9949
-
-
-
-***Plotting PDF of waiting times
-#open gnuplot
-
-set logscale y
-set format y "10^{%L}" 
-set xrange[0:35]
-set yrange[4e-04:10^1]
-set xlabel '{/Symbol t}_{P}, {/Symbol t}_{NP}' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'P({/Symbol t}_{P}), P({/Symbol t}_{NP})' font "Times-Roman,16" offset 0,1,0 
-set key font ",15"
-set xtics 10 font ", 20"
-set ytics (0.001,0.01,0,1)  font ", 20"
-h(x)=c*(1-c)**(x-1)
-fit h(x) 'TADT10.dat' u 1:2 via c
-j(x)=d*(1-d)**(x-1)
-fit j(x) 'TNADT10.dat' u 1:2 via d
-plot 'TADT10.dat' u 1:2 w p t 'A; W.T.C.' lc rgb 'red' lw 4,'TNADT10.dat' u 1:2 w p t 'NA; W.T.C.' lc rgb 'blue' lw 4 
-replot h(x) w l notitle lc rgb 'red' lw 3
-replot j(x) w l notitle lc rgb 'blue' lw 3
-
-**mean waiting times according the geometric distribution
-print(1.0/c)
-#1.870316937653
-print(1.0/d)
-#5.23405528238546
+set xtics 0.2 font ", 20"
+set ytics (0,2,6,12)  font ", 25"
+plot 'hist_MNthetacDT1.dat'  u 1:2  w lp  lw 1 t '{/Symbol D}t={/Symbol D}; KO','hist_MNthetacDT5.dat'  u 1:2  w lp  lw 1 t '{/Symbol D}t=5{/Symbol D}; KO','hist_MNthetacDT10.dat'  u 1:2  w lp  lw 1 t '{/Symbol D}t=10{/Symbol D}; KO','hist_MNthetacDT20.dat'  u 1:2  w lp  lw 1 t '{/Symbol D}t=20{/Symbol D}; KO'
 
