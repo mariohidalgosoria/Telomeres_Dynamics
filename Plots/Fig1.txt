@@ -1,9 +1,11 @@
 ***Script for plotting Fig.1a) traj. of telomeres in WT cells***
-mario@ph89969:~/Documents/Yuval/NCode/Drift_Rotation_Corr/WTC$ (working directory)
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/Drift_Rotation_Correction/WTC (working directory)
 
 #open gnuplot
-
-set xrange[-8:8]
+#For saving with legends on aquaterm
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'F1a.eps'
+#set xrange[-8:8]
 set cbtics font "Times-Roman,15" offset 0,0,0
 set palette rgb 33,13,10
 set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
@@ -15,11 +17,13 @@ plot 'CCLAT272.dat' u 2:3:1 w l palette notitle,'CCLAT273.dat' u 2:3:1 w l palet
 
 
 ***Script for plotting Fig.1b) traj. of telomeres in Lamin-A depleteds cells***
-mario@ph89969:~/Documents/Yuval/NCode/Drift_Rotation_Corr/LADC$ (working directory)
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/Drift_Rotation_Correction/KOC (working directory)
 
 #open gnuplot
-
-set xrange[-11:11]
+#For saving with legends on aquaterm
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'F1b.eps'
+#set xrange[-11:11]
 set cbtics font "Times-Roman,15" offset 0,0,0
 set palette rgb 33,13,10 
 set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
@@ -27,4 +31,3 @@ set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
 set xtics 4 font ", 20"
 set ytics 4 font ", 20"
 plot 'CWLAT100T20.dat' u 2:3:1 w l palette notitle,'CWLAT100T21.dat' u 2:3:1 w l palette notitle,'CWLAT100T22.dat' u 2:3:1 w l palette notitle,'CWLAT100T23.dat' u 2:3:1 w l palette notitle,'CWLAT100T24.dat' u 2:3:1 w l palette notitle,'CWLAT100T25.dat' u 2:3:1 w l palette notitle,'CWLAT100T26.dat' u 2:3:1 w l palette notitle,'CWLAT100T27.dat' u 2:3:1 w l palette notitle,'CWLAT100T28.dat' u 2:3:1 w l palette notitle,'CWLAT100T29.dat' u 2:3:1 w l palette notitle,'CWLAT100T30.dat' u 2:3:1 w l palette notitle,'CWLAT100T31.dat' u 2:3:1 w l palette notitle,'CWLAT100T32.dat' u 2:3:1 w l palette notitle,'CWLAT100T33.dat' u 2:3:1 w l palette notitle,'CWLAT100T34.dat' u 2:3:1 w l palette notitle,'CWLAT100T35.dat' u 2:3:1 w l palette notitle,'CWLAT100T36.dat' u 2:3:1 w l palette notitle,'CWLAT100T37.dat' u 2:3:1 w l palette notitle,'CWLAT100T38.dat' u 2:3:1 w l palette notitle,'CWLAT100T39.dat' u 2:3:1 w l palette notitle,'CWLAT100T40.dat' u 2:3:1 w l palette notitle,'CWLAT100T41.dat' u 2:3:1 w l palette notitle,'CWLAT100T42.dat' u 2:3:1 w l palette notitle,'CWLAT100T43.dat' u 2:3:1 w l palette notitle,'CWLAT100T44.dat' u 2:3:1 w l palette notitle,'CWLAT100T45.dat' u 2:3:1 w l palette notitle
-
