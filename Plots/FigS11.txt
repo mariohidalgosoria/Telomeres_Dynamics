@@ -1,0 +1,41 @@
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/SM/FigS10 (working directory)
+***Create a trajectory with a Pearson random walk and varying persistence for simulating Lamin-a depleted cells tracks***
+
+***Compile & run traj.c***
+1) XYT.dat
+a trajectory with (t,x,y,S), with S state varible. S=1 varying persistence phase.
+S=0 caging phase. t is given in multiples of Delta=20
+
+2) XYN.dat  
+a trajectory with (n,x,y,S), with S state varible. S=1 varying persistence phase.
+S=0 caging phase. n are the sub-steps within each phase.
+
+***
+IC RW
+thetac=-0.608844
+thetai=6.18766
+****
+***Script for Fig.S10****
+**open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS10.eps'
+set xrange[-0.2:1.8]
+set yrange[-0.4:1]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
+set xtics 0.4 font ", 20"
+set ytics 0.4 font ", 20"
+plot 'XYT.dat' u 2:3:1 w lp lw 1 palette notitle
+
+
+***Script for inset in Fig.S7****
+**open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS10i.eps'
+set palette rgb 33,13,10
+set xrange[1.35:1.65]
+set yrange[0.55:1.05]
+plot 'XYN.dat' u 2:3 w lp lw 1 lc rgb 'black'  notitle,  'XYT.dat' u 2:3:1 w lp lw 1 palette notitle
+
+
