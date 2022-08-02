@@ -1,0 +1,37 @@
+/Users/mariohidalgosoria/Documents/PNAS_New_Code_Data/SM/FigS8 (working trajectory)
+***Create a trajectory with caging and pure diffusion for simulating WT cells tracks***
+
+***Compile & run traj.c***
+*** it gives as an output the files***
+1) XYT.dat
+a trajectory with (t,x,y,S), with S state varible. S=1 pure diffusion.
+S=0 caging phase. t is given in multiples of Delta=20
+
+2) XYN.dat  
+a trajectory with (n,x,y,S), with S state varible. S=1 pure diffusive phase.
+S=0 caging phase. n are the sub-steps within each phase.
+
+
+***Script for Fig.S9****
+**open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS8.eps'
+set xrange[-0.1:0.3]
+set yrange[-0.3:0.1]
+set palette rgb 33,13,10
+set xlabel 'x [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0
+set ylabel 'y [{/Symbol m}m]' font "Times-Roman,20" offset 0,0,0 
+set xtics 0.1  font ", 20"
+set ytics 0.1  font ", 20"
+plot 'XYT.dat' u 2:3:1 w lp lw 1 palette notitle
+
+
+***Script for inset in Fig.S8i****
+**open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS8i.eps'
+set palette rgb 33,13,10
+set xrange[0.05:0.13]
+set yrange[-0.21:-0.155]
+plot 'XYN.dat' u 2:3 w lp lw 1 lc rgb 'black'  notitle, 'XYT.dat' u 2:3:1 w lp lw 1 palette notitle
+
