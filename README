@@ -13,16 +13,19 @@ The tools and codes are distributed in directories as follows:
 of experimental trajectories, read inner README file.
 --> 'Rel_Ang' with C programs for computing the relative angle in
 experimental tracks. 
---> '2State_Decomp' has C programs for decomposing tracks into intervals
+--> '2State_Decomp' contains C programs for decomposing tracks into intervals
 according to its level of persistence and to its relative jumps size. 
 --> 'MSD' contains C programs for computing time average MSD, ensemble time
 average MSD and ensemble MSD.  
 --> 'ACFDXDY' contains C programs for computing the auto correlation function
 of displacements on X and Y axes, for different intervals of time.
---> 'TAV_RA' has C programs for computing the time average relative angle
+--> 'TAV_RA' contains C programs for computing the time average relative angle
 per trajectories.
+--> 'Pair_Wise_Corr' contains C programs for computing the autocorrelation 
+function of the pair-wise directional displacements of telomeres in the same cell.
 
-2) For performing simulations of a correlated run and tumble model
+2) For performing simulations of a switching models with caging and pure diffusive
+phases for WT cells and varying persistent and pure diffusive phases for KO cells.
 -> The folder 'Simulations' contains programs for simulating telomeres
 dynamics in wild type cells and telomeres in Lamin-A depleted cells. 
 
@@ -34,21 +37,23 @@ for:
 --> PDF of displacements 'Fig2.txt'
 --> PDF of relative angle 'Fig3.txt'
 --> mean relative angle 'Fig4.txt'
---> scatter plot of frequency of directed intervals and average displacement
-per tracks 'Fig5.txt'
+--> autocorrelation function of the pair-wise directional 
+displacements 'Fig5.txt'
 --> comparison between experiments and numerical simulations 'Fig6.txt'
 --> two state representation of trajectories 'Fig7.txt'
---> MSD analysis of experimental tracks 'FigS1.txt'
---> decay length of the PDF of displacements 'FigS2.txt'
---> autocorrelation function of displacements 'FigS3.txt'
---> schematic representation of local convex hull 'FigS4.txt'
---> PDF of waiting times 'FigS5.txt'
---> PDF of the time average relative angle 'FigS6.txt'
---> simulated trajectories with caging and varying persistence 'FigS7.txt'
---> data analysis of simulated trajectories with caging and varying
-persistence 'FigS8.txt'
+--> MSD analysis of experimental tracks 'FigS2.txt'
+--> decay length of the PDF of displacements 'FigS3.txt'
+--> autocorrelation function of displacements 'FigS4.txt'
+--> PDF of the time average relative angle 'FigS5.txt'
+--> autocorrelation function of the pair-wise directional 
+displacements for a Pearson RW 'FigS6.txt'
+--> schematic representation of local convex hull 'FigS7.txt'
+--> PDF of waiting times 'FigS8.txt'
+--> simulated trajectories with caging and free diffusion 'FigS9.txt'
+--> data analysis of simulated trajectories with caging and free
+diffusion 'FigS10.txt'
 --> simulated trajectories with free diffusion  and varying persistence
-'FigS9.txt'
+'FigS11.txt'
 --> data analysis of simulated trajectories with free diffusion and varying
-persistence 'FigS10.txt'
+persistence 'FigS12.txt'
 
