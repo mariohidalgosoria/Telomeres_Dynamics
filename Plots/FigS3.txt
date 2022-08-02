@@ -1,84 +1,1048 @@
-mario@ph89969:~/Documents/Yuval/NCode/SM/FigS3/WTC$  (working directory)
-***Compute autocorrelation function of the displacements for trajectories in WT cells*****
+mario@ph89969:~/Documents/Yuval/NCode/SM/FigS3/WTC$ (working directory)
 
 ***bring trajectories****
 cp ../../../Drift_Rotation_Corr/WTC/CCLAT*[0-9]*.dat .
 
+***compute displacements in tracks in WTC*** 
 
-****Compute acutocorrelation function of the displacements (DX) for tracks in WTC*****
-***complie & run ACF2DXDT1.c, AUCF2DXDT1.c, EACF2DXDT1.c
-***compile & run ACF2DXDT5.c, AUCF2DXDT5.c, EACF2DXDT5.c
-***compile & run ACF2DXDT10.c, AUCF2DXDT10.c, EACF2DXDT10.c
-***Plotting ACFDX***************
-***Script for FigS8d*****************
-***open gnuplot
-set yrange[-0.5:1]
-set xrange[0:4]
-set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'ACF{/Symbol D}X' font "Times-Roman,17" offset 0,-2,0 
-set key font ",15"
-set xtics 1 font ", 20"
-set ytics 0.5 font ", 20"
-f(x)=0
-plot 'ETAVDXDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDXDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDXDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+#open OCTAVE
 
-****Compute acutocorrelation function of the displacements (DY) for tracks in  WTC*****
-***complie & run ACF2DYDT1.c, AUCF2DYDT1.c, EACF2DYDT1.c
-***compile & run ACF2DYDT5.c, AUCF2DYDT5.c, EACF2DYDT5.c
-***compile & run ACF2DYDT10.c, AUCF2DYDT10.c, EACF2DYDT10.c
-***Plotting ACFDY
-***Script for FigS8e*****************
-***open gnuplot
-set yrange[-0.5:1]
-set xrange[0:4]
-set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'ACF{/Symbol D}Y' font "Times-Roman,17" offset 0,-2,0 
-set key font ",15"
-set xtics 1 font ", 20"
-set ytics 0.5 font ", 20"
-f(x)=0
-plot 'ETAVDYDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDYDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDYDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+
+#Delta_t=1
+
+DeltaX=0;
+DeltaY=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)-1,1);
+ DY=zeros(rows(data)-1,1);
+ for i=1:(rows(data)-1)
+  DX(i)=data(i+1,2)-data(i,2);
+  DY(i)=data(i+1,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT1.dat DeltaY -ascii
+save DXDT1.dat DeltaX -ascii 
 
 
 
-mario@ph89969:~/Documents/Yuval/NCode/SM/FigS3/LADC$  (working directory)
-***Compute autocorrelation function of the displacements for trajectories in Lamin-A depleted cells*****
+#Delta t=5
+
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=5;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT5.dat DeltaY -ascii
+save DXDT5.dat DeltaX -ascii 
+
+
+
+
+
+#Delta t=10
+
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=10;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT10.dat DeltaY -ascii
+save DXDT10.dat DeltaX -ascii 
+
+
+
+#Delta t=15
+
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=15;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT15.dat DeltaY -ascii
+save DXDT15.dat DeltaX -ascii 
+
+
+#Delta t=20
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=20;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT20.dat DeltaY -ascii
+save DXDT20.dat DeltaX -ascii 
+
+
+
+****Compute the normalized histograms***
+#open gnuplot
+binwidth =0.01
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT1.dat" u ($1):(s($1))
+set table 'hist_DXDT1.dat'
+plot "DXDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.01
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT1.dat" u ($1):(s($1))
+set table 'hist_DYDT1.dat'
+plot "DYDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.05
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT5.dat" u ($1):(s($1))
+set table 'hist_DXDT5.dat'
+plot "DXDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.05
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT5.dat" u ($1):(s($1))
+set table 'hist_DYDT5.dat'
+plot "DYDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.05
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT10.dat" u ($1):(s($1))
+set table 'hist_DXDT10.dat'
+plot "DXDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.05
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT10.dat" u ($1):(s($1))
+set table 'hist_DYDT10.dat'
+plot "DYDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.1
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT15.dat" u ($1):(s($1))
+set table 'hist_DXDT15.dat'
+plot "DXDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.1
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT15.dat" u ($1):(s($1))
+set table 'hist_DYDT15.dat'
+plot "DYDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.1
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT20.dat" u ($1):(s($1))
+set table 'hist_DXDT20.dat'
+plot "DXDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.1
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT20.dat" u ($1):(s($1))
+set table 'hist_DYDT20.dat'
+plot "DYDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+
+****Obtaining the fitting values of w and lambda=b*****
+#open gnuplot
+f(x)= exp(-abs(x)/b  ) / (2*b)
+fit f(x) 'hist_NDXDT1.dat' via b
+g(x)= exp(-x**2/(4*s)) / (sqrt(4*pi*s))
+fit g(x) 'hist_NDXDT1.dat' via s
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+h(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs\
+(x)/d  ) / (2*d) )
+fit h(x) 'hist_NDXDT1.dat' u 1:2 via w,a,d
+
+
+
+
+set logscale y
+set format y "10^{%L}" 
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+f(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs(x)/b  ) / (2*b) ) 
+fit f(x) 'hist_DXDT1.dat' u 1:2 via w,a,b
+print(W(w))
+plot 'hist_DXDT1.dat'  u 1:2  w p, f(x)
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.620163        +/- 0.07467      (12.04%)
+a               = -0.0277877       +/- 0.0002879    (1.036%)
+b               = 0.0497595        +/- 0.001851     (3.721%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.094  1.000 
+b              -0.510  0.814  1.000 
+gnuplot> print(W(w))
+0.323301868904223
+
+gnuplot> fit f(x) 'hist_DYDT1.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.689224        +/- 0.07307      (10.6%)
+a               = -0.0292975       +/- 0.0002751    (0.9391%)
+b               = 0.0523111        +/- 0.001876     (3.585%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.087  1.000 
+b              -0.498  0.817  1.000 
+gnuplot> print(W(w))
+0.307913564409015
+
+
+
+gnuplot> fit f(x) 'hist_DXDT5.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.225074        +/- 0.08205      (36.45%)
+a               = -0.0415609       +/- 0.0006144    (1.478%)
+b               = 0.0656438        +/- 0.002991     (4.557%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.656  1.000 
+b              -0.840  0.934  1.000 
+gnuplot> print(W(w))
+0.429530885706232
+
+gnuplot> fit f(x) 'hist_DYDT5.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.221538        +/- 0.08901      (40.18%)
+a               = -0.0421617       +/- 0.0006271    (1.487%)
+b               = 0.0688602        +/- 0.003326     (4.83%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.635  1.000 
+b              -0.851  0.916  1.000 
+gnuplot> print(W(w))
+0.43060322948305
+
+
+gnuplot> fit f(x) 'hist_DXDT10.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = 0.095392         +/- 0.06037      (63.28%)
+a               = -0.0482164       +/- 0.0007261    (1.506%)
+b               = 0.0787685        +/- 0.002191     (2.782%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.491  1.000 
+b              -0.744  0.906  1.000 
+gnuplot> print(W(w))
+0.530272626083738
+
+gnuplot> fit f(x) 'hist_DYDT10.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.0382408       +/- 0.0714       (186.7%)
+a               = -0.0511441       +/- 0.0009507    (1.859%)
+b               = 0.0813448        +/- 0.002982     (3.666%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.421  1.000 
+b              -0.655  0.918  1.000 
+gnuplot> print(W(w))
+0.487833513206197
+
+gnuplot> fit f(x) 'hist_DXDT15.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.511843        +/- 0.513        (100.2%)
+a               = -0.0585684       +/- 0.001219     (2.082%)
+b               = 0.106558         +/- 0.02716      (25.49%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.063  1.000 
+b              -0.960  0.303  1.000 
+gnuplot> print(W(w))
+0.349414887330047
+
+gnuplot> fit f(x) 'hist_DYDT15.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.53335         +/- 0.2982       (55.91%)
+a               = -0.0581367       +/- 0.0006113    (1.052%)
+b               = 0.111398         +/- 0.0167       (14.99%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a               0.200  1.000 
+b              -0.970  0.008  1.000 
+gnuplot> print(W(w))
+0.344037573471428
+
+
+gnuplot> fit f(x) 'hist_DXDT20.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.376578        +/- 0.5696       (151.3%)
+a               = -0.0642187       +/- 0.00244      (3.799%)
+b               = 0.10872          +/- 0.03124      (28.73%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.588  1.000 
+b              -0.949  0.785  1.000 
+gnuplot> print(W(w))
+0.385359542783212
+
+gnuplot> fit f(x) 'hist_DYDT20.dat' u 1:2 via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.41113         +/- 0.4599       (111.9%)
+a               = -0.0625536       +/- 0.001266     (2.025%)
+b               = 0.115329         +/- 0.02685      (23.28%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.318  1.000 
+b              -0.967  0.515  1.000 
+gnuplot> print(W(w))
+0.375838578972573
+
+****lambba=b value are saved in files***
+***For DX in WTC 
+lambda.txt   with (\Delta, lambda)
+***For DY in WTC
+lambdaY.txt with (\Delta, lambda)
+
+
+
+*****Script for FigS2left, lambda versus \Delta t*****
+#open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS2a.eps'
+set logscale xy
+set format y "10^{%L}"
+set xrange[1:21]
+set xlabel '{/Symbol D}t' font "Times-Roman,20" offset 0,0,0
+set ylabel '{/Symbol l}' font "Times-Roman,20" offset 0,0,0 
+set key font ",14"
+set xtics font ", 20"
+set ytics font ", 20"
+f(x)=c*x**(0.5)+ d
+fit f(x) 'lambda.txt' u 1:2 via c,d
+plot 'lambda.txt' u 1:2 w lp  t '{/Symbol D}X' lc rgb 'red' lw 2,'lambdaY.txt' u 1:2 w lp  t '{/Symbol D}Y' lc rgb 'blue' lw 2, f(x) lw 2 lc rgb 'black' t 'WT; {/Symbol l}={/Symbol D}t^{1/2}' 
+
+***fitting the power of lambda as a function of \Delta t
+g(x)=a*x**(b)
+fit g(x) 'lambdaY.txt' u 1:2 via b,a
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+b               = 0.307066         +/- 0.06265      (20.4%)
+a               = 0.0451915        +/- 0.007164     (15.85%)
+
+correlation matrix of the fit parameters:
+                b      a      
+b               1.000 
+a              -0.958  1.000
+
+
+fit g(x) 'lambda.txt' u 1:2 via b,a
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+b               = 0.303223         +/- 0.05916      (19.51%)
+a               = 0.0434909        +/- 0.006504     (14.96%)
+
+correlation matrix of the fit parameters:
+                b      a      
+b               1.000 
+a              -0.957  1.000
+
+
+
+***Computing Average DX,DY in WTC
+
+DeltaX=0;
+DeltaY=0;
+c=0;
+for i=2:364
+ name=sprintf('CCLAT%d.dat',i);
+ data=load(name);
+ DX=abs(data(rows(data),2)-data(1,2));
+ DY=abs(data(rows(data),3)-data(1,3));
+ DeltaX+=DX;
+ DeltaY+=DY;
+ c++;
+end
+
+DeltaX=DeltaX/c;
+DeltaY=DeltaY/c;
+
+DeltaX
+%DeltaX =  0.15082
+DeltaY
+%DeltaY =  0.14999
+sqrt(DeltaY^2 + DeltaX^2)
+%ans =  0.21271
+
+
+
+
+
+mario@ph89969:~/Documents/Yuval/NCode/SM/FigS3/LADC$ (working directory)
 
 ***bring trajectories****
-cp  ../../../Drift_Rotation_Corr/LADC/CCWLT*[0-9]*.dat .
+cp ../../../Drift_Rotation_Corr/LADC/CCWLT*[0-9]*.dat .
+
+***compute displacements in tracks in LADC*** 
+
+#open OCTAVE
 
 
-****Compute acutocorrelation function of the displacements (DX) for tracks in Lamin-A depleted cells*****
-***complie & run ACF2DXDT1.c, AUCF2DXDT1.c, EACF2DXDT1.c
-***compile & run ACF2DXDT5.c, AUCF2DXDT5.c, EACF2DXDT5.c
-***compile & run ACF2DXDT10.c, AUCF2DXDT10.c, EACF2DXDT10.c
-***Plotting ACFDX***************
-***Script for FigS8d*****************
-***open gnuplot
-set yrange[-0.5:1]
-set xrange[0:4]
-set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'ACF{/Symbol D}X' font "Times-Roman,17" offset 0,-2,0 
-set key font ",15"
-set xtics 1 font ", 20"
-set ytics 0.5 font ", 20"
-f(x)=0
-plot 'ETAVDXDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDXDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDXDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+#Delta_t=1
 
-****Compute acutocorrelation function of the displacements (DY) for tracks in  Lamin-A depleted cells*****
-***complie & run ACF2DYDT1.c, AUCF2DYDT1.c, EACF2DYDT1.c
-***compile & run ACF2DYDT5.c, AUCF2DYDT5.c, EACF2DYDT5.c
-***compile & run ACF2DYDT10.c, AUCF2DYDT10.c, EACF2DYDT10.c
-***Plotting ACFDY
-***Script for FigS8e*****************
-***open gnuplot
-set yrange[-0.5:1]
-set xrange[0:4]
-set xlabel '{/Symbol t}/{/Symbol D}t' font "Times-Roman,20" offset 0,-1,0
-set ylabel 'ACF{/Symbol D}Y' font "Times-Roman,17" offset 0,-2,0 
-set key font ",15"
-set xtics 1 font ", 20"
-set ytics 0.5 font ", 20"
-f(x)=0
-plot 'ETAVDYDT1.dat' u 1:2 w lp lw 2 t '{/Symbol D} t={/Symbol D}','ETAVDYDT5.dat' u ($1/5):2 w lp lw 2 t '{/Symbol D} t=5{/Symbol D}','ETAVDYDT10.dat' u ($1/10):2 w lp lw 2 t '{/Symbol D} t=10{/Symbol D}',f(x) dt '..' lc rgb 'grey'  lw 3 notitle
+DeltaX=0;
+DeltaY=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)-1,1);
+ DY=zeros(rows(data)-1,1);
+ for i=1:(rows(data)-1)
+  DX(i)=data(i+1,2)-data(i,2);
+  DY(i)=data(i+1,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT1.dat DeltaY -ascii
+save DXDT1.dat DeltaX -ascii 
+
+
+
+#Delta t=5
+
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=5;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT5.dat DeltaY -ascii
+save DXDT5.dat DeltaX -ascii 
+
+
+
+
+
+#Delta t=10
+
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=10;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT10.dat DeltaY -ascii
+save DXDT10.dat DeltaX -ascii 
+
+
+
+#Delta t=15
+
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=15;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT15.dat DeltaY -ascii
+save DXDT15.dat DeltaX -ascii 
+
+
+#Delta t=20
+clear
+DeltaX=0;
+DeltaY=0;
+Deltat=20;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=zeros(rows(data)- Deltat,1);
+ DY=zeros(rows(data)- Deltat,1);
+ for i=1:(rows(data)-Deltat)
+  DX(i)=data(i+Deltat,2)-data(i,2);
+  DY(i)=data(i+Deltat,3)-data(i,3);
+ end 
+ DeltaX=[DeltaX; DX];
+ DeltaY=[DeltaY; DY];
+end
+
+DeltaX(1,:)=[];
+DeltaY(1,:)=[];
+
+save DYDT20.dat DeltaY -ascii
+save DXDT20.dat DeltaX -ascii 
+
+
+
+****Compute the normalized histograms***
+#open gnuplot
+binwidth =0.01
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT1.dat" u ($1):(s($1))
+set table 'hist_DXDT1.dat'
+plot "DXDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.01
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT1.dat" u ($1):(s($1))
+set table 'hist_DYDT1.dat'
+plot "DYDT1.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.05
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT5.dat" u ($1):(s($1))
+set table 'hist_DXDT5.dat'
+plot "DXDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.05
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT5.dat" u ($1):(s($1))
+set table 'hist_DYDT5.dat'
+plot "DYDT5.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.05
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT10.dat" u ($1):(s($1))
+set table 'hist_DXDT10.dat'
+plot "DXDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.05
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT10.dat" u ($1):(s($1))
+set table 'hist_DYDT10.dat'
+plot "DYDT10.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.1
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT15.dat" u ($1):(s($1))
+set table 'hist_DXDT15.dat'
+plot "DXDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.1
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT15.dat" u ($1):(s($1))
+set table 'hist_DYDT15.dat'
+plot "DYDT15.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth =0.1
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DXDT20.dat" u ($1):(s($1))
+set table 'hist_DXDT20.dat'
+plot "DXDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+#open gnuplot
+binwidth = 0.1
+set boxwidth binwidth
+sum = 0
+s(x) = ((sum=sum+1), 0)
+bin(x, width) = width*floor(x/width) + binwidth/2.0
+plot "DYDT20.dat" u ($1):(s($1))
+set table 'hist_DYDT20.dat'
+plot "DYDT20.dat" u (bin($1, binwidth)):(1.0/(binwidth*sum)) smooth freq w boxes t ' '
+unset table
+
+
+
+
+
+****Obtaining the fitting values of w and lambda=b*****
+***********************************************************************
+f(x)= exp(-abs(x)/b  ) / (2*b)
+fit f(x) 'hist_NDXDT1.dat' via b
+g(x)= exp(-x**2/(4*s)) / (sqrt(4*pi*s))
+fit g(x) 'hist_NDXDT1.dat' via s
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+h(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs\
+(x)/d  ) / (2*d) )
+fit h(x) 'hist_NDXDT1.dat' u 1:2 via w,a,d
+
+
+
+set logscale y
+set format y "10^{%L}" 
+#fitting Dx DT=1
+# Restrict a to the range of [0:1]
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+f(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs(x)/b  ) / (2*b) ) 
+fit f(x) 'hist_DXDT1.dat' via w,a,b
+print(W(w))
+plot 'hist_DXDT1.dat'  u 1:2  w p, f(x)
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.326942        +/- 0.1008       (30.83%)
+a               = -0.0398252       +/- 0.000904     (2.27%)
+b               = 0.0661605        +/- 0.00336      (5.078%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.012  1.000 
+b              -0.300  0.872  1.000 
+gnuplot> print(W(w))
+0.399418018755753
+
+#fitting DY DT=1
+gnuplot> fit f(x) 'hist_DYDT1.dat' via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.106199        +/- 0.09012      (84.86%)
+a               = -0.0376589       +/- 0.0006453    (1.714%)
+b               = 0.0776461        +/- 0.003409     (4.391%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.060  1.000 
+b              -0.710  0.641  1.000 
+gnuplot> print(W(w))
+0.466322039049553
+
+
+#fitting DX DT=5
+gnuplot> W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+gnuplot> f(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs(x)/b  ) / (2*b) )
+gnuplot> fit f(x) 'hist_DXDT5.dat' via w,a,b
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.256637        +/- 0.1015       (39.55%)
+a               = -0.0887655       +/- 0.001778     (2.003%)
+b               = 0.160175         +/- 0.008243     (5.146%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.166  1.000 
+b              -0.595  0.809  1.000 
+gnuplot> print(W(w))
+0.420035656352624
+
+#fitting DY DT=5
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = 0.178191         +/- 0.1208       (67.82%)
+a               = -0.0832243       +/- 0.001808     (2.172%)
+b               = 0.184917         +/- 0.00934      (5.051%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.014  1.000 
+b              -0.820  0.483  1.000 
+gnuplot> print(W(w))
+0.556130843700128
+
+
+
+
+
+#fitting DX DT=10
+# Restrict a to the range of [0:1]
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+f(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs(x)/b  ) / (2*b) ) 
+plot 'hist_DXDT10.dat'
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.231313        +/- 0.07917      (34.23%)
+a               = -0.12498         +/- 0.00221      (1.768%)
+b               = 0.218677         +/- 0.008605     (3.935%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.095  1.000 
+b              -0.474  0.835  1.000 
+gnuplot> print(W(w))
+0.427643461094335
+
+#fitting DY DT=10
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = 0.46833          +/- 0.1118       (23.87%)
+a               = -0.11819         +/- 0.002828     (2.393%)
+b               = 0.25101          +/- 0.008388     (3.342%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.051  1.000 
+b              -0.759  0.585  1.000 
+gnuplot> print(W(w))
+0.639417275954833
+
+
+
+
+#fitting DX DT=15
+# Restrict a to the range of [0:1]
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+f(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs(x)/b  ) / (2*b) ) 
+plot 'hist_DXDT15.dat'
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.731637        +/- 0.2506       (34.26%)
+a               = -0.150374        +/- 0.0028       (1.862%)
+b               = 0.332985         +/- 0.04387      (13.17%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.038  1.000 
+b              -0.831  0.489  1.000 
+gnuplot> print(W(w))
+0.298941177727656
+
+
+#fitting DY DT=15
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = 0.489924         +/- 0.1432       (29.23%)
+a               = -0.156256        +/- 0.004987     (3.192%)
+b               = 0.309669         +/- 0.01279      (4.13%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.166  1.000 
+b              -0.744  0.694  1.000 
+gnuplot> print(W(w))
+0.645007383025352
+
+
+#fitting DX DT=20
+# Restrict a to the range of [0:1]
+W(x) = (1-0)/pi*(atan(x)+pi/2)+0
+f(x)=(1-W(w))*(exp(-x**2 /(4*(a**2))  )/sqrt(4*pi*(a**2) ) ) + W(w)*(exp(-abs(x)/b  ) / (2*b) ) 
+plot 'hist_DXDT20.dat'
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.220438        +/- 0.1829       (82.96%)
+a               = -0.176645        +/- 0.006799     (3.849%)
+b               = 0.314545         +/- 0.02899      (9.217%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a              -0.164  1.000 
+b              -0.571  0.822  1.000 
+gnuplot> print(W(w))
+0.430937056937036
+
+
+#fitting DY DT=20
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+w               = -0.0572364       +/- 0.217        (379.1%)
+a               = -0.175716        +/- 0.005513     (3.137%)
+b               = 0.438989         +/- 0.05072      (11.55%)
+
+correlation matrix of the fit parameters:
+                w      a      b      
+w               1.000 
+a               0.203  1.000 
+b              -0.864  0.205  1.000 
+gnuplot> print(W(w))
+0.481800949190691
+
+
+
+****lambba=b value are saved in files***
+***For DX in LADC 
+lambdaLA.txt   with (\Delta, lambda)
+***For DY in LADC
+lambdaLAY.txt with (\Delta, lambda)
+
+
+
+*****Script for FigS2right, lambda versus \Delta t*****
+#open gnuplot
+set terminal postscript eps size 3.5,2.62 enhanced color font 'Helvetica,20' lw 2
+set output 'FS2b.eps'
+set logscale xy
+set format y "10^{%L}"
+set xrange[1:21]
+set xlabel '{/Symbol D}t' font "Times-Roman,20" offset 0,0,0
+set ylabel '{/Symbol l}' font "Times-Roman,20" offset 0,0,0 
+set key bottom font ",14"
+set xtics font ", 20"
+set ytics font ", 20"
+f(x)=c*x**(0.5)+ d
+fit f(x) 'lambdaLA.txt' u 1:2 via c,d
+plot 'lambdaLA.txt' u 1:2 w lp  t '{/Symbol D}X' lc rgb 'red' lw 2,'lambdaLAY.txt' u 1:2 w lp  t '{/Symbol D}Y' lc rgb 'blue' lw 2, f(x) lw 2 lc rgb 'black' t ' KO;{/Symbol l}={/Symbol D}t^{1/2}' 
+
+
+***fitting the power of lambda as a function of \Delta t
+g(x)=a*x**(b)
+fit g(x) 'lambdaLAY.txt' u 1:2 via b,a
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+b               = 0.626774         +/- 0.09704      (15.48%)
+a               = 0.0627103        +/- 0.01639      (26.13%)
+
+correlation matrix of the fit parameters:
+                b      a      
+b               1.000 
+a              -0.984  1.000 
+
+
+gnuplot> fit g(x) 'lambdaLA.txt' u 1:2 via b,a
+Final set of parameters            Asymptotic Standard Error
+=======================            ==========================
+b               = 0.531342         +/- 0.1035       (19.47%)
+a               = 0.0689309        +/- 0.01894      (27.48%)
+
+correlation matrix of the fit parameters:
+                b      a      
+b               1.000 
+a              -0.979  1.000 
+
+
+
+***Computing Average DX,DY in LADC
+
+DeltaX=0;
+DeltaY=0;
+c=0;
+for i=2:129
+ name=sprintf('CCWLT%d.dat',i);
+ data=load(name);
+ DX=abs(data(rows(data),2)-data(1,2));
+ DY=abs(data(rows(data),3)-data(1,3));
+ DeltaX+=DX;
+ DeltaY+=DY;
+ c++;
+end
+
+DeltaX=DeltaX/c;
+DeltaY=DeltaY/c;
+
+DeltaX
+%DeltaX =  0.53986
+DeltaY
+%DeltaY =  0.68826
+sqrt(DeltaY^2 + DeltaX^2)
+%ans =  0.87472
+
+
+
 
