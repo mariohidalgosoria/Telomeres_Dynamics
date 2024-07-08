@@ -1,0 +1,25 @@
+This directory contains the data set obtained by Yuval Garini's Lab 
+
+Raw trajectories of telomeres in WTC are contined in Sub-directory RWTC, and they are ordered as
+ (t,x,y,z)   and labeled in the following way:
+For T=50\Delta
+LAMT50T2.dat, ....., LAMT50T271.dat  (#270 tracks)
+For T=100\Delta 
+LAMT100T2.dat, ....., LAMT100T94.dat  (#93 tracks)
+
+The corrected trayectories are stored in the Sub-directory CWTC, 
+CCLAT2.dat, ....., CCLAT364.dat (#363 tracks)
+
+with (t,x,y,z) coordinates
+
+Raw trajectories of telomeres in KOC are contined in Sub-directory RKOC, and they are ordered as
+ (t,x,y,z)   and labeled in the following way:
+For T=50\Delta
+ WLAT50T2.dat , ....., WLAT50T60.dat  (#59 tracks)
+For T=100\Delta 
+WLAT100T2.dat, ....., WLAT100T70.dat  (#69 tracks)
+
+The corrected trayectories are stored in the Sub-directory CKOC, 
+CCWLT2.dat, ....., CCWLT129.dat (#128 tracks)
+
+with (t,x,y,z) coordinates
